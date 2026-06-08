@@ -1,683 +1,553 @@
-# npmai-agent
+<div align="center">
 
-> **Part of the [NPMAI ECOSYSTEM](https://npmai.netlify.app) — Open Source AI Research & Development**
+<!-- ANIMATED BANNER -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0a0a1a,50:1a0a3a,100:0d1b4a&height=200&section=header&text=npmai_agents&fontSize=72&fontColor=00f5ff&fontAlignY=38&desc=The%20Autonomous%20AI%20Agent%20Suite%20by%20NPMAI%20ECOSYSTEM&descColor=a78bfa&descAlignY=60&animation=twinkling" width="100%"/>
 
-[![PyPI version](https://img.shields.io/badge/pypi-npmai--agent-blue?style=flat-square)](https://pypi.org/project/npmai-agent)
-[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
-[![Built by NPMAI](https://img.shields.io/badge/built%20by-NPMAI%20ECOSYSTEM-purple?style=flat-square)](https://npmai.netlify.app)
-[![Version](https://img.shields.io/badge/version-0.0.1-orange?style=flat-square)](https://pypi.org/project/npmai-agent)
+<!-- ANIMATED TYPING HEADLINE -->
+<a href="https://npmai.netlify.app">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=00F5FF&center=true&vCenter=true&multiline=false&width=700&lines=21+Integrated+Tool+Classes.+Zero+Paid+APIs.;Plan+%E2%86%92+Code+%E2%86%92+Audit+%E2%86%92+Execute+%E2%86%92+Verify;Built+free%2C+open-source%2C+for+everyone.;Powered+by+NPMAI+ECOSYSTEM+%F0%9F%9A%80" alt="Typing SVG" />
+</a>
 
-**npmai-agent** (internally known as the **npmai-agent-suite**) is a production-grade AI agent framework built on top of the NPMAI ECOSYSTEM. It gives any Python developer a fully autonomous, multi-LLM agentic pipeline with 21 integrated tool classes — covering everything from email automation, file management, GitHub operations, browser control, spreadsheets, PDF processing, image manipulation, SSH, Telegram, Discord, Slack, Twitter, QR codes, voice, RAG, and more — all orchestrated by a four-role LLM pipeline (Planner → Coder → Auditor → Verifier) with Fernet-encrypted credential storage and LARA RAG integration.
+<br/>
 
-No paid APIs required. Free forever. Built on 45+ open-source LLMs.
+<!-- BADGES ROW 1 -->
+<p>
+  <img src="https://img.shields.io/badge/PyPI-npmai__agents-00f5ff?style=for-the-badge&logo=pypi&logoColor=white&labelColor=0a0a1a"/>
+  <img src="https://img.shields.io/badge/Version-0.0.1-a78bfa?style=for-the-badge&labelColor=0a0a1a"/>
+  <img src="https://img.shields.io/badge/Python-3.9%2B-00f5ff?style=for-the-badge&logo=python&logoColor=white&labelColor=0a0a1a"/>
+  <img src="https://img.shields.io/badge/License-MIT-2affa0?style=for-the-badge&labelColor=0a0a1a"/>
+</p>
 
----
+<!-- BADGES ROW 2 -->
+<p>
+  <img src="https://img.shields.io/badge/Tools-21%20Classes-ff6b9d?style=for-the-badge&labelColor=0a0a1a"/>
+  <img src="https://img.shields.io/badge/LLMs-45%2B%20Free-a78bfa?style=for-the-badge&labelColor=0a0a1a"/>
+  <img src="https://img.shields.io/badge/NPMAI-ECOSYSTEM-00f5ff?style=for-the-badge&labelColor=0a0a1a&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIgc3Ryb2tlPSIjMDBmNWZmIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4="/>
+  <img src="https://img.shields.io/badge/Status-Alpha-ffb347?style=for-the-badge&labelColor=0a0a1a"/>
+</p>
 
+<br/>
 
+<!-- QUICK LINKS NAV -->
+**[`🌐 Website`](https://npmai.netlify.app)** · **[`📦 PyPI`](https://pypi.org/project/npmai_agents)** · **[`🐙 GitHub`](https://github.com/sonuramashishnpm)** · **[`📖 Docs`](#-documentation)** · **[`🤝 Community`](https://npmai.netlify.app)**
 
-## Developed by NPMAI ECOSYSTEM
-
-**npmai-agent** is a product of the **[NPMAI ECOSYSTEM](https://npmai.netlify.app)**, an open-source AI research and development community founded by **Sonu Kumar** (known online as **Bihar Viral Boy**).
-
-> Sonu Kumar is a 14-year-old self-taught developer, TEDx speaker, and researcher from Bihar, India, currently studying in Kota, Rajasthan. He founded NPMAI ECOSYSTEM at age 14, building the entire infrastructure on free cloud services — Render, HuggingFace Spaces, Supabase, Netlify — which now serves hundreds of thousands of developers worldwide with 2 million+ PyPI downloads
-and 45+ community-contributed LLMs.
-
-**Founder:** Sonu Kumar · [GitHub](https://github.com/sonuramashishnpm) · [PyPI](https://pypi.org/project/npmai) · [sonuramashishnpm@gmail.com](mailto:sonuramashishnpm@gmail.com)
-
-**Ecosystem Website:** [https://npmai.netlify.app](https://npmai.netlify.app)
-
----
-
-## Table of Contents
-
-- [What is npmai-agent?](#what-is-npmai-agent)
-- [Why npmai-agent?](#why-npmai-agent)
-- [Features](#features)
-- [Architecture Overview](#architecture-overview)
-- [Installation](#installation)
-- [Configuration — CredStore](#configuration--credstore)
-- [Tool Classes & Documentation](#tool-classes--documentation)
-  - [CredStore](#credstore)
-  - [Workspace](#workspace)
-  - [EmailTool](#emailtool)
-  - [FileTool](#filetool)
-  - [PDFTool](#pdftool)
-  - [WebTool](#webtool)
-  - [SpreadsheetTool](#spreadsheettool)
-  - [GitHubTool](#githubtool)
-  - [SlackTool](#slacktool)
-  - [DiscordTool](#discordtool)
-  - [WhatsAppTool](#whatsapptool)
-  - [NotionTool](#notiontool)
-  - [TwitterTool](#twittertool)
-  - [SystemTool](#systemtool)
-  - [ImageTool](#imagetool)
-  - [SchedulerTool](#schedulertool)
-  - [JiraTool](#jiratool)
-  - [TelegramTool](#telegramtool)
-  - [QRTool](#qrtool)
-  - [VoiceTool](#voicetool)
-  - [WatcherTool](#watchertool)
-  - [RAGTool](#ragtool)
-  - [SSHTool](#sshtool)
-- [AgentBrain — The Autonomous Pipeline](#agentbrain--the-autonomous-pipeline)
-- [Executor](#executor)
-- [Version](#version)
-- [License](#license)
+</div>
 
 ---
 
-## What is npmai-agent?
 
-`npmai-agent` is a **desktop automation + agentic AI framework** that lets you:
+## ✦ What is `npmai_agents`?
 
-1. **Use individual tool classes directly** in your own Python scripts.
-2. **Hand a plain-English task to `AgentBrain`** and have a multi-LLM pipeline autonomously plan, generate code, audit it for security, execute it, verify the result, and retry on failure — all without you writing a single line of task-specific code.
+> **`npmai_agents`** is a monolithic, production-grade **desktop AI agent framework** — a single Python package containing **21 integrated tool classes** and a **4-role autonomous LLM pipeline** (Planner → Coder → Auditor → Verifier) that can execute any plain-English task on your computer.
 
-It is the backbone of the **npmai-agent-suite** desktop application and is designed to be equally powerful as a headless library.
-
----
-
-## Why npmai-agent?
-
-Most AI agent frameworks require you to pay for GPT-4, Claude, or Gemini API credits. `npmai-agent` runs entirely on the **NPMAI ECOSYSTEM load balancer** — 45+ open-source LLMs available for free via `pip install npmai`. No credit card. No rate-limit anxiety. No vendor lock-in.
-
-| Pain Point | npmai-agent Solution |
-|---|---|
-| Paid LLM APIs | 45+ free LLMs via NPMAI load balancer |
-| Single-model pipelines | 4 specialized LLM roles (Planner, Coder, Auditor, Verifier) |
-| Manual tool integration | 21 ready-made tool classes, zero boilerplate |
-| Plain-text credential storage | Fernet-encrypted `CredStore` with machine-specific key |
-| No memory between runs | Persistent `Memory` sessions via `npmai.Memory` |
-| Document Q&A | LARA RAG pipeline via `npmai.Rag` |
-| Complex setup | Auto-installs all dependencies on first run |
-
----
-
-## Features
-
-- **21 integrated tool classes** — email, files, PDF, web, spreadsheets, GitHub, Slack, Discord, WhatsApp, Notion, Twitter, system, images, scheduler, Jira, Telegram, QR, voice, file watcher, RAG, SSH
-- **Four-role autonomous LLM pipeline** — Planner, Coder, Auditor, Verifier each run a different model optimised for their role
-- **Security auditor built-in** — every generated code block is scanned before execution; destructive or credential-stealing code is blocked
-- **Fernet-encrypted credential store** — machine-specific AES key, credentials never stored in plain text
-- **LARA RAG integration** — query and summarise large documents using the NPMAI RAG architecture
-- **Persistent memory** — separate memory contexts for planning, coding, chat, and task history
-- **Auto-dependency installer** — missing packages are pip-installed automatically at runtime
-- **Up to 12 auto-retries per step** — failed steps are regenerated with the error context fed back to the coder LLM
-- **Workspace scanner** — the agent scans your Desktop, Downloads, Documents, Pictures, Videos, and Music folders to build a live context profile before planning
-- **Kill switch support** — long-running tasks can be cancelled mid-execution
-
----
-
-## Architecture Overview
-
-```
-User Task (plain English)
-        │
-        ▼
-┌─────────────────┐
-│   AgentBrain    │
-│                 │
-│  1. Workspace   │  ← scans your file system for context
-│     Scanner     │
-│                 │
-│  2. Planner LLM │  ← breaks task into 2–5 atomic steps
-│  (llama3.2:3b)  │
-│                 │
-│  For each step: │
-│  ┌───────────┐  │
-│  │ 3. Coder  │  │  ← generates Python code (codellama:7b)
-│  │    LLM    │  │
-│  └─────┬─────┘  │
-│        │        │
-│  ┌─────▼─────┐  │
-│  │ 4. Auditor│  │  ← security scan (qwen2.5-coder:7b)
-│  │    LLM    │  │
-│  └─────┬─────┘  │
-│        │        │
-│  ┌─────▼─────┐  │
-│  │ 5.Executor│  │  ← subprocess runner with live stdout
-│  └─────┬─────┘  │
-│        │        │
-│  ┌─────▼─────┐  │
-│  │6. Verifier│  │  ← confirms step success (llama3.2:3b)
-│  │    LLM    │  │
-│  └───────────┘  │
-│  (retry ×12)    │
-└─────────────────┘
-        │
-        ▼
-   Task Complete ✓
-```
-
-All LLMs are served free via the NPMAI ECOSYSTEM load balancer (`npmai.Ollama` with `change=True`).
-
----
-
-## Installation
-
-```bash
-pip install npmai-agent
-```
-
-> `npmai-agent` will automatically install all required dependencies on first run, including `npmai`, `requests`, `beautifulsoup4`, `playwright`, `PyGithub`, `slack-sdk`, `gspread`, `openpyxl`, `pandas`, `Pillow`, `pypdf`, `python-docx`, `pyttsx3`, `SpeechRecognition`, `pyperclip`, `schedule`, `psutil`, `watchdog`, `tweepy`, `pywhatkit`, `qrcode`, `cryptography`, `paramiko`, `python-dotenv`, `pyautogui`, `opencv-python`, `pytesseract`, `yt-dlp`, `discord.py`, `telethon`, `notion-client`, `todoist-api-python`, `jira`, and more.
-
----
-
-## Configuration — CredStore
-
-Before using any tool that requires authentication (email, GitHub, Slack, etc.), you must store your credentials using `CredStore`. Credentials are encrypted with a Fernet key derived from your machine and stored locally at `~/.npmai_agent/creds.json`. They are never stored in plain text.
-
-### How CredStore Works
+No GPT-4. No Gemini. No monthly bills.  
+Everything runs free on **45+ open-source LLMs** served by the **NPMAI ECOSYSTEM load balancer**.
 
 ```python
-from npmai-agent import CredStore
+pip install npmai_agents
+```
 
-# Save credentials for a named service
+```python
+from npmai_agents import AgentBrain
+
+brain = AgentBrain()
+brain.run_task("Organise my Downloads folder and email me a summary")
+# ↑ That's it. The agent plans, codes, audits, executes, verifies — by itself.
+```
+
+---
+
+## 🏛️ Built by NPMAI ECOSYSTEM
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:0a0a1a,100:1a0a3a&height=3&section=header" width="60%"/>
+
+</div>
+
+**`npmai_agents`** is an official product of the **[NPMAI ECOSYSTEM](https://npmai.netlify.app)** — a free, open-source AI research and development platform serving developers and researchers worldwide.
+
+<table>
+<tr>
+<td width="50%">
+
+**👤 Founder**  
+**Sonu Kumar** *(Bihar Viral Boy)*  
+15-year-old self-taught developer,  
+TEDx Speaker & AI Researcher  
+from Bihar, India · based in Kota, Rajasthan
+
+</td>
+<td width="50%">
+
+**🌍 Ecosystem Stats**  
+`2,000,000+` PyPI downloads  
+`45+` community LLMs  
+`6+` deployed AI products  
+`0₹` cost to users — forever
+
+</td>
+</tr>
+</table>
+
+<div align="center">
+
+[![GitHub](https://img.shields.io/badge/GitHub-sonuramashishnpm-0a0a1a?style=flat-square&logo=github&logoColor=00f5ff)](https://github.com/sonuramashishnpm)
+[![PyPI](https://img.shields.io/badge/PyPI-npmai-0a0a1a?style=flat-square&logo=pypi&logoColor=a78bfa)](https://pypi.org/project/npmai)
+[![Website](https://img.shields.io/badge/Website-npmai.netlify.app-0a0a1a?style=flat-square&logo=netlify&logoColor=2affa0)](https://npmai.netlify.app)
+[![Email](https://img.shields.io/badge/Email-sonuramashishnpm%40gmail.com-0a0a1a?style=flat-square&logo=gmail&logoColor=ff6b9d)](mailto:sonuramashishnpm@gmail.com)
+
+</div>
+
+---
+
+## ⚡ Why npmai_agents?
+
+| 🔴 The Problem | 🟢 npmai_agents Solution |
+|---|---|
+| Paid LLM APIs (GPT-4, Claude, Gemini) | **45+ free LLMs** via NPMAI load balancer |
+| Single-model, single-purpose agents | **4 specialized LLM roles** in one pipeline |
+| Scattered automation libraries | **21 tool classes** in one package |
+| Plain-text credential storage | **Fernet-encrypted** `CredStore` (machine key) |
+| No memory between sessions | **Persistent Memory** via `npmai.Memory` |
+| Manual document Q&A setup | **LARA RAG pipeline** built-in |
+| Complex dependency management | **Auto-installs** everything on first run |
+| Fragile single-attempt execution | **Up to 12 auto-retries** per step with error feedback |
+
+---
+
+## 🚀 Features
+
+<div align="center">
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    npmai_agents  v0.0.1                             │
+│                                                                     │
+│   ╔══════════════╗  ╔══════════════╗  ╔══════════════╗             │
+│   ║  21 TOOLS    ║  ║  4-LLM PIPE  ║  ║  FERNET ENC  ║             │
+│   ║  one package ║  ║  autonomous  ║  ║  credentials ║             │
+│   ╚══════════════╝  ╚══════════════╝  ╚══════════════╝             │
+│                                                                     │
+│   ╔══════════════╗  ╔══════════════╗  ╔══════════════╗             │
+│   ║  LARA RAG    ║  ║  12x RETRY   ║  ║  KILL SWITCH ║             │
+│   ║  built-in    ║  ║  per step    ║  ║  mid-task    ║             │
+│   ╚══════════════╝  ╚══════════════╝  ╚══════════════╝             │
+│                                                                     │
+│   ╔══════════════╗  ╔══════════════╗  ╔══════════════╗             │
+│   ║  WORKSPACE   ║  ║  PERSISTENT  ║  ║  SECURITY    ║             │
+│   ║  scanner     ║  ║  memory      ║  ║  auditor     ║             │
+│   ╚══════════════╝  ╚══════════════╝  ╚══════════════╝             │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+</div>
+
+- 🔧 **21 integrated tool classes** — email, files, PDF, web, spreadsheets, GitHub, Slack, Discord, WhatsApp, Notion, Twitter, system, images, scheduler, Jira, Telegram, QR, voice, watcher, RAG, SSH
+- 🧠 **Four-role LLM pipeline** — each role runs a different model optimised for its purpose
+- 🔒 **Built-in security auditor** — every generated code block is scanned before execution
+- 🔐 **Fernet-encrypted CredStore** — machine-specific AES key, never plain text
+- 📚 **LARA RAG integration** — query and summarise any document
+- 💾 **Persistent memory** — separate contexts for planning, coding, chat, task history
+- ♻️ **Auto-dependency installer** — missing packages pip-installed on first run
+- 🎯 **12 auto-retries per step** — error output fed back to the coder LLM
+- 🖥️ **Workspace scanner** — agent builds a live file-system profile before planning
+
+---
+
+## 🏗️ Architecture
+
+<div align="center">
+
+```
+                    ╔═══════════════════════╗
+     Plain English  ║                       ║
+     Task Input ──▶ ║      AgentBrain       ║
+                    ║                       ║
+                    ║  ┌─────────────────┐  ║
+                    ║  │  1. WORKSPACE   │  ║  ◀── scans Desktop, Downloads,
+                    ║  │     SCANNER     │  ║       Documents, Pictures, etc.
+                    ║  └────────┬────────┘  ║
+                    ║           │            ║
+                    ║  ┌────────▼────────┐  ║
+                    ║  │  2. PLANNER     │  ║  ◀── llama3.2:3b / mistral:7b
+                    ║  │     LLM         │  ║       breaks task → 2–5 steps
+                    ║  └────────┬────────┘  ║
+                    ║           │            ║
+                    ║    ╔══════▼══════╗     ║   ┌─────────────────────────┐
+                    ║    ║  per step:  ║     ║   │ repeats up to 12 times  │
+                    ║    ║             ║     ║   │ on failure, feeding     │
+                    ║    ║  3. CODER   ║─────║───│ error output back to    │
+                    ║    ║     LLM     ║     ║   │ the Coder LLM           │
+                    ║    ║  4. AUDITOR ║     ║   └─────────────────────────┘
+                    ║    ║     LLM     ║     ║
+                    ║    ║  5. EXECUTE ║     ║
+                    ║    ║  6. VERIFY  ║     ║
+                    ║    ╚═════════════╝     ║
+                    ║                       ║
+                    ╚═══════════════════════╝
+                                │
+                                ▼
+                       Task Complete ✓
+```
+
+| Role | Default Model | Fallback | Job |
+|---|---|---|---|
+| 🗺️ **Planner** | `llama3.2:3b` | `mistral:7b` | Breaks task into 2–5 atomic steps |
+| 💻 **Coder** | `codellama:7b-instruct` | `deepseek-coder:6.7b` | Generates executable Python code |
+| 🛡️ **Auditor** | `qwen2.5-coder:7b` | `falcon:7b-instruct` | Security scan before execution |
+| ✅ **Verifier** | `llama3.2:3b` | `mistral:7b` | Confirms step completed successfully |
+| 💬 **Chatter** | `granite3.3:2b` | `llama3.2:1b` | General Q&A / conversational mode |
+
+All models served **free** via NPMAI ECOSYSTEM load balancer with `change=True` auto-fallback.
+
+</div>
+
+---
+
+## 📦 Installation
+
+```bash
+pip install npmai_agents
+```
+
+> Auto-installs all dependencies on first run. Or pre-install everything:
+
+```bash
+pip install npmai_agents[full]
+```
+
+**Import styles:**
+
+```python
+# Import specific classes
+from npmai_agents import AgentBrain, CredStore, EmailTool, FileTool
+
+# Import the whole module
+import npmai_agents
+```
+
+---
+
+## 📖 Documentation
+
+---
+
+### 🔐 CredStore — Encrypted Credential Vault
+
+> Configure once. All 21 tools read from here. Stored at `~/.npmai_agent/creds.json` with a machine-specific Fernet key.
+
+```python
+from npmai_agents import CredStore
+
+# ── Save credentials ──────────────────────────────────────────────────
 CredStore.save("gmail", {
-    "email": "you@gmail.com",
-    "password": "your-app-password",   # Use Gmail App Password, not your login password
+    "email":     "you@gmail.com",
+    "password":  "your-app-password",    # Gmail App Password, not login password
     "smtp_host": "smtp.gmail.com",
     "smtp_port": 587,
     "imap_host": "imap.gmail.com"
 })
 
-# Load credentials (returns a dict)
+CredStore.save("github",   {"token": "ghp_xxxxxxxxxxxxxxxxxxxx"})
+CredStore.save("slack",    {"bot_token": "xoxb-xxxxxxxxxxxx"})
+CredStore.save("notion",   {"token": "secret_xxxxxxxxxxxx"})
+CredStore.save("telegram", {"bot_token": "1234567890:AAxxxxxxxxxxxxxx"})
+
+CredStore.save("twitter", {
+    "api_key": "...", "api_secret": "...",
+    "access_token": "...", "access_token_secret": "..."
+})
+
+CredStore.save("jira", {
+    "server":    "https://yourworkspace.atlassian.net",
+    "email":     "you@company.com",
+    "api_token": "your-jira-api-token"
+})
+
+CredStore.save("ssh", {"user": "ubuntu", "password": "secret"})
+# or with SSH key: CredStore.save("ssh", {"user": "ubuntu", "key_path": "~/.ssh/id_rsa"})
+
+# ── Load & inspect ────────────────────────────────────────────────────
 creds = CredStore.load("gmail")
 print(creds["email"])
 
-# List all saved credential keys
-keys = CredStore.all_keys()
-print(keys)  # ['gmail', 'github', 'slack', ...]
+print(CredStore.all_keys())
+# ['gmail', 'github', 'slack', 'notion', 'telegram', 'jira', 'ssh']
 ```
 
-### Credential Reference by Tool
+**Credential reference by tool:**
 
 | Tool | `cred_key` | Required fields |
 |---|---|---|
 | `EmailTool` | `"gmail"` | `email`, `password`, `smtp_host`, `smtp_port`, `imap_host` |
 | `GitHubTool` | `"github"` | `token` |
 | `SlackTool` | `"slack"` | `bot_token` |
-| `SpreadsheetTool` (Google Sheets) | `"google"` | Full service account JSON as dict |
+| `SpreadsheetTool` | `"google"` | Full service account JSON as dict |
 | `NotionTool` | `"notion"` | `token` |
 | `TwitterTool` | `"twitter"` | `api_key`, `api_secret`, `access_token`, `access_token_secret` |
 | `JiraTool` | `"jira"` | `server`, `email`, `api_token` |
 | `TelegramTool` | `"telegram"` | `bot_token` |
-| `SSHTool` | `"ssh"` | `user`, `password` (or `key_path`) |
-
-```python
-# GitHub
-CredStore.save("github", {"token": "ghp_xxxxxxxxxxxxxxxxxxxx"})
-
-# Slack
-CredStore.save("slack", {"bot_token": "xoxb-xxxxxxxxxxxx"})
-
-# Notion
-CredStore.save("notion", {"token": "secret_xxxxxxxxxxxx"})
-
-# Twitter / X
-CredStore.save("twitter", {
-    "api_key": "...",
-    "api_secret": "...",
-    "access_token": "...",
-    "access_token_secret": "..."
-})
-
-# Jira
-CredStore.save("jira", {
-    "server": "https://yourworkspace.atlassian.net",
-    "email": "you@company.com",
-    "api_token": "your-jira-api-token"
-})
-
-# Telegram
-CredStore.save("telegram", {"bot_token": "1234567890:AAxxxxxxxxxxxxxx"})
-
-# SSH
-CredStore.save("ssh", {"user": "ubuntu", "password": "secret"})
-# or with key file
-CredStore.save("ssh", {"user": "ubuntu", "key_path": "/home/you/.ssh/id_rsa"})
-```
+| `SSHTool` | `"ssh"` | `user`, `password` or `key_path` |
 
 ---
 
-## Tool Classes & Documentation
-
-All tool classes extend `ensure`, which auto-installs required dependencies on first instantiation. Every method returns a `ToolResult` object with three fields:
+### 🖥️ Workspace — File System Context
 
 ```python
-result.success  # bool — True if the operation succeeded
-result.output   # str  — human-readable status message
-result.data     # any  — the actual returned data (list, str, DataFrame, etc.)
-```
-
----
-
-### CredStore
-
-Fernet-encrypted local credential vault.
-
-```python
-from npmai-agent import CredStore
-
-# Store credentials
-CredStore.save("service_name", {"key": "value"})
-
-# Load credentials
-data = CredStore.load("service_name")
-
-# List all saved keys
-print(CredStore.all_keys())
-```
-
----
-
-### Workspace
-
-Scans the user's file system and builds a context profile used by `AgentBrain` during planning.
-
-```python
-from npmai-agent import Workspace
+from npmai_agents import Workspace
 
 ws = Workspace()
 
-# Scan Desktop, Downloads, Documents, Pictures, Videos, Music
-profile = ws.scan()
-print(profile["os"])         # 'Windows' / 'Darwin' / 'Linux'
-print(profile["home"])       # '/home/sonu'
-print(profile["paths"])      # dict of folder → files
+profile = ws.scan()           # scans Desktop, Downloads, Documents, etc.
+print(profile["os"])          # 'Windows' / 'Darwin' / 'Linux'
+print(profile["home"])        # '/home/sonu'
+print(profile["paths"])       # { 'desktop': { path, files }, ... }
 
-# Update any custom profile field
 ws.update_profile("user_name", "Sonu Kumar")
-
-# Get a short text summary (used internally by the planner LLM)
-print(ws.context_summary())
+print(ws.context_summary())   # short text fed to the Planner LLM
 ```
 
 ---
 
-### EmailTool
-
-Send emails via Gmail SMTP, read inbox via IMAP, and send bulk personalised emails from a CSV.
+### 📧 EmailTool
 
 ```python
-from npmai-agent import EmailTool, CredStore
-
-# Configure once
-CredStore.save("gmail", {
-    "email": "you@gmail.com",
-    "password": "app-password-here",
-    "smtp_host": "smtp.gmail.com",
-    "smtp_port": 587,
-    "imap_host": "imap.gmail.com"
-})
+from npmai_agents import EmailTool
 
 # Send a single email
 result = EmailTool.send(
     to="friend@example.com",
-    subject="Hello from npmai-agent",
-    body="<h1>This was sent by an AI agent!</h1>"
+    subject="Hello from npmai_agents",
+    body="<h1>Sent by an AI agent!</h1>"
 )
-print(result)  # ✓ Email sent to friend@example.com
+print(result)   # ✓ Email sent to friend@example.com
 
-# Send with attachments
+# With attachments
 result = EmailTool.send(
     to="boss@company.com",
     subject="Monthly Report",
-    body="Please find the report attached.",
+    body="Report attached.",
     attachments=["/home/sonu/report.pdf"]
 )
 
-# Read inbox (last 10 emails)
+# Read inbox
 result = EmailTool.read_inbox(count=10)
-if result.success:
-    for msg in result.data:
-        print(msg["from"], msg["subject"], msg["date"])
+for msg in result.data:
+    print(msg["from"], "|", msg["subject"])
 
-# Bulk email from CSV
-# CSV must have 'name' and 'email' columns (configurable)
+# Bulk email from CSV (must have 'name' + 'email' columns)
 result = EmailTool.send_bulk(
     csv_path="contacts.csv",
-    subject="Invitation to NPMAI Launch",
-    body_template="<p>Hello {name}, you are invited!</p>",
-    name_col="name",
-    email_col="email"
+    subject="NPMAI Launch Invite",
+    body_template="<p>Hello {name}, you're invited!</p>"
 )
-print(result)  # ✓ Sent 42 emails, 0 failed
+print(result)   # ✓ Sent 42 emails, 0 failed
 ```
 
 ---
 
-### FileTool
-
-Rename, move, copy, zip, unzip, search, organize, read, and write files.
+### 📁 FileTool
 
 ```python
-from npmai-agent import FileTool
+from npmai_agents import FileTool
 
-# Bulk rename all .txt files in a folder
-result = FileTool.bulk_rename(
-    folder="/home/sonu/Documents",
-    pattern="*.txt",
-    prefix="NPMAI_",
-    suffix="_v1",
-    add_date=True
-)
-print(result)  # ✓ Renamed 12 files
+# Bulk rename
+FileTool.bulk_rename("/home/sonu/Docs", pattern="*.txt", prefix="NPMAI_", add_date=True)
 
-# Zip a folder
-result = FileTool.zip_folder(
-    source="/home/sonu/project",
-    dest="/home/sonu/project_backup.zip"
-)
+# Zip / unzip
+FileTool.zip_folder("/home/sonu/project", dest="/home/sonu/project.zip")
+FileTool.unzip("/home/sonu/archive.zip", dest="/home/sonu/extracted")
 
-# Unzip
-result = FileTool.unzip(
-    zip_path="/home/sonu/archive.zip",
-    dest="/home/sonu/extracted"
-)
+# Find files
+result = FileTool.find_files("/home/sonu", pattern="*.py", recursive=True)
+print(result.data)   # ['/home/sonu/agent.py', ...]
 
-# Find files recursively
-result = FileTool.find_files(
-    folder="/home/sonu",
-    pattern="*.py",
-    recursive=True
-)
-print(result.data)  # ['/home/sonu/agent_core.py', ...]
+# Organize by type → creates Images/ Videos/ Docs/ Code/ etc.
+FileTool.organize_by_type("/home/sonu/Downloads")
 
-# Organize folder by file type (creates Images/, Videos/, Docs/, etc.)
-result = FileTool.organize_by_type("/home/sonu/Downloads")
-print(result)  # ✓ Organized 87 files by type
+# Read / write
+content = FileTool.read_file("/home/sonu/notes.txt").data
+FileTool.write_file("/home/sonu/out.txt", "Generated by npmai_agents.")
 
-# Read a file
-result = FileTool.read_file("/home/sonu/notes.txt")
-print(result.data)  # file content as string
-
-# Write a file
-result = FileTool.write_file(
-    path="/home/sonu/output/report.txt",
-    content="Generated by npmai-agent."
-)
-
-# Copy entire directory tree
-result = FileTool.duplicate_tree(
-    src="/home/sonu/project",
-    dst="/home/sonu/project_copy"
-)
+# Copy tree
+FileTool.duplicate_tree("/home/sonu/project", "/home/sonu/project_backup")
 ```
 
 ---
 
-### PDFTool
-
-Merge, split, and extract text from PDF files.
+### 📄 PDFTool
 
 ```python
-from npmai-agent import PDFTool
+from npmai_agents import PDFTool
 
-# Extract all text from a PDF
-result = PDFTool.extract_text("/home/sonu/research_paper.pdf")
-print(result.data)  # extracted text string
+# Extract text
+text = PDFTool.extract_text("/home/sonu/paper.pdf").data
 
-# Merge multiple PDFs into one
-result = PDFTool.merge(
-    paths=["/home/sonu/chapter1.pdf", "/home/sonu/chapter2.pdf"],
-    out="/home/sonu/full_book.pdf"
-)
-print(result)  # ✓ Merged 2 PDFs → /home/sonu/full_book.pdf
+# Merge PDFs
+PDFTool.merge(["/home/sonu/ch1.pdf", "/home/sonu/ch2.pdf"], out="/home/sonu/book.pdf")
 
-# Split a PDF into individual pages
-result = PDFTool.split(
-    path="/home/sonu/document.pdf",
-    out_dir="/home/sonu/pages"
-)
-print(result)  # ✓ Split into 24 pages in /home/sonu/pages
+# Split into pages
+PDFTool.split("/home/sonu/doc.pdf", out_dir="/home/sonu/pages")
 ```
 
 ---
 
-### WebTool
-
-Scrape websites, download files, take screenshots, automate browsers via Playwright, and make raw API calls.
+### 🌐 WebTool
 
 ```python
-from npmai-agent import WebTool
+from npmai_agents import WebTool
 
-# Scrape full page text
+# Scrape page text
 result = WebTool.scrape("https://npmai.netlify.app")
-print(result.data[:500])
 
-# Scrape specific elements using CSS selector
-result = WebTool.scrape(
-    url="https://example.com",
-    selector="h2"
-)
-print(result.data)  # ['Heading 1', 'Heading 2', ...]
+# Scrape with CSS selector
+result = WebTool.scrape("https://example.com", selector="h2")
+print(result.data)   # ['Title 1', 'Title 2', ...]
 
 # Download a file
-result = WebTool.download_file(
-    url="https://example.com/file.pdf",
-    dest="/home/sonu/downloads/file.pdf"
-)
+WebTool.download_file("https://example.com/file.pdf", dest="/home/sonu/file.pdf")
 
-# Take a full-page screenshot (requires Playwright)
-result = WebTool.screenshot_url(
-    url="https://npmai.netlify.app",
-    out="/home/sonu/npmai_screenshot.png"
-)
+# Full-page screenshot
+WebTool.screenshot_url("https://npmai.netlify.app", out="screenshot.png")
 
-# Automated browser actions (click, fill, extract)
-result = WebTool.browser_action(
-    url="https://example.com/login",
-    actions=[
-        {"type": "fill", "selector": "#username", "value": "sonu"},
-        {"type": "fill", "selector": "#password", "value": "secret"},
-        {"type": "click", "selector": "#login-btn"},
-        {"type": "wait", "ms": 2000},
-        {"type": "screenshot", "path": "after_login.png"}
-    ]
-)
+# Browser automation (Playwright)
+WebTool.browser_action("https://example.com/login", actions=[
+    {"type": "fill",       "selector": "#username", "value": "sonu"},
+    {"type": "fill",       "selector": "#password", "value": "secret"},
+    {"type": "click",      "selector": "#login-btn"},
+    {"type": "wait",       "ms": 2000},
+    {"type": "screenshot", "path": "after_login.png"}
+])
 
-# Make a raw HTTP API call
+# Raw API call
 result = WebTool.api_call(
     url="https://api.example.com/data",
     method="POST",
     headers={"Authorization": "Bearer token"},
     payload={"query": "test"}
 )
-print(result.data)  # parsed JSON response
+print(result.data)   # parsed JSON
 ```
 
 ---
 
-### SpreadsheetTool
-
-Read/write CSV, Excel, and Google Sheets.
+### 📊 SpreadsheetTool
 
 ```python
-from npmai-agent import SpreadsheetTool, CredStore
+from npmai_agents import SpreadsheetTool
 
-# Read a CSV file
-result = SpreadsheetTool.read_csv("/home/sonu/data.csv")
-df = result.data  # pandas DataFrame
-print(f"{len(df)} rows")
+# Read CSV → pandas DataFrame
+df = SpreadsheetTool.read_csv("/home/sonu/data.csv").data
 
-# Write a DataFrame or list of dicts to Excel
-data = [{"name": "Sonu", "age": 15}, {"name": "AI", "age": 0}]
-result = SpreadsheetTool.write_excel(
-    data=data,
-    path="/home/sonu/output.xlsx",
+# Write to Excel
+SpreadsheetTool.write_excel(
+    data=[{"name": "Sonu", "age": 15}],
+    path="/home/sonu/out.xlsx",
     sheet="Founders"
 )
 
-# Read from Google Sheets (requires service account credentials)
-CredStore.save("google", {
-    "type": "service_account",
-    "project_id": "...",
-    "private_key_id": "...",
-    "private_key": "-----BEGIN PRIVATE KEY-----\n...",
-    "client_email": "...",
-    # ... full service account JSON
-})
-
-result = SpreadsheetTool.google_sheets_read(
-    sheet_id="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms",
-    range_="Sheet1"
-)
-print(result.data)  # list of row dicts
+# Google Sheets (needs 'google' cred with service account JSON)
+result = SpreadsheetTool.google_sheets_read(sheet_id="1Bxi...", range_="Sheet1")
+print(result.data)   # list of row dicts
 ```
 
 ---
 
-### GitHubTool
-
-Create issues, push files, list issues, fetch READMEs, clone repos, commit and push.
+### 🐙 GitHubTool
 
 ```python
-from npmai-agent import GitHubTool, CredStore
+from npmai_agents import GitHubTool
 
-CredStore.save("github", {"token": "ghp_xxxxxxxxxxxxxxxxxxxx"})
-
-# Create an issue
-result = GitHubTool.create_issue(
+# Create issue
+GitHubTool.create_issue(
     repo="sonuramashishnpm/npmai",
-    title="Bug: model timeout on large inputs",
-    body="Steps to reproduce...",
-    labels=["bug", "llm"]
+    title="Add voice input support",
+    body="Feature request...",
+    labels=["enhancement"]
 )
-print(result)  # ✓ Issue #42 created: https://github.com/...
 
-# Push (create or update) a file in a repo
-result = GitHubTool.push_file(
+# Push file (creates or updates)
+GitHubTool.push_file(
     repo="sonuramashishnpm/npmai",
     path="docs/agent.md",
-    content="# npmai-agent docs\n...",
-    message="docs: add agent documentation"
+    content="# npmai_agents docs\n...",
+    message="docs: add agent docs"
 )
 
-# List open issues
-result = GitHubTool.list_issues(repo="sonuramashishnpm/npmai", state="open")
-for issue in result.data:
+# List issues
+for issue in GitHubTool.list_issues("sonuramashishnpm/npmai").data:
     print(issue["#"], issue["title"])
 
-# Fetch README
-result = GitHubTool.get_readme(repo="sonuramashishnpm/npmai")
-print(result.data[:300])
+# Get README
+print(GitHubTool.get_readme("sonuramashishnpm/npmai").data[:300])
 
-# Clone a repository
-result = GitHubTool.clone_repo(
-    url="https://github.com/sonuramashishnpm/npmai.git",
-    dest="/home/sonu/projects/npmai"
-)
-
-# Stage, commit, and push from a local repo
-result = GitHubTool.git_commit_push(
-    repo_path="/home/sonu/projects/npmai",
-    message="feat: add new model endpoints"
-)
+# Clone & commit-push
+GitHubTool.clone_repo("https://github.com/sonuramashishnpm/npmai.git", "/home/sonu/npmai")
+GitHubTool.git_commit_push("/home/sonu/npmai", "feat: new endpoints")
 ```
 
 ---
 
-### SlackTool
-
-Send messages, read channel history, upload files to Slack.
+### 💬 SlackTool
 
 ```python
-from npmai-agent import SlackTool, CredStore
+from npmai_agents import SlackTool
 
-CredStore.save("slack", {"bot_token": "xoxb-xxxxxxxxxxxx"})
+SlackTool.send_message("#general", "npmai_agents task done ✓")
 
-# Send a message to a channel
-result = SlackTool.send_message(
-    channel="#general",
-    text="npmai-agent task completed successfully ✓"
-)
-
-# Read last 20 messages from a channel
-result = SlackTool.read_channel(channel="#dev-logs", limit=20)
-for msg in result.data:
+for msg in SlackTool.read_channel("#dev-logs", limit=20).data:
     print(msg["user"], ":", msg["text"])
 
-# Upload a file
-result = SlackTool.upload_file(
-    channel="#reports",
-    file_path="/home/sonu/report.pdf",
-    comment="Weekly AI report"
-)
+SlackTool.upload_file("#reports", "/home/sonu/report.pdf", comment="Weekly AI report")
 ```
 
 ---
 
-### DiscordTool
-
-Send messages and embeds to Discord channels via webhook.
+### 🎮 DiscordTool
 
 ```python
-from npmai-agent import DiscordTool
+from npmai_agents import DiscordTool
 
 WEBHOOK = "https://discord.com/api/webhooks/xxxx/yyyy"
 
-# Send a plain message
-result = DiscordTool.send_webhook(
-    webhook_url=WEBHOOK,
-    content="🚀 npmai-agent deployment complete!"
-)
+DiscordTool.send_webhook(WEBHOOK, "🚀 Deployment complete!")
 
-# Send with an embed
-result = DiscordTool.send_webhook(
-    webhook_url=WEBHOOK,
-    content="Task update:",
-    embeds=[{
-        "title": "Step 3 Complete",
-        "description": "All files organized successfully.",
-        "color": 3066993
-    }]
-)
+DiscordTool.send_webhook(WEBHOOK, "Update:", embeds=[{
+    "title": "Step 3 Done",
+    "description": "All files organized.",
+    "color": 3066993
+}])
 ```
 
 ---
 
-### WhatsAppTool
-
-Send WhatsApp messages (requires WhatsApp Web to be open in the browser).
+### 📱 WhatsAppTool
 
 ```python
-from npmai-agent import WhatsAppTool
+from npmai_agents import WhatsAppTool
 
-# Phone number must include country code, e.g. +91 for India
-result = WhatsAppTool.send(
-    phone="+919876543210",
-    message="Hello from npmai-agent!",
-    wait=15  # seconds to wait before sending
-)
-print(result)  # ✓ WhatsApp sent to +919876543210
+# Requires WhatsApp Web open in browser
+WhatsAppTool.send(phone="+919876543210", message="Hello from npmai_agents!", wait=15)
 ```
 
 ---
 
-### NotionTool
-
-Create pages and add database entries in Notion.
+### 📝 NotionTool
 
 ```python
-from npmai-agent import NotionTool, CredStore
+from npmai_agents import NotionTool
 
-CredStore.save("notion", {"token": "secret_xxxxxxxxxxxx"})
-
-# Create a new page inside a parent page
-result = NotionTool.create_page(
+NotionTool.create_page(
     parent_id="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-    title="NPMAI Agent Research Notes",
-    content="This page was created by npmai-agent automatically."
+    title="NPMAI Research Notes",
+    content="Auto-created by npmai_agents."
 )
-print(result)  # ✓ Notion page created: https://notion.so/...
 
-# Add a row to a Notion database
-result = NotionTool.add_db_entry(
+NotionTool.add_db_entry(
     db_id="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     props={
-        "Name": {"title": [{"text": {"content": "Task Completed"}}]},
+        "Name":   {"title": [{"text": {"content": "Task Done"}}]},
         "Status": {"select": {"name": "Done"}}
     }
 )
@@ -685,337 +555,215 @@ result = NotionTool.add_db_entry(
 
 ---
 
-### TwitterTool
-
-Post tweets using the Twitter v2 API.
+### 🐦 TwitterTool
 
 ```python
-from npmai-agent import TwitterTool, CredStore
+from npmai_agents import TwitterTool
 
-CredStore.save("twitter", {
-    "api_key": "...",
-    "api_secret": "...",
-    "access_token": "...",
-    "access_token_secret": "..."
-})
-
-result = TwitterTool.tweet(
-    text="Just automated my workflow with npmai-agent by @NPMAIEcosystem 🤖 #OpenSource #AI"
-)
-print(result)  # ✓ Tweeted: 1234567890123456789
+TwitterTool.tweet("Just automated my workflow with npmai_agents 🤖 #OpenSource #AI")
 ```
 
 ---
 
-### SystemTool
-
-Run shell commands, manage processes, use the clipboard, take screenshots, and send desktop notifications.
+### ⚙️ SystemTool
 
 ```python
-from npmai-agent import SystemTool
+from npmai_agents import SystemTool
 
-# Run any shell command
-result = SystemTool.run_command("ls -la /home/sonu", cwd="/home/sonu", timeout=30)
-print(result.output)
+# Shell command
+print(SystemTool.run_command("ls -la /home/sonu", timeout=30).output)
 
-# Get clipboard contents
-result = SystemTool.get_clipboard()
-print(result.data)
+# Clipboard
+SystemTool.set_clipboard("Copied by npmai_agents")
+print(SystemTool.get_clipboard().data)
 
-# Set clipboard contents
-result = SystemTool.set_clipboard("Copied by npmai-agent")
+# Screenshot
+SystemTool.screenshot(out="/home/sonu/screen.png")
 
-# Take a screenshot
-result = SystemTool.screenshot(out="/home/sonu/screen.png")
+# Processes
+for p in SystemTool.get_processes().data[:5]:
+    print(p["name"], p["cpu"], "%")
 
-# List running processes
-result = SystemTool.get_processes()
-for proc in result.data[:5]:
-    print(proc["name"], proc["cpu"], "%")
-
-# Send a desktop notification
-result = SystemTool.notify(
-    title="npmai-agent",
-    message="Your task has been completed!"
-)
+# Desktop notification
+SystemTool.notify("npmai_agents", "Task complete!")
 ```
 
 ---
 
-### ImageTool
-
-Resize, convert, OCR, and bulk-compress images using Pillow and pytesseract.
+### 🖼️ ImageTool
 
 ```python
-from npmai-agent import ImageTool
+from npmai_agents import ImageTool
 
-# Resize an image
-result = ImageTool.resize(
-    path="/home/sonu/photo.jpg",
-    width=800,
-    height=600,
-    out="/home/sonu/photo_resized.jpg"
-)
+ImageTool.resize("/home/sonu/photo.jpg", width=800, height=600, out="resized.jpg")
+ImageTool.convert("/home/sonu/photo.jpg", format="PNG", out="photo.png")
 
-# Convert image format
-result = ImageTool.convert(
-    path="/home/sonu/photo.jpg",
-    format="PNG",
-    out="/home/sonu/photo.png"
-)
+# OCR
+text = ImageTool.ocr("/home/sonu/scanned.png").data
+print(text)
 
-# Extract text from an image (OCR)
-result = ImageTool.ocr("/home/sonu/scanned_doc.png")
-print(result.data)  # extracted text
-
-# Bulk compress all JPGs/PNGs in a folder
-result = ImageTool.bulk_compress(
-    folder="/home/sonu/Pictures",
-    quality=75
-)
-print(result)  # ✓ Compressed 34 images
+# Bulk compress
+ImageTool.bulk_compress("/home/sonu/Pictures", quality=75)
 ```
 
 ---
 
-### SchedulerTool
-
-Schedule Python callbacks to run at specific times or intervals in background threads.
+### ⏱️ SchedulerTool
 
 ```python
-from npmai-agent import SchedulerTool
+from npmai_agents import SchedulerTool
 
-def my_task():
-    print("Running scheduled task!")
+def daily_job():
+    print("Running daily task!")
 
-# Run every 5 minutes
-result = SchedulerTool.schedule_task(
-    task_id="heartbeat",
-    cron_like="every 5 minutes",
-    callback=my_task
-)
+SchedulerTool.schedule_task("heartbeat",    "every 5 minutes",        daily_job)
+SchedulerTool.schedule_task("daily_report", "every day at 09:00",     daily_job)
+SchedulerTool.schedule_task("weekly_sync",  "every monday at 08:00",  daily_job)
 
-# Run every day at 09:00
-result = SchedulerTool.schedule_task(
-    task_id="daily_report",
-    cron_like="every day at 09:00",
-    callback=my_task
-)
-
-# Run every Monday at 08:00
-result = SchedulerTool.schedule_task(
-    task_id="weekly_sync",
-    cron_like="every monday at 08:00",
-    callback=my_task
-)
-
-# Cancel a scheduled task
-result = SchedulerTool.cancel_task("heartbeat")
+SchedulerTool.cancel_task("heartbeat")
 ```
 
 ---
 
-### JiraTool
-
-Create and manage Jira issues.
+### 📋 JiraTool
 
 ```python
-from npmai-agent import JiraTool, CredStore
+from npmai_agents import JiraTool
 
-CredStore.save("jira", {
-    "server": "https://yourworkspace.atlassian.net",
-    "email": "you@company.com",
-    "api_token": "your-jira-api-token"
-})
-
-# Create a Jira issue
-result = JiraTool.create_issue(
+JiraTool.create_issue(
     project="NPMAI",
     summary="Integrate agent v0.0.1 with desktop UI",
-    description="The agent core needs to be wired to the PySide6 app.",
+    description="Wire agent core to PySide6 app.",
     issue_type="Task"
 )
-print(result)  # ✓ Jira issue NPMAI-17 created
+# ✓ Jira issue NPMAI-17 created
 ```
 
 ---
 
-### TelegramTool
-
-Send messages via a Telegram bot.
+### ✈️ TelegramTool
 
 ```python
-from npmai-agent import TelegramTool, CredStore
+from npmai_agents import TelegramTool
 
-CredStore.save("telegram", {"bot_token": "1234567890:AAxxxxxxxxxxxxxx"})
-
-# Send a message (chat_id can be a user ID or @channel)
-result = TelegramTool.send(
-    chat_id="123456789",
-    text="✅ npmai-agent task complete: organized 87 files."
-)
-print(result)  # ✓ Telegram sent
+TelegramTool.send(chat_id="123456789", text="✅ Task complete: organised 87 files.")
 ```
 
 ---
 
-### QRTool
-
-Generate QR codes from any text or URL.
+### 📷 QRTool
 
 ```python
-from npmai-agent import QRTool
+from npmai_agents import QRTool
 
-# Generate and save a QR code
-result = QRTool.generate(
-    data="https://npmai.netlify.app",
-    out="/home/sonu/npmai_qr.png",
-    size=10
-)
-print(result)  # ✓ QR code saved: /home/sonu/npmai_qr.png
+QRTool.generate(data="https://npmai.netlify.app", out="npmai_qr.png", size=10)
 ```
 
 ---
 
-### VoiceTool
-
-Text-to-speech output and speech-to-text input.
+### 🎤 VoiceTool
 
 ```python
-from npmai-agent import VoiceTool
+from npmai_agents import VoiceTool
 
-# Speak text aloud
-result = VoiceTool.speak("Task completed successfully. npmai-agent is ready.")
-print(result)  # ✓ Spoken
+VoiceTool.speak("Task completed. npmai_agents is ready.")
 
-# Listen for speech input (5 seconds)
 result = VoiceTool.listen(seconds=5)
 if result.success:
-    print(result.data)  # recognised text from microphone
+    print(result.data)   # recognised speech text
 ```
 
 ---
 
-### WatcherTool
-
-Watch a folder for file creation or modification events and trigger a callback.
+### 👁️ WatcherTool
 
 ```python
-from npmai-agent import WatcherTool
+from npmai_agents import WatcherTool
 
-def on_file_change(file_path):
-    print(f"File changed: {file_path}")
-    # trigger any action here
+def on_change(file_path):
+    print(f"Changed: {file_path}")
 
-# Start watching a folder in a background thread
-result = WatcherTool.watch(
-    folder="/home/sonu/incoming",
-    callback=on_file_change
-)
-print(result)  # ✓ Watching /home/sonu/incoming
+WatcherTool.watch("/home/sonu/incoming", callback=on_change)
+# Runs in background thread — ✓ Watching /home/sonu/incoming
 ```
 
 ---
 
-### RAGTool
-
-Query large documents and summarise long files using the NPMAI LARA RAG pipeline.
+### 🧠 RAGTool
 
 ```python
-from npmai-agent import RAGTool
+from npmai_agents import RAGTool
 
-# Query a document (PDF or plain text) using natural language
+# Query any document with a natural language question
 result = RAGTool.query_document(
-    doc_path="/home/sonu/research_paper.pdf",
+    doc_path="/home/sonu/paper.pdf",
     question="What is the main contribution of this paper?",
     chunk_size=500
 )
-print(result.data)  # LLM-generated answer
+print(result.data)
 
-# Summarise a large document (processes up to 10 × 3000-char chunks)
-result = RAGTool.summarize_large_file(
-    path="/home/sonu/thesis.pdf",
-    model="mistral:7b"
-)
-print(result.data)  # comprehensive summary
+# Summarise a large file (up to 10 × 3000-char chunks)
+summary = RAGTool.summarize_large_file("/home/sonu/thesis.pdf", model="mistral:7b").data
+print(summary)
 ```
 
 ---
 
-### SSHTool
-
-Run commands on remote servers and transfer files via SFTP.
+### 🔗 SSHTool
 
 ```python
-from npmai-agent import SSHTool, CredStore
+from npmai_agents import SSHTool
 
-CredStore.save("ssh", {
-    "user": "ubuntu",
-    "password": "your-server-password"
-    # or use key_path instead of password:
-    # "key_path": "/home/sonu/.ssh/id_rsa"
-})
+# Remote command
+print(SSHTool.run("192.168.1.100", "df -h && uptime").data)
 
-# Run a remote command
-result = SSHTool.run(
-    host="192.168.1.100",
-    command="df -h && uptime"
-)
-print(result.data)  # command output
-
-# Upload a file via SFTP
-result = SSHTool.upload(
-    host="192.168.1.100",
-    local="/home/sonu/deploy.sh",
-    remote="/home/ubuntu/deploy.sh"
-)
-print(result)  # ✓ Uploaded /home/sonu/deploy.sh → /home/ubuntu/deploy.sh
+# SFTP upload
+SSHTool.upload("192.168.1.100", local="/home/sonu/deploy.sh", remote="/home/ubuntu/deploy.sh")
 ```
 
 ---
 
-## AgentBrain — The Autonomous Pipeline
+## 🤖 AgentBrain — The Autonomous Core
 
-`AgentBrain` is the core orchestrator. Once your credentials are configured via `CredStore`, you can hand it any task in plain English and it will autonomously plan, code, audit, execute, verify, and retry until the task is done — using all 21 tool classes above as needed.
+> **This is the main event.** Configure your credentials with `CredStore`, then hand `AgentBrain` any task in plain English. It uses all 21 tool classes automatically — you never call them yourself.
 
 ```python
-from npmai-agent import AgentBrain
-
-# Optional callbacks for logging, progress, and status
-def log(msg): print(msg)
-def progress(pct): print(f"Progress: {pct}%")
-def status(s): print(f"Status: {s}")
+from npmai_agents import AgentBrain
 
 brain = AgentBrain(
-    log_cb=log,
-    progress_cb=progress,
-    status_cb=status
+    log_cb=print,                        # receives HTML-formatted log lines
+    progress_cb=lambda pct: None,        # 0–100 progress value
+    status_cb=lambda s: None             # status string
 )
 ```
 
-### Running a Task
+### Running Tasks
 
 ```python
-# Simple plain-English task — the agent figures out the rest
-brain.run_task("Organize my Downloads folder by file type")
+# The agent plans, codes, audits, executes, verifies — all by itself
+brain.run_task("Organise my Downloads folder by file type")
 
-brain.run_task("Send an email to team@company.com saying the build passed")
+brain.run_task("Email team@company.com that the build passed")
 
-brain.run_task("Scrape the titles of all articles from https://example.com/blog and save them to a CSV")
+brain.run_task("Scrape article titles from https://example.com/blog and save to CSV")
 
-brain.run_task("Create a GitHub issue in sonuramashishnpm/npmai titled 'Add voice input support'")
+brain.run_task("Create a GitHub issue in sonuramashishnpm/npmai: Add voice input")
 
-brain.run_task("Read my last 5 emails and summarise them")
+brain.run_task("Read my last 5 emails and give me a summary")
+
+brain.run_task("Generate a QR code for https://npmai.netlify.app and save it to my Desktop")
+
+brain.run_task("Take a screenshot and upload it to the #dev-logs Slack channel")
 ```
 
-### Chat Mode (for questions, not computer tasks)
+### Chat Mode
 
 ```python
 response = brain.chat("What is the LARA RAG architecture?")
 print(response)
 ```
 
-### Task with Kill Switch
+### Kill Switch
 
 ```python
 import threading
@@ -1023,94 +771,83 @@ import threading
 killed = [False]
 
 def run():
-    brain.run_task("Download and process 500 PDFs from the server", killed_flag=killed)
+    brain.run_task("Process 500 PDFs on the server", killed_flag=killed)
 
 t = threading.Thread(target=run)
 t.start()
 
-# Cancel at any time
-killed[0] = True
+killed[0] = True   # cancel at any time
 ```
 
 ### Task History
 
 ```python
-history = AgentBrain.load_task_history()
-for entry in history:
-    status = "✓" if entry["success"] else "✗"
-    print(f"{status} [{entry['time']}] {entry['task']}")
+from npmai_agents import AgentBrain
+
+for entry in AgentBrain.load_task_history():
+    icon = "✓" if entry["success"] else "✗"
+    print(f"{icon} [{entry['time']}]  {entry['task']}")
 ```
 
-### How AgentBrain Uses All 21 Tools
+### How AgentBrain accesses all 21 tools
 
-`AgentBrain` exposes the complete tool registry to the Coder LLM. When generating code for each step, the LLM is provided with this import context:
+The Coder LLM is given this import context for every code generation call:
 
 ```python
-from npmai-agent import EmailTool, FileTool, WebTool, SpreadsheetTool
-from npmai-agent import GitHubTool, SlackTool, PDFTool, ImageTool
-from npmai-agent import SystemTool, TelegramTool, QRTool, RAGTool, SSHTool
-from npmai-agent import DiscordTool, WhatsAppTool, NotionTool, TwitterTool
-from npmai-agent import SchedulerTool, JiraTool, VoiceTool, WatcherTool
-from npmai-agent import CredStore, Workspace
+from npmai_agents import EmailTool, FileTool, WebTool, SpreadsheetTool
+from npmai_agents import GitHubTool, SlackTool, PDFTool, ImageTool
+from npmai_agents import SystemTool, TelegramTool, QRTool, RAGTool, SSHTool
+from npmai_agents import DiscordTool, WhatsAppTool, NotionTool, TwitterTool
+from npmai_agents import SchedulerTool, JiraTool, VoiceTool, WatcherTool
+from npmai_agents import CredStore, Workspace
 ```
-
-This means you don't call the tools yourself — you just configure credentials with `CredStore` and describe your task in plain English. `AgentBrain` selects the right tools, generates the code, audits it for security, executes it, verifies success, and retries on failure — up to 12 times per step.
-
-### LLM Pipeline Details
-
-| Role | Default Model | Fallback | Purpose |
-|---|---|---|---|
-| **Planner** | `llama3.2:3b` | `mistral:7b` | Breaks task into 2–5 atomic steps |
-| **Coder** | `codellama:7b-instruct` | `deepseek-coder:6.7b` | Generates executable Python code |
-| **Auditor** | `qwen2.5-coder:7b` | `falcon:7b-instruct` | Security scan before execution |
-| **Verifier** | `llama3.2:3b` | `mistral:7b` | Confirms step completed successfully |
-| **Chatter** | `granite3.3:2b` | `llama3.2:1b` | General Q&A / chat mode |
-
-All models are served free via the NPMAI ECOSYSTEM load balancer with `change=True` for automatic fallback.
 
 ---
 
-## Executor
-
-`Executor` is used internally by `AgentBrain` but can be used standalone to safely run any Python code string as a subprocess with live stdout streaming.
+## 🛠️ Executor (Standalone)
 
 ```python
-from npmai-agent import Executor
+from npmai_agents import Executor
 
-def log(line): print(line)
+executor = Executor(log_cb=print, timeout=120)
 
-executor = Executor(log_cb=log, timeout=120)
-
-code = """
+success, output = executor.run("""
 import time
 for i in range(5):
     print(f"Step {i+1}")
     time.sleep(0.5)
-"""
+""")
 
-success, output = executor.run(code)
-print(f"Success: {success}")
-print(f"Output: {output}")
-
-# Kill a running executor
-executor.kill()
+print(success, output)
+executor.kill()   # kill mid-run if needed
 ```
 
 ---
 
-## Version
+## 📋 Version
 
-**0.0.1** — Initial release of `npmai-agent`.
+<div align="center">
 
-This is the first public release of the npmai-agent-suite as a distributable PyPI package. The core agent pipeline, all 21 tool classes, CredStore, Workspace, Executor, and AgentBrain are stable and production-ready.
+| Version | Status | Notes |
+|---|---|---|
+| `0.0.1` | 🟡 Alpha | Initial public release — all 21 tools stable |
+
+</div>
 
 ---
 
-## License
+## 📜 License
 
 MIT License — free to use, modify, and distribute.
 
-Built with ❤️ by **Sonu Kumar**, Founder of NPMAI ECOSYSTEM · [npmai.netlify.app](https://npmai.netlify.app)
+---
 
-> *"Promoting Individual Journalism to every nation's village so that the democratic values of a nation can be strengthened and we can achieve Representative Ideal Democracy."*
-> — Sonu Kumar, Founder, NPMAI ECOSYSTEM
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:1a0a3a,50:0a0a1a,100:0d1b4a&height=120&section=footer&text=NPMAI+ECOSYSTEM&fontSize=28&fontColor=00f5ff&fontAlignY=65&desc=Open+Source+AI+Research+%26+Development+%C2%B7+Free+Forever&descColor=a78bfa&descSize=14&descAlignY=85" width="100%"/>
+
+**Built with ❤️ by [Sonu Kumar](https://github.com/sonuramashishnpm) · [npmai.netlify.app](https://npmai.netlify.app)**
+
+*"Promoting AI tools to every nation's village — free and open forever."*
+
+</div>
