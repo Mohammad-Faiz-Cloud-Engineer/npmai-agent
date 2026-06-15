@@ -53,7 +53,311 @@ from agent_core import ToolResult, CredStore
 class StripeTool:
     name = "stripe"
     description = "Complete Stripe payment processing: customers, payments, subscriptions, invoices, coupons, payouts, balance"
+    use = (
+        """Name of Tool:- StripeTool
 
+Purpose of Tool:- 
+The StripeTool serves as a comprehensive programmatic wrapper around the official Stripe Payment API ecosystem. It abstracts complex transactional workflows into structured, atomic operations. The tool programmatically manages user-facing identity sets (customers), processes asynchronous checkout frameworks (payment intents, direct charges, captures, and refunds), scales recurring monetization configurations (products, multi-tier pricing models, and time-bound subscriptions), issues formal point-of-sale reporting templates (invoices, coupons, and hosted payment links), and audits operational business parameters (ledger balances, transactional history tracking, and manual or automated payout clearances).
+
+Methods:-
+- create_customer: Registers a unique consumer profile entry inside the Stripe database.
+- get_customer: Retrieves structural profile objects matching specific customer identifiers.
+- update_customer: Mutates variable properties associated with a registered user entity.
+- list_customers: Generates paginated blocks of historical customer profile metadata records.
+- delete_customer: Discards a distinct customer account data entity out of active database logs.
+- create_payment_intent: Sets up a multi-stage transaction ledger object designed to safely authorize and track a currency trade event.
+- confirm_payment: Authorizes and captures a staged billing transaction status.
+- create_charge: Fires immediate direct single-pass payment transactions.
+- capture_charge: Claims pre-authorized funds locked on a customer's payment instrument.
+- refund_charge: Reverses individual transaction event flows by issuing a total or fractional currency payback.
+- list_charges: Generates a complete chronological transactional history table.
+- create_subscription: Links a specific customer to automatic billing cycles driven by chosen pricing components.
+- cancel_subscription: Terminates an active billing contract either immediately or at the expiration of the current period window.
+- update_subscription: Dynamically mutates pricing rulesets or product tiers for active user agreements.
+- list_subscriptions: Filters and arrays historical membership structures by chosen status modes.
+- create_product: Registers an item entry to create a baseline for future commerce interactions.
+- create_price: Encapsulates localized cost metrics and structural intervals beneath a specific target product identification code.
+- create_invoice: Spawns a custom invoice layout statement tracking line items assigned to a user account.
+- finalize_invoice: Transitions a draft statement into an unalterable formal request for payment.
+- pay_invoice: Attempts to reconcile an open invoice balance using on-file payment configurations.
+- list_invoices: Fetches historical statement lists filtered by state profiles or identity constraints.
+- send_invoice: Dispatches localized bill representations directly to a user's target destination address.
+- create_coupon: Structures percent-based markdown discount macros to modify checkout price loops.
+- apply_coupon: Assigns structural discount configurations to a target customer profile scope.
+- create_payment_link: Compiles direct web URLs pointing to a fully hosted Checkout interface.
+- list_payment_methods: Queries a user's profile to extract arrays of recorded financial token signatures.
+- get_balance: Quantifies immediate liquid holdings alongside pending currency flows awaiting bank ledger settlement.
+- list_transactions: Audits deep internal movement logs mapping fees, payouts, and adjustments across available ledger histories.
+- create_payout: Triggers manual fund migrations transferring corporate liquid balances out to linked banking systems.
+
+How to use Tool Methods:-
+
+1. create_customer:
+   - Purpose: Injects a new customer workspace entity inside the centralized financial cloud architecture.
+   - Arguments:
+     a) email: str - Primary messaging contact destination address identifying the user profile.
+     b) name: str (default: "") - Legal personal representation name string matching the customer.
+     c) phone: str (default: "") - Contact system string tracking telephone details.
+     d) metadata: dict (default: None) - Structural key-value custom tagging parameters passed straight to account properties.
+     e) cred_key: str (default: "stripe") - Configuration storage key pointer targeting secure operational secret keys.
+   - Returns: ToolResult presenting unique identification tokens and copying baseline account metadata.
+   - How to call: StripeTool.create_customer(email="teendev@example.com", name="Alex Dev", metadata={"tier": "premium"})
+
+2. get_customer:
+   - Purpose: Extracts complete structural objects defining a customer's specific records.
+   - Arguments:
+     a) customer_id: str - Explicit identifier code string identifying the target customer entry (e.g., `cus_...`).
+     b) cred_key: str (default: "stripe") - Configuration key referencing validation secrets.
+   - Returns: ToolResult holding dictionary property sets outlining matching user account states.
+   - How to call: StripeTool.get_customer(customer_id="cus_H1k2J3l4")
+
+3. update_customer:
+   - Purpose: Updates a customer's registered meta properties or address logs.
+   - Arguments:
+     a) customer_id: str - target validation key referencing the chosen user account profile.
+     b) data: dict - Map definitions highlighting exact properties destined for updates.
+     c) cred_key: str (default: "stripe") - Encryption validation key pointer tracking secrets.
+   - Returns: ToolResult indicating successful configuration updates.
+   - How to call: StripeTool.update_customer(customer_id="cus_H1k2J3l4", data={"description": "Updated billing preferences"})
+
+4. list_customers:
+   - Purpose: Extracts historical lists mapping out accounts configured inside system boundaries.
+   - Arguments:
+     a) limit: int (default: 10) - Total record ceiling cap returned during paging steps.
+     b) email: str (default: "") - Query pattern string to restrict results to individual matching user accounts.
+     c) cred_key: str (default: "stripe") - Platform access credential pointer reference.
+   - Returns: ToolResult displaying serialized arrays containing client identifiers, email lists, and name strings.
+   - How to call: StripeTool.list_customers(limit=5, email="tester@domain.com")
+
+5. delete_customer:
+   - Purpose: Safely removes target consumers from active runtime directory structures.
+   - Arguments:
+     a) customer_id: str - Root identifier tag pointing to the victim database row entity.
+     b) cred_key: str (default: "stripe") - Secret profile lookup indicator.
+   - Returns: ToolResult confirming operational status updates.
+   - How to call: StripeTool.delete_customer(customer_id="cus_H1k2J3l4")
+
+6. create_payment_intent:
+   - Purpose: Sets up the transaction framework necessary to safely execute and track a user transaction.
+   - Arguments:
+     a) amount: int - Transaction volume quantified completely in the chosen currency's smallest denominational fraction (e.g., **1000** for $10.00).
+     b) currency: str (default: "usd") - Three-letter standard international ISO currency format token string.
+     c) customer_id: str (default: "") - Optional customer identity string matching the buyer profile.
+     d) metadata: dict (default: None) - Custom data structures tracking localized internal project flags.
+     e) cred_key: str (default: "stripe") - Cryptographic runtime authorization identifier tracking secrets.
+   - Returns: ToolResult framing unique authorization tokens (`pi_...`), state messages, and client authorization hashes.
+   - How to call: StripeTool.create_payment_intent(amount=2500, currency="usd", customer_id="cus_H1k2J3l4")
+
+7. confirm_payment:
+   - Purpose: Completes a payment workflow loop after a user's authorization checks are validated.
+   - Arguments:
+     a) intent_id: str - Explicit transaction token identifier code requiring capture logic completion (`pi_...`).
+     b) cred_key: str (default: "stripe") - Target authentication storage lookup coordinate.
+   - Returns: ToolResult mapping validation results and reporting finalized payment statuses (e.g., `succeeded`).
+   - How to call: StripeTool.confirm_payment(intent_id="pi_3Mas95Lk")
+
+8. create_charge:
+   - Purpose: Processes non-staged, single-pass charge tasks using straight token identifiers.
+   - Arguments:
+     a) amount: int - Value magnitude counted entirely inside lowest structural monetary subunits (e.g., cents).
+     b) currency: str (default: "usd") - Standard tracking token characterizing system currencies.
+     c) source: str (default: "") - Legacy target token identifier representing payment instruments (e.g., `tok_visa`).
+     d) customer_id: str (default: "") - Unique database identifier referencing structural consumer entries.
+     e) description: str (default: "") - Contextual ledger annotation detailing individual transactions.
+     e) cred_key: str (default: "stripe") - Credentials validation store locator.
+   - Returns: ToolResult holding authorization records and recording structural output logs.
+   - How to call: StripeTool.create_charge(amount=1500, currency="usd", source="tok_visa", description="Single Item Purchase")
+
+9. capture_charge:
+   - Purpose: Collects pre-authorized fund holds that were previously locked to safeguard a future service fulfillment event.
+   - Arguments:
+     a) charge_id: str - Target tracking identification token mapping back to initialized charge records (`ch_...`).
+     b) cred_key: str (default: "stripe") - Authorization profile coordinate.
+   - Returns: ToolResult validating transaction execution status updates.
+   - How to call: StripeTool.capture_charge(charge_id="ch_1Oq2W3e4")
+
+10. refund_charge:
+    - Purpose: Resolves disputes or buyer returns by sending capital straight back to source accounts.
+    - Arguments:
+      a) charge_id: str - Transaction identifier code linked to an accomplished sale transaction event.
+      b) amount: int (default: 0) - Fractional subunit limit value constraint; leaving it at 0 triggers total absolute refunds.
+      b) reason: str (default: "requested_by_customer") - Explanatory classification tag capturing transactional return metrics.
+      c) cred_key: str (default: "stripe") - Runtime key credential store address mapping.
+    - Returns: ToolResult tracking registration tracking metrics alongside operational balance returns statuses.
+    - How to call: StripeTool.refund_charge(charge_id="ch_1Oq2W3e4", amount=500, reason="fraudulent")
+
+11. list_charges:
+    - Purpose: Aggregates historical checkout events into visible inspection list matrices.
+    - Arguments:
+      a) customer_id: str (default: "") - Restricts search scopes down to isolated singular buyer accounts.
+      b) limit: int (default: 10) - Slices historical outputs down to designated total maximum item ceilings.
+      c) cred_key: str (default: "stripe") - API validation authorization token locator address.
+    - Returns: ToolResult housing object logs detailing total values, structural currencies, and state outcomes.
+    - How to call: StripeTool.list_charges(customer_id="cus_H1k2J3l4", limit=20)
+
+12. create_subscription:
+    - Purpose: Generates a persistent contract tracking recurring membership payments.
+    - Arguments:
+      a) customer_id: str - Identification token mapping straight to targeted consumer rows.
+      b) price_id: str - Structural cost reference token designating target subscription packages (`price_...`).
+      c) trial_days: int (default: 0) - Life interval window quantified in whole days where fee collection is skipped.
+      d) metadata: dict (default: None) - Structural property map defining customized processing metadata variables.
+      e) cred_key: str (default: "stripe") - Active ecosystem secret profile selection key pointer.
+    - Returns: ToolResult providing dynamic contract codes (`sub_...`) and monitoring activation behaviors.
+    - How to call: StripeTool.create_subscription(customer_id="cus_H1k2J3l4", price_id="price_1Nx888", trial_days=14)
+
+13. cancel_subscription:
+    - Purpose: Deactivates persistent billing sequences to prevent unauthorized ledger updates.
+    - Arguments:
+      a) subscription_id: str - Core subscription row indicator code slated for destruction (`sub_...`).
+      b) at_period_end: bool (default: True) - Defers formal execution termination actions until active cycles exhaust naturally.
+      c) cred_key: str (default: "stripe") - System security platform authorization reference pointer.
+    - Returns: ToolResult documenting cancellation behaviors and reflecting structural outcomes.
+    - How to call: StripeTool.cancel_subscription(subscription_id="sub_9sA8d7F6", at_period_end=False)
+
+14. update_subscription:
+    - Purpose: Implements adjustments regarding billing items, product quantities, or structural tiers.
+    - Arguments:
+      a) subscription_id: str - Active target contract tracking asset code reference.
+      b) price_id: str (default: "") - Alternative tier structure designation code shifting operational billing maps.
+      c) quantity: int (default: 0) - Scale integer updating total purchased item units inside targeted agreements.
+      d) cred_key: str (default: "stripe") - Access token secret authorization dictionary path identifier.
+    - Returns: ToolResult displaying status verification statements.
+    - How to call: StripeTool.update_subscription(subscription_id="sub_9sA8d7F6", quantity=5)
+
+15. list_subscriptions:
+    - Purpose: Filters and arrays persistent subscription models active on cloud ledgers.
+    - Arguments:
+      a) customer_id: str (default: "") - Direct consumer identification code constraint limits.
+      b) status: str (default: "active") - State constraints filtering targeting (e.g., `trialing`, `past_due`).
+      c) cred_key: str (default: "stripe") - Core framework security identification profile label.
+    - Returns: ToolResult organizing arrays capturing contracts, status records, and customer owners.
+    - How to call: StripeTool.list_subscriptions(status="trialing")
+
+16. create_product:
+    - Purpose: Maps real-world inventory offerings or application utility features straight onto global platforms.
+    - Arguments:
+      a) name: str - Display nomenclature text labeling the inventory asset.
+      b) description: str (default: "") - Extended product context text profiling structural data parameters.
+      c) metadata: dict (default: None) - Custom data attributes assigned to product records.
+      d) cred_key: str (default: "stripe") - Platform authentication credential store locator.
+    - Returns: ToolResult reflecting generation events and detailing custom product identifiers (`prod_...`).
+    - How to call: StripeTool.create_product(name="SaaS Pro Plan", description="Unlimited api orchestration tools Access")
+
+17. create_price:
+    - Purpose: Binds numeric cost values and structural billing intervals to an inventory item.
+    - Arguments:
+      a) product_id: str - Target base commodity catalog identifier code link (`prod_...`).
+      b) amount: int - Cost structure tracked in elemental currency fragments (e.g., **5000** means $50.00).
+      c) currency: str (default: "usd") - Three-letter string formatting global currency types.
+      d) interval: str (default: "") - Recurrence metric establishing charging intervals (e.g., `month`, `year`). Leave blank for single checkout events.
+      e) cred_key: str (default: "stripe") - Private operational authentication profile selector.
+    - Returns: ToolResult delivering specialized token pointers (`price_...`) back to configuration scripts.
+    - How to call: StripeTool.create_price(product_id="prod_K8s9j2f", amount=1999, interval="month")
+
+18. create_invoice:
+    - Purpose: Sets up draft transaction request configurations bound to specific consumer ledger files.
+    - Arguments:
+      a) customer_id: str - Target client identification code reference.
+      b) auto_advance: bool (default: True) - Enables automated payment processing transitions.
+      c) cred_key: str (default: "stripe") - Key value index fetching authorization data mappings.
+    - Returns: ToolResult housing invoice metadata fields (`in_...`) and state properties.
+    - How to call: StripeTool.create_invoice(customer_id="cus_H1k2J3l4", auto_advance=True)
+
+19. finalize_invoice:
+    - Purpose: Locks pending invoice layouts to transform draft information frameworks into finalized debt representations.
+    - Arguments:
+      a) invoice_id: str - Target statement identifier string mapping elements (`in_...`).
+      b) cred_key: str (default: "stripe") - Security cloud validation credential locator profile tag.
+    - Returns: ToolResult reporting task completion metrics.
+    - How to call: StripeTool.finalize_invoice(invoice_id="in_1Oq5X6y7")
+
+20. pay_invoice:
+    - Purpose: Automatically executes an active, un-reconciled final statement transaction against stored user balances.
+    - Arguments:
+      a) invoice_id: str - Target document validation tracker code reference string.
+      b) cred_key: str (default: "stripe") - Platform infrastructure access credential pointer directory.
+    - Returns: ToolResult reflecting successful account balancing operations.
+    - How to call: StripeTool.pay_invoice(invoice_id="in_1Oq5X6y7")
+
+21. list_invoices:
+    - Purpose: Compiles a data table tracking past corporate billing documentation arrays.
+    - Arguments:
+      a) customer_id: str (default: "") - Restricts statement searches to individual targeted users.
+      b) status: str (default: "") - Progress state markers narrowing search frameworks (e.g., `paid`, `open`, `uncollectible`).
+      c) cred_key: str (default: "stripe") - Secret runtime credential locator flag setup parameters.
+    - Returns: ToolResult returning object maps listing billing statements, financial totals, and transaction states.
+    - How to call: StripeTool.list_invoices(status="open")
+
+22. send_invoice:
+    - Purpose: Distributes finalized payment documentation out through email networks to prompt manually triggered payment steps.
+    - Arguments:
+      a) invoice_id: str - Unique target invoice artifact identifier string.
+      b) cred_key: str (default: "stripe") - Authorization workspace dictionary key lookup variable.
+    - Returns: ToolResult confirming messaging delivery completions.
+    - How to call: StripeTool.send_invoice(invoice_id="in_1Oq5X6y7")
+
+23. create_coupon:
+    - Purpose: Structures global markdown tokens designed to apply promotional adjustments during runtime price resolutions.
+    - Arguments:
+      a) percent_off: float - Relative markdown percentage constraint metrics quantified inside standard decimal notation values (e.g., **20.0** defines a 20% discount).
+      b) duration: str (default: "once") - Lifespan interval persistence behavior patterns (e.g., `once`, `repeating`, `forever`).
+      c) name: str (default: "") - Text description tracking marketing titles shown during client interactions.
+      d) cred_key: str (default: "stripe") - Security credential lookup dictionary map address tracker.
+    - Returns: ToolResult generating token shortcuts (`20_OFF`) or random system identification codes.
+    - How to call: StripeTool.create_coupon(percent_off=15.5, duration="forever", name="Summer Launch Sale")
+
+24. apply_coupon:
+    - Purpose: Grants specific markdown discount permissions straight to consumer profile configurations.
+    - Arguments:
+      a) customer_id: str - Target profile identity code tracking consumers.
+      b) coupon_id: str - Markdown identity reference token targeting discount profiles.
+      c) cred_key: str (default: "stripe") - Operational framework secret encryption verification file reference.
+    - Returns: ToolResult tracking registration modification achievements.
+    - How to call: StripeTool.apply_coupon(customer_id="cus_H1k2J3l4", coupon_id="Summer Launch Sale")
+
+25. create_payment_link:
+    - Purpose: Automates payment loops by distilling custom prices into hosted standalone page link strings.
+    - Arguments:
+      a) price_id: str - The product configuration identifier code tracking cost components.
+      b) quantity: int (default: 1) - Baseline scale integer specifying item volume constraints.
+      c) cred_key: str (default: "stripe") - Secure private ecosystem lookup index address.
+    - Returns: ToolResult outputting valid hosted webpage URLs (`https://buy.stripe.com/...`).
+    - How to call: StripeTool.create_payment_link(price_id="price_1Nx888", quantity=1)
+
+26. list_payment_methods:
+    - Purpose: Audits card networks saved behind consumer portfolios.
+    - Arguments:
+      a) customer_id: str - The explicit client identifier code being checked.
+      b) cred_key: str (default: "stripe") - Cryptographic master profile clearance selector key.
+    - Returns: ToolResult outputting structured arrays summarizing card networks, termination expiration points, and trailing four digits.
+    - How to call: StripeTool.list_payment_methods(customer_id="cus_H1k2J3l4")
+
+27. get_balance:
+    - Purpose: Reviews asset positions held across transaction networks.
+    - Arguments:
+      a) cred_key: str (default: "stripe") - Secret system credential platform dictionary indicator code.
+    - Returns: ToolResult sorting cash metrics into immediately cleared holdings and rolling settlement balances.
+    - How to call: StripeTool.get_balance()
+
+28. list_transactions:
+    - Purpose: Extracts a comprehensive log documenting structural ledger modifications.
+    - Arguments:
+      a) limit: int (default: 20) - Numeric collection bounds limiting history log elements.
+      b) cred_key: str (default: "stripe") - Cloud environment profile validator address tracking keys.
+    - Returns: ToolResult containing system event logs profiling transaction values, currency targets, types, and statuses.
+    - How to call: StripeTool.list_transactions(limit=5)
+
+29. create_payout:
+    - Purpose: Forces settlement procedures migrating stored liquidity to connected commercial bank accounts.
+    - Arguments:
+      a) amount: int - Value magnitude counted entirely inside lowest structural monetary subunits (e.g., cents).
+      b) currency: str (default: "usd") - Target physical fiat distribution setting specification language token string.
+      c) cred_key: str (default: "stripe") - Core platform infrastructure configuration secret identification key index.
+    - Returns: ToolResult tracking clearance numbers (`po_...`) and outputting transaction initiation logs.
+    - How to call: StripeTool.create_payout(amount=100000, currency="usd")
+    """)
+    
     @staticmethod
     def _s(cred_key: str = "stripe"):
         import stripe as _stripe
@@ -401,7 +705,210 @@ class StripeTool:
 class RazorpayTool:
     name = "razorpay"
     description = "Razorpay Indian payment gateway: orders, payments, refunds, subscriptions, plans, payment links, QR codes, settlements"
+    use = (
+        """Name of Tool:- RazorpayTool
 
+Purpose of Tool:- 
+The RazorpayTool acts as a Python-based programmatic interface wrapper for the Razorpay payment gateway ecosystem, which is primarily optimized for Indian financial contexts. 
+It encapsulates operations for managing multi-tiered transactional steps (orders, dynamic payment capturing, and targeted partial/full refunds), consumer registries (customers), and recurring billing architectures (period-based plans and customer-bound subscriptions). 
+Additionally, the tool facilitates instant-collection touchpoints (payment links and static/dynamic UPI QR code strings) and financial reconciliations (monitoring settlement batches and their breakdown transactions) via isolated, authenticated client connections.
+
+Methods:-
+- create_order: Generates a verified transaction shell object to initialize secure payments.
+- get_order: Retrieves specific data structures tied to an existing order identifier.
+- list_orders: Fetches historical collection arrays containing created order objects.
+- fetch_payment: Pulls comprehensive transaction profiles matching a distinct payment token.
+- capture_payment: Explicitly claims authorized currency holds within designated compliance windows.
+- refund_payment: Initiates a direct refund process instance explicitly scoped through payment endpoints.
+- list_payments: Queries chronological tables tracking processed consumer checkouts.
+- create_refund: Instantiates formal tracking items inside the core refund subsystem for auditing returns.
+- create_customer: Registers an individual identifier profile containing contact details.
+- get_customer: Extracts individual customer records matching a targeted identity parameter.
+- create_subscription: Binds consumers to automatic billing cycles driven by structured catalog assets.
+- create_plan: Formulates specific recurrence intervals and pricing metrics to serve as templates for memberships.
+- list_plans: Displays available global membership product layouts.
+- create_payment_link: Compiles localized, sharable checkout link references with optional client notifications.
+- list_payment_links: Aggregates active tracking registers housing all created billing links.
+- create_qr_code: Generates digital UPI image paths and target payment configuration matrices.
+- get_settlements: Reviews operational cycles transferring aggregated gateway revenue into registered commercial bank accounts.
+- get_settlement_transactions: Extracts itemized transaction files mapped under a chosen settlement batch.
+
+How to use Tool Methods:-
+
+1. create_order:
+   - Purpose: Injects a necessary, pre-validated order shell object into the platform registry prior to starting checkout screens.
+   - Arguments:
+     a) amount: int - The absolute value magnitude counted entirely inside the smallest currency subunit (e.g., **50000** means 500.00 INR).
+     b) currency: str (default: "INR") - Standard international ISO currency tracking flag token.
+     c) receipt: str (default: "") - An optional localized invoice/receipt tracking identifier.
+     d) notes: dict (default: None) - Key-value custom tracking dictionary metadata assigned to the order.
+     e) cred_key: str (default: "razorpay") - Configuration pointer mapping targeted security API credential blocks.
+   - Returns: ToolResult storing the populated platform order entity tracking fields (`order_...`).
+   - How to call: RazorpayTool.create_order(amount=29900, currency="INR", receipt="inv_001", notes={"course_id": "math_101"})
+
+2. get_order:
+   - Purpose: Reviews real-time status arrays on a custom order lifecycle frame.
+   - Arguments:
+     a) order_id: str - target platform identifier reference code string (`order_...`).
+     b) cred_key: str (default: "razorpay") - Authentication validation storage lookup index.
+   - Returns: ToolResult holding structural keys mapping current payment progress data.
+   - How to call: RazorpayTool.get_order(order_id="order_N7b2V8m3")
+
+3. list_orders:
+   - Purpose: Compiles historical arrays filtering project order records.
+   - Arguments:
+     a) count: int (default: 10) - Total upper ceiling limit of matching items returned in the batch.
+     b) from_date: str (default: "") - Optional lower bounding date string structured under standard format layouts (`YYYY-MM-DD`).
+     c) to_date: str (default: "") - Optional upper bounding threshold check date string (`YYYY-MM-DD`).
+     d) cred_key: str (default: "razorpay") - Framework API credential locator index reference.
+   - Returns: ToolResult capturing matching entity dictionaries.
+   - How to call: RazorpayTool.list_orders(count=5, from_date="2026-01-01")
+
+4. fetch_payment:
+   - Purpose: Audits granular parameters characterizing an absolute individual transaction.
+   - Arguments:
+     a) payment_id: str - Explicit individual payment identity indicator tracking string (`pay_...`).
+     b) cred_key: str (default: "razorpay") - Security lookup credential folder path index.
+   - Returns: ToolResult documenting methods used, internal routing metadata, and payment states.
+   - How to call: RazorpayTool.fetch_payment(payment_id="pay_K1l2M3n4")
+
+5. capture_payment:
+   - Purpose: Transitions a transaction state from `authorized` to `captured` to legally claim the funds.
+   - Arguments:
+     a) payment_id: str - Target execution key reference tracking the payment.
+     b) amount: int - Explicit fund scale value calculated inside minimum subunit bounds.
+     c) currency: str (default: "INR") - Localized fiat monetary tracking standard token.
+     d) cred_key: str (default: "razorpay") - Platform key validation dictionary identifier locator.
+   - Returns: ToolResult validating transaction finality logs.
+   - How to call: RazorpayTool.capture_payment(payment_id="pay_K1l2M3n4", amount=15000)
+
+6. refund_payment:
+   - Purpose: Triggers standard transaction rollback operations straight through localized payment pipelines.
+   - Arguments:
+     a) payment_id: str - Core active payment transaction identifier reference string.
+     b) amount: int (default: 0) - Amount to be rolled back; leaving it at 0 processes total absolute adjustments.
+     c) notes: dict (default: None) - Explicit justification descriptors passed alongside records.
+     d) cred_key: str (default: "razorpay") - Authentication lookup coordinate mapping parameters.
+   - Returns: ToolResult recording refund structural states.
+   - How to call: RazorpayTool.refund_payment(payment_id="pay_K1l2M3n4", amount=5000)
+
+7. list_payments:
+   - Purpose: Reviews overall chronological records mapping processed transaction objects.
+   - Arguments:
+     a) count: int (default: 10) - Numeric bounds specifying extraction constraints.
+     b) from_date: str (default: "") - Starting time limit string token layouts (`YYYY-MM-DD`).
+     c) to_date: str (default: "") - Closing checkpoint date window mapping (`YYYY-MM-DD`).
+     d) cred_key: str (default: "razorpay") - Storage clearance token key variable.
+   - Returns: ToolResult storing complete historical transaction objects.
+   - How to call: RazorpayTool.list_payments(count=20, to_date="2026-06-15")
+
+8. create_refund:
+   - Purpose: Submits formal items straight to centralized gateway refund controllers to reverse balances.
+   - Arguments:
+     a) payment_id: str - Explicit transaction tracking identity token code pointer.
+     b) amount: int - Segmental currency subunit value marking total payout targets.
+     c) notes: dict (default: None) - Meta dictionary fields capturing accounting information details.
+     d) cred_key: str (default: "razorpay") - Security identity clearance selector flag.
+   - Returns: ToolResult presenting initialized refund system entries (`rfnd_...`).
+   - How to call: RazorpayTool.create_refund(payment_id="pay_K1l2M3n4", amount=2500)
+
+9. create_customer:
+   - Purpose: Registers a consumer profile database instance tracking direct identities.
+   - Arguments:
+     a) name: str - Client identification text name string label.
+     b) email: str - Messaging communication mailbox path context direction.
+     c) contact: str - Telephone numerical string array identifier (e.g., `+919876543210`).
+     d) fail_existing: bool (default: False) - Demands immediate failure feedback pipelines if match rules overlap on existing entries.
+     e) cred_key: str (default: "razorpay") - Security credentials target map file location pointer.
+   - Returns: ToolResult housing unique validation identifiers (`cust_...`).
+   - How to call: RazorpayTool.create_customer(name="Rohan Sharma", email="rohan@domain.in", contact="+919999999999")
+
+10. get_customer:
+    - Purpose: Extracts complete context schemas tracing targeted consumer history information blocks.
+    - Arguments:
+      a) customer_id: str - Explicit consumer tracking register entry identification token string.
+      b) cred_key: str (default: "razorpay") - Infrastructure credential system pointer label.
+    - Returns: ToolResult packing profile maps.
+    - How to call: RazorpayTool.get_customer(customer_id="cust_F8s7d6f5")
+
+11. create_subscription:
+    - Purpose: Establishes an automatic recurring payment contract associated with a chosen consumer card or account profile.
+    - Arguments:
+      a) plan_id: str - Structural billing template macro identity reference token string (`plan_...`).
+      b) customer_id: str - Target profile user reference code.
+      c) total_count: int - Whole maximum iteration ceiling numbers denoting contract lengths.
+      d) quantity: int (default: 1) - Multiplier constant specifying relative item volume layers.
+      e) cred_key: str (default: "razorpay") - Active target environment private storage lookups indicator.
+    - Returns: ToolResult returning subscription asset configurations (`sub_...`).
+    - How to call: RazorpayTool.create_subscription(plan_id="plan_P9o8i7u6", customer_id="cust_F8s7d6f5", total_count=12)
+
+12. create_plan:
+    - Purpose: Formulates baseline definitions governing interval tracking and fee rulesets for commercial packages.
+    - Arguments:
+      a) period: str - Timing pacing evaluation frequency labels (e.g., `daily`, `weekly`, `monthly`, `yearly`).
+      b) interval: int - Step constant defining step frequency values based on chosen periods (e.g., period="monthly", interval=3 means quarterly cycles).
+      c) item_name: str - Baseline visual name indexing the specific catalog entry.
+      d) amount: int - Base value quantified using fractional minimum units.
+      e) currency: str (default: "INR") - Standardization symbol specifying currency tracking indices.
+      f) cred_key: str (default: "razorpay") - Encryption profile access control array pointer lookup values.
+    - Returns: ToolResult presenting valid template code identifiers (`plan_...`).
+    - How to call: RazorpayTool.create_plan(period="monthly", interval=1, item_name="SaaS Premium Access", amount=99900)
+
+13. list_plans:
+    - Purpose: Extracts active recurring membership layout frameworks built across workspace targets.
+    - Arguments:
+      a) cred_key: str (default: "razorpay") - API validation permission indicator flag settings.
+    - Returns: ToolResult holding tracking items matching existing catalog setups.
+    - How to call: RazorpayTool.list_plans()
+
+14. create_payment_link:
+    - Purpose: Initalizes standalone checkout interfaces, mapping specific transaction profiles to direct public URL targets.
+    - Arguments:
+      a) amount: int - Cost parameters captured inside basic currency subunits.
+      b) currency: str (default: "INR") - Standard formatting token variable.
+      c) description: str (default: "") - Item display summaries shown on client screens.
+      d) customer: dict (default: None) - Embedded map strings capturing buyer profile info.
+      e) notify: dict (default: None) - Notification directives handling distribution steps (e.g., `{"sms": True, "email": True}`).
+      f) cred_key: str (default: "razorpay") - Cloud configuration key indexing private secret validation flags.
+    - Returns: ToolResult providing dynamic redirect URL endpoints (`https://rzp.io/i/...`).
+    - How to call: RazorpayTool.create_payment_link(amount=150000, description="Consulting Retainer Fee", notify={"email": True})
+
+15. list_payment_links:
+    - Purpose: Gathers past billing links organized in an open data register format.
+    - Arguments:
+      a) cred_key: str (default: "razorpay") - Cryptographic secure master authorization file key pointer.
+    - Returns: ToolResult displaying generated tracking components.
+    - How to call: RazorpayTool.list_payment_links()
+
+16. create_qr_code:
+    - Purpose: Renders localized UPI-compliant transaction models into public machine-readable structures.
+    - Arguments:
+      a) type: str (default: "upi_qr") - Configuration standard selecting physical scanning types.
+      b) name: str (default: "") - Operational business name identification label.
+      c) usage: str (default: "single_use") - Lifecycle tracking rules constraints (e.g., `single_use`, `multiple_use`).
+      b) fixed_amount: bool (default: True) - Restricts scanning actions by hardcoding explicit fee expectations.
+      c) amount: int (default: 0) - Target fee parameter required when fixed amounts are requested.
+      d) description: str (default: "") - Annotation text assigned behind the dynamic item asset profile.
+      e) cred_key: str (default: "razorpay") - Secret operational runtime authorization environment tracker.
+    - Returns: ToolResult delivering complete context configurations tracking image URLs.
+    - How to call: RazorpayTool.create_qr_code(name="Store Counter QR", fixed_amount=True, amount=25000, description="Invoice #104")
+
+17. get_settlements:
+    - Purpose: Audits corporate clearing operations moving consolidated assets out to corporate banking locations.
+    - Arguments:
+      a) cred_key: str (default: "razorpay") - Target platform secret identification validation storage coordinate lookup index.
+    - Returns: ToolResult listing settlement timestamps, total volumes, unique transfer tracking keys, and batch states.
+    - How to call: RazorpayTool.get_settlements()
+
+18. get_settlement_transactions:
+    - Purpose: Breaks down an isolated bank clearance event into its base ledger transactions for precise reconciliation.
+    - Arguments:
+      a) settlement_id: str - Explicit clear operation batch reference identifier code string (`setl_...`).
+      b) cred_key: str (default: "razorpay") - Platform key credential index reference mapping.
+    - Returns: ToolResult displaying arrays mapping original capture entries, dynamic system cuts, taxes, and net totals.
+    - How to call: RazorpayTool.get_settlement_transactions(settlement_id="setl_X1y2Z3w4")
+    """)
+    
     @staticmethod
     def _rz(cred_key: str = "razorpay"):
         import razorpay
@@ -607,7 +1114,274 @@ class RazorpayTool:
 class ShopifyTool:
     name = "shopify"
     description = "Complete Shopify store management: products, variants, orders, fulfillment, customers, inventory, collections, discounts, analytics"
+    use = (
+        """Name of Tool:- ShopifyTool
 
+Purpose of Tool:- 
+The ShopifyTool provides an absolute programmatic wrapper that hooks directly into the official Shopify REST Admin API. It handles full-scale cloud retail operations by condensing administrative shop actions into clean, isolated python methods. The tool manages localized inventory assets (products, product variants, and smart/custom product collections), processes backend fulfillment loops (order retrievals, customer-prompted order cancellations, and shipping courier tracking updates), logs customer profile metrics (customer lists, specialized detail search strings, and client-tied sales history data), adjusts multi-location stock levels, injects seasonal marketing parameters (dynamic price discount rules), and generates critical financial health reporting frameworks (aggregating multi-day store analytics covering order volume trends, net revenue, and average cart metrics).
+
+Methods:-
+- list_products: Fetches historical catalogs filtered by lifecycle states or distribution vendors.
+- get_product: Extracts deep object definitions modeling an individual inventory product instance.
+- create_product: Builds and registers a new inventory item array containing pricing tiers and item variants.
+- update_product: Modifies target asset attributes directly in the cloud database.
+- delete_product: Completely discards individual target products out of the database workspace logs.
+- list_variants: Exposes item variant trees attached to baseline commodity structures.
+- update_variant: Overwrites prices, physical weight constraints, and baseline quantities on unique variants.
+- list_orders: Aggregates global store checkouts sorted by operational or settlement states.
+- get_order: Returns full payload parameters characterising a chosen invoice order asset.
+- update_order: Alters live transaction schema metadata entries matching target transaction profiles.
+- cancel_order: Halts active processing workflows, safely handling target stock counts based on criteria rulesets.
+- fulfill_order: Finalizes transactional agreements by assigning fulfillment location keys and shipping tracking identifiers.
+- list_customers: Generates paginated client contact logs tracked across the store ecosystem.
+- get_customer: Queries structural profile fields containing target buyer metrics.
+- create_customer: Registers an explicit customer entry mapping email, contact, and personal name structures.
+- search_customers: Executes search queries to instantly parse matching customer entities.
+- list_customer_orders: Compiles itemized transaction lists tied directly to an individual customer identification key.
+- get_inventory_levels: Queries stock counts across distinct fulfillment storage facilities.
+- adjust_inventory: Updates physical stock tallies across targeted warehouse locations.
+- list_collections: Displays active item categorization containers saved within the storefront setup.
+- create_collection: Generates smart structural grouping frameworks sorted by chosen display rule properties.
+- create_discount: Sets up targeted markdown rule mechanisms using percentage adjustments or flat values.
+- get_shop_info: Extracts core company properties, registration metrics, and base currency flags.
+- list_locations: Reviews physical warehouse nodes used to track and store active items.
+- get_analytics: Compiles store performance metrics covering revenues, total receipts, and relative transactional mean benchmarks over set timeframes.
+
+How to use Tool Methods:-
+
+1. list_products:
+   - Purpose: Extracts arrays detailing catalog items matching chosen active status states.
+   - Arguments:
+     a) limit: int (default: 50) - Slices total response elements to a requested record ceiling.
+     b) status: str (default: "active") - State configuration flag boundaries (e.g., `active`, `archived`, `draft`).
+     c) vendor: str (default: "") - Filters products down to chosen wholesale supplier names.
+     d) cred_key: str (default: "shopify") - Access token database key lookup coordinate pointing to secure secrets.
+   - Returns: ToolResult presenting lists of product objects.
+   - How to call: ShopifyTool.list_products(limit=10, status="active", vendor="Acme Corp")
+
+2. get_product:
+   - Purpose: Pulls comprehensive description profiles, variants, and image locations for an individual item.
+   - Arguments:
+     a) product_id: int - Explicit numerical entity token string identifying the product.
+     b) cred_key: str (default: "shopify") - Security framework authorization locator flag.
+   - Returns: ToolResult mapping matching database fields.
+   - How to call: ShopifyTool.get_product(product_id=876543210)
+
+3. create_product:
+   - Purpose: Injects an item asset straight into the storefront inventory directory.
+   - Arguments:
+     a) title: str - Primary visual display name identifier text labeling the item.
+     b) body: str (default: "") - Body context descriptive paragraph formatted inside standard HTML structures.
+     c) vendor: str (default: "") - Label tagging supply manufacturers or distribution vendors.
+     d) product_type: str (default: "") - Category definition string sorting store catalog indices.
+     b) variants: List[Dict] (default: None) - Nested collection arrays describing properties, weight targets, and unique pricing metrics.
+     c) images: List[Dict] (default: None) - Target dictionary files linking direct web asset URLs.
+     d) cred_key: str (default: "shopify") - Credentials database address value index tracking storage settings.
+   - Returns: ToolResult storing the populated platform item entry tracking fields.
+   - How to call: ShopifyTool.create_product(title="Vintage Canvas Backpack", product_type="Bags", variants=[{"price": "49.99", "sku": "BP-VNTG-01"}])
+
+4. update_product:
+   - Purpose: Overwrites chosen parameter values on a registered catalog item.
+   - Arguments:
+     a) product_id: int - Explicit item key mapping records inside cloud datastores.
+     b) data: dict - Configuration map variables identifying updated properties.
+     c) cred_key: str (default: "shopify") - Private environment store credentials key tracker.
+   - Returns: ToolResult outputting verified updated objects.
+   - How to call: ShopifyTool.update_product(product_id=876543210, data={"title": "Premium Canvas Backpack"})
+
+5. delete_product:
+   - Purpose: Erases structural elements mapping specific items out of inventory indexes.
+   - Arguments:
+     a) product_id: int - Unique item catalog indexing number identifier.
+     b) cred_key: str (default: "shopify") - Core platform authentication tracking path settings.
+   - Returns: ToolResult showing operational boolean status confirmations.
+   - How to call: ShopifyTool.delete_product(product_id=876543210)
+
+6. list_variants:
+   - Purpose: Exposes sub-item configuration fields that track varying sizes, shades, or secondary SKU parameters.
+   - Arguments:
+     a) product_id: int - Parent structural artifact code linked to general products.
+     b) cred_key: str (default: "shopify") - Configuration storage selection address selector flag.
+   - Returns: ToolResult displaying available child structural variants.
+   - How to call: ShopifyTool.list_variants(product_id=876543210)
+
+7. update_variant:
+   - Purpose: Instantly alters critical trading values, stock counts, or physical weight measurements for a distinct item variant.
+   - Arguments:
+     a) variant_id: int - System identity target marking specific variants.
+     b) price: str (default: "") - Price value tracked via text currency formats (e.g., `"19.99"`).
+     c) inventory: int (default: -1) - Overwrites physical storage quantities when set to 0 or greater.
+     d) weight: float (default: -1) - Adjusts item physical dimensions in metrics used by courier fulfillment loops.
+     e) cred_key: str (default: "shopify") - Security access key identifier lookups string pointer.
+   - Returns: ToolResult displaying detailed verification schemas.
+   - How to call: ShopifyTool.update_variant(variant_id=432109876, price="24.99", inventory=150)
+
+8. list_orders:
+   - Purpose: Gathers past historical checkout transactions completed by storefront shoppers.
+   - Arguments:
+     a) limit: int (default: 50) - Extraction batch total constraint limits.
+     b) status: str (default: "any") - Lifecycle states sorting options (e.g., `open`, `closed`, `cancelled`, `any`).
+     c) financial_status: str (default: "") - Accounting settlement filters (e.g., `authorized`, `paid`, `refunded`).
+     d) fulfillment_status: str (default: "") - Operational fulfillment milestone filter criteria (e.g., `fulfilled`, `unfulfilled`).
+     e) cred_key: str (default: "shopify") - System key authorization dictionary path validation index string.
+   - Returns: ToolResult housing full tracking orders datasets.
+   - How to call: ShopifyTool.list_orders(limit=25, financial_status="paid", fulfillment_status="unfulfilled")
+
+9. get_order:
+   - Purpose: Reviews specific delivery addresses, tax configurations, and item breakdowns for an individual order.
+   - Arguments:
+     a) order_id: int - Unique identification numbers verifying single orders.
+     b) cred_key: str (default: "shopify") - Gateway workspace credentials identifier reference pointer.
+   - Returns: ToolResult mapping entire purchase ledger profiles.
+   - How to call: ShopifyTool.get_order(order_id=987654321)
+
+10. update_order:
+    - Purpose: Attaches additional internal project flags or status modifications to an open order record.
+    - Arguments:
+      a) order_id: int - Target purchase document validation record reference.
+      b) data: dict - Structural map updates passed to internal order metadata logs.
+      c) cred_key: str (default: "shopify") - Identity authentication security validation index identifier pointer.
+    - Returns: ToolResult rendering modified transaction parameters.
+    - How to call: ShopifyTool.update_order(order_id=987654321, data={"note": "Customer requested packaging changes"})
+
+11. cancel_order:
+    - Purpose: Halts processing loops on active orders, offering automatic item restock parameters.
+    - Arguments:
+      a) order_id: int - Active verification reference marking transactions intended for cancellation.
+      b) reason: str (default: "customer") - Informational categorization flags explaining cancellation tracking (e.g., `customer`, `fraud`, `inventory`).
+      c) restock: bool (default: True) - Automatically returns purchased line items back to the active inventory catalog when true.
+      d) cred_key: str (default: "shopify") - Cryptographic secure verification file index mapping.
+    - Returns: ToolResult outlining adjusted cancellation outputs.
+    - How to call: ShopifyTool.cancel_order(order_id=987654321, reason="customer", restock=True)
+
+12. fulfill_order:
+    - Purpose: Ships out items from a physical facility and adds carrier routing codes to notify the buyer.
+    - Arguments:
+      a) order_id: int - Target invoice identifier number tracking shipping requests.
+      b) location_id: int - Core physical warehouse component identifier pointing to items.
+      c) tracking_number: str (default: "") - Shipping barcode identification code provided by logistics companies.
+      d) tracking_company: str (default: "") - Delivery transport provider titles (e.g., `"FedEx"`, `"UPS"`).
+      e) cred_key: str (default: "shopify") - Access clearance token dictionary directory lookup key.
+    - Returns: ToolResult returning full shipping tracking details.
+    - How to call: ShopifyTool.fulfill_order(order_id=987654321, location_id=123456, tracking_number="1Z999AA10123456784", tracking_company="UPS")
+
+13. list_customers:
+    - Purpose: Displays systemic history rows defining registered users.
+    - Arguments:
+      a) limit: int (default: 50) - Extraction batch size limit values.
+      b) since_id: int (default: 0) - Returns records created sequentially after this customer ID to handle data paging.
+      c) created_at_min: str (default: "") - ISO timestamp string tracking earliest creation dates.
+      d) cred_key: str (default: "shopify") - Private authentication security parameters lookup directory address index string.
+    - Returns: ToolResult storing lists of client account fields.
+    - How to call: ShopifyTool.list_customers(limit=30, created_at_min="2026-01-01T00:00:00Z")
+
+14. get_customer:
+    - Purpose: Fetches the primary addresses, contact strings, and life metrics for a chosen buyer account.
+    - Arguments:
+      a) customer_id: int - Core target registration numbers mapping customer profiles.
+      b) cred_key: str (default: "shopify") - API access clearance dictionary file position pointer strings.
+    - Returns: ToolResult outputting contextual customer datasets.
+    - How to call: ShopifyTool.get_customer(customer_id=543210987)
+
+15. create_customer:
+    - Purpose: Creates a user account block within the store database registry.
+    - Arguments:
+      a) first: str - Given first personal identification name text label string.
+      b) last: str - Family identification surname name tracking string components.
+      c) email: str - Target communication mailbox context destination coordinates.
+      d) phone: str (default: "") - Optional telephone numerical string.
+      e) cred_key: str (default: "shopify") - Master secret validation environment config identifier locator code.
+    - Returns: ToolResult storing newly created account tracking elements.
+    - How to call: ShopifyTool.create_customer(first="Jane", last="Doe", email="jane.doe@example.com")
+
+16. search_customers:
+    - Purpose: Searches customer files to isolate buyers using text strings, names, or locations.
+    - Arguments:
+      a) query: str - Search term parameters matching fields (e.g., `country:United States`).
+      b) cred_key: str (default: "shopify") - Platform framework identity token validation coordinate lookups map index string.
+    - Returns: ToolResult displaying all profiles matching search metrics.
+    - How to call: ShopifyTool.search_customers(query="Bob shopify")
+
+17. list_customer_orders:
+    - Purpose: Reviews all past storefront transaction items requested by a specific user profile.
+    - Arguments:
+      a) customer_id: int - Selected consumer database record registration reference token numbers.
+      b) cred_key: str (default: "shopify") - Authorization file mapping lookup path tags settings configuration values.
+    - Returns: ToolResult displaying historical transactions matching the targeted account profile.
+    - How to call: ShopifyTool.list_customer_orders(customer_id=543210987)
+
+18. get_inventory_levels:
+    - Purpose: Reviews raw available quantities for an array of items across selected warehouse networks.
+    - Arguments:
+      a) location_id: int - Unique warehouse system token code identifying location contexts.
+      b) inventory_item_ids: List[int] - Array strings listing specific item variant tracking identifiers.
+      c) cred_key: str (default: "shopify") - Private validation key parameters profile selection address pointer location tags.
+    - Returns: ToolResult array matrices mapping available numbers across item layers.
+    - How to call: ShopifyTool.get_inventory_levels(location_id=123456, inventory_item_ids=[9876, 5432])
+
+19. adjust_inventory:
+    - Purpose: Adjusts physical items stock up or down relative to current counts.
+    - Arguments:
+      a) inventory_item_id: int - Targeted systemic product inventory identification token components.
+      b) location_id: int - Designated storage facility identifier reference.
+      c) adjustment: int - Positive or negative whole numbers to shift available units (e.g., **-5** subtracts five units).
+      d) cred_key: str (default: "shopify") - Platform infrastructure access credential locator folder paths array maps index.
+    - Returns: ToolResult reporting updated facility inventory states.
+    - How to call: ShopifyTool.adjust_inventory(inventory_item_id=9876, location_id=123456, adjustment=25)
+
+20. list_collections:
+    - Purpose: Collects grouping matrices used to map items onto web categories.
+    - Arguments:
+      a) limit: int (default: 50) - Numeric ceilings constraining returned list responses items.
+      b) cred_key: str (default: "shopify") - Encryption runtime token directory path reference indices.
+    - Returns: ToolResult organizing collection layout categories properties fields.
+    - How to call: ShopifyTool.list_collections(limit=10)
+
+21. create_collection:
+    - Purpose: Builds custom group sets to catalog products manually or through automated tags.
+    - Arguments:
+      a) title: str - Display nomenclature text labeling collection titles.
+      b) rules: List[Dict] (default: None) - Array rules used to automatically filter items into categories (e.g., price conditions).
+      c) sort_order: str (default: "best-selling") - Sequence controls prioritizing web layouts (e.g., `alpha-asc`, `price-desc`, `best-selling`).
+      d) cred_key: str (default: "shopify") - Infrastructure authentication platform key dictionary indicator identifier values.
+    - Returns: ToolResult presenting initialized category metadata blocks configurations.
+    - How to call: ShopifyTool.create_collection(title="Summer Essentials", sort_order="best-selling")
+
+22. create_discount:
+    - Purpose: Sets up promotion variables that calculate markdown prices when applied at checkout.
+    - Arguments:
+      a) value: float - The markdown size metric calculated down based on requested adjustment types (e.g., **15.0** means 15%).
+      b) value_type: str (default: "percentage") - Math configuration modes modifying price calculations (e.g., `fixed_amount`, `percentage`).
+      c) entitled_product_ids: List[int] (default: None) - Restricts markdown promotions by targeting specific inventory product tracking entries.
+      d) starts_at: str (default: "") - ISO launch date token activating rules; defaults to immediate startup when left empty.
+      e) ends_at: str (default: "") - ISO expiration checkpoint window strings that disable active rules.
+      f) cred_key: str (default: "shopify") - Secret operational authentication profile selector parameters index values.
+    - Returns: ToolResult tracking price rule initialization properties logs.
+    - How to call: ShopifyTool.create_discount(value=20.0, value_type="percentage", ends_at="2026-12-31T23:59:59Z")
+
+23. get_shop_info:
+    - Purpose: Audits registration data parameters defining general store profiles.
+    - Arguments:
+      a) cred_key: str (default: "shopify") - Active cloud storage credential lookup address selector.
+    - Returns: ToolResult outlining operating constraints, base locations, and platform tiers.
+    - How to call: ShopifyTool.get_shop_info()
+
+24. list_locations:
+    - Purpose: Discovers operating physical facility nodes registered behind inventory operations.
+    - Arguments:
+      a) cred_key: str (default: "shopify") - Gateway profile authentication directory access token mapping tags settings tracking variables.
+    - Returns: ToolResult compiling active tracking storage identifiers.
+    - How to call: ShopifyTool.list_locations()
+
+25. get_analytics:
+    - Purpose: Synthesizes multi-day sales data parameters into clean financial overview trackers.
+    - Arguments:
+      a) period: str (default: "last_7_days") - Standard tracking intervals defining metrics scopes (e.g., `last_7_days`, `last_30_days`, `last_90_days`).
+      b) cred_key: str (default: "shopify") - Cloud security platform authorization keys pointer directory indices tags.
+    - Returns: ToolResult sorting values into order tallies, gross revenue, and aggregate average cart values.
+    - How to call: ShopifyTool.get_analytics(period="last_30_days")
+    """)
+    
     @staticmethod
     def _headers(cred_key: str = "shopify") -> Tuple[str, Dict]:
         import requests
