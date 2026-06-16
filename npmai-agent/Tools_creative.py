@@ -46,6 +46,147 @@ class FigmaTool:
         "Complete Figma API integration: read files, export assets, manage "
         "comments, webhooks, components, styles, versions and team projects."
     )
+    use = (
+           """Name of Tool:- FigmaTool
+
+Purpose of Tool:- 
+The FigmaTool provides a comprehensive integration with the Figma REST API, allowing programmatic access to design files, projects, prototypes, and workspace components. It enables automated design-to-code pipelines by extracting layout JSON data, rendering and downloading visual assets directly from layers, managing contextual canvas comments, tracking file version histories, and listing team space projects. It also supports automated design system auditing by listing global styles or shared components, and enables real-time event tracking by configuring live platform webhooks.
+
+Methods:-
+- get_file: Retrieves the full JSON data tree representing a specific Figma file's layers, vector properties, and hierarchy.
+- get_node: Extracts design node metadata or specific subset elements isolated from a parent file tree.
+- list_files: Fetches a structured inventory of all design sheets and canvases stored under an explicit project repository.
+- export_asset: Renders a selected element node onto an isolated image asset file down to a local disk path.
+- export_all_assets: Walks through the root document boundaries to batch download up to 50 top-level canvases or framing structures simultaneously.
+- get_components: Gathers all unique reusable design blocks and interaction components published inside a specific file.
+- get_styles: Catalogs shared presentation specifications like typography settings, color fills, and effect layer maps inside a file.
+- get_comments: Pulls user discussion records, feedback feeds, and resolved annotations attached to canvas coordinates.
+- post_comment: Appends feedback strings onto explicit X/Y canvas coordinate positions or directly anchors them onto specific node elements.
+- create_webhook: Mounts an active programmatic event push notification handler that fires updates on activities like file updates or comments.
+- list_projects: Returns all directory containers and workspace modules created within a target team folder space.
+- get_team_components: Inventories globally published component libraries shared across a broader multi-project organizational tier.
+- get_versions: Generates an analytical changelog tracking chronological commit milestones and save states for a document.
+
+How to use Tool Methods:-
+
+1. get_file:
+   - Purpose: Acquires complete design structure specifications to dynamically analyze elements or map layouts.
+   - Arguments:
+     a) file_key: str - Unique alphanumeric string identifier found in a Figma file's share URL.
+     b) cred_key: str (default: "figma") - Security identifier referencing the storage profile vault key.
+   - Returns: ToolResult holding the full layer tree dictionary object.
+   - How to call: FigmaTool.get_file(file_key="abcd1234EFGH5678")
+
+2. get_node:
+   - Purpose: Strips out complex root layers to read structural data from a single specific canvas sub-component.
+   - Arguments:
+     a) file_key: str - Unique alphanumeric string tracking the target file.
+     b) node_id: str - Explicit ID path of the target vector or layer element (e.g., "0:1").
+     c) cred_key: str (default: "figma") - Key mapping targeting authorization profiles.
+   - Returns: ToolResult mapping data for the targeted canvas layout slice.
+   - How to call: FigmaTool.get_node(file_key="abcd1234EFGH5678", node_id="12:204")
+
+3. list_files:
+   - Purpose: Collects an updated inventory checklist of all design sheets housed inside an explicit team project bucket.
+   - Arguments:
+     a) project_id: str - Alphanumeric project category bucket key.
+     b) cred_key: str (default: "figma") - Reference credential pointer.
+   - Returns: ToolResult packaging details of matching canvas files.
+   - How to call: FigmaTool.list_files(project_id="987654321")
+
+4. export_asset:
+   - Purpose: Extracts UI layouts, icon groups, or graphic patterns into ready-to-use vector or rasterized local files.
+   - Arguments:
+     a) file_key: str - File locator reference code.
+     b) node_id: str - Explicit element location tag target.
+     c) format: str (default: "PNG") - Desired rendering output layout option ("PNG", "JPG", "SVG", "PDF").
+     d) scale: float (default: 2.0) - Sizing multiplier factor managing resolution scaling.
+     d) output_path: str (default: "figma_asset.png") - Storage path on the local system.
+     e) cred_key: str (default: "figma") - Core token account storage access profile.
+   - Returns: ToolResult confirming binary file generation and disk output locations.
+   - How to call: FigmaTool.export_asset(file_key="abcd1234", node_id="4:12", format="SVG", output_path="assets/logo.svg")
+
+5. export_all_assets:
+   - Purpose: Speeds up deployment updates by harvesting batch asset collections directly out of top-level document layouts.
+   - Arguments:
+     a) file_key: str - File location pointer mapping code.
+     b) output_folder: str - Target folder destination folder where assets will save.
+     c) format: str (default: "PNG") - Render type identifier syntax string.
+     d) cred_key: str (default: "figma") - Authentication mapping configuration value.
+   - Returns: ToolResult documenting downing loops statistics and file tallies.
+   - How to call: FigmaTool.export_all_assets(file_key="abcd1234", output_folder="./ui_export", format="JPG")
+
+6. get_components:
+   - Purpose: Extracts structural component logs to evaluate asset definitions or trace component patterns.
+   - Arguments:
+     a) file_key: str - Source workspace token string.
+     b) cred_key: str (default: "figma") - Key context credential indicator.
+   - Returns: ToolResult detailing registered template component records.
+   - How to call: FigmaTool.get_components(file_key="abcd1234")
+
+7. get_styles:
+   - Purpose: Validates implementation constraints by analyzing color maps and typographic rules.
+   - Arguments:
+     a) file_key: str - Reference target file document identifier.
+     b) cred_key: str (default: "figma") - Token workspace index tracking details.
+   - Returns: ToolResult collecting published layout style definitions.
+   - How to call: FigmaTool.get_styles(file_key="abcd1234")
+
+8. get_comments:
+   - Purpose: Gathers designer remarks and feedback feeds into localized tracking tasks automatically.
+   - Arguments:
+     a) file_key: str - Target project file index string.
+     b) cred_key: str (default: "figma") - Storage key profile pointer.
+   - Returns: ToolResult collecting timeline lists of feedback statements.
+   - How to call: FigmaTool.get_comments(file_key="abcd1234")
+
+9. post_comment:
+   - Purpose: Leaves precise notes directly on canvas coordinates or links feedback to specific frame components.
+   - Arguments:
+     a) file_key: str - Design workspace path locator.
+     b) message: str - Plain text note body content.
+     c) x: float (default: 0) - Canvas horizontal coordinate placement marker.
+     d) y: float (default: 0) - Canvas vertical coordinate placement marker.
+     e) node_id: Optional[str] (default: None) - Element layout tracking index target anchor point.
+     f) cred_key: str (default: "figma") - Secure credential verification lookup tag.
+   - Returns: ToolResult confirming server note processing parameters.
+   - How to call: FigmaTool.post_comment(file_key="abcd1234", message="Fix alignment here", node_id="100:15")
+
+10. create_webhook:
+    - Purpose: Binds automated systems to immediate webhook signals when changes or updates occur in design spaces.
+    - Arguments:
+      a) event_type: str - Event trigger name string (e.g., "FILE_UPDATE", "FILE_COMMENT").
+      b) endpoint: str - Destination HTTP pipeline network path that will process the incoming payload.
+      c) passcode: str - Custom verification secret verifying transmission reliability.
+      d) team_id: str - Target team identifier controlling the context window.
+      e) cred_key: str (default: "figma") - Internal configuration file lookup key index.
+    - Returns: ToolResult outlining registration details along status maps.
+    - How to call: FigmaTool.create_webhook(event_type="FILE_UPDATE", endpoint="https://api.mybot.dev/figma-hooks", passcode="secret_pass", team_id="5544332211")
+
+11. list_projects:
+    - Purpose: Resolves higher-level workspace groupings across managed organizational tiers.
+    - Arguments:
+      a) team_id: str - Target team alphanumeric identification marker.
+      b) cred_key: str (default: "figma") - Storage indexing mapping configuration token.
+    - Returns: ToolResult outlining the team's project folders.
+    - How to call: FigmaTool.list_projects(team_id="5544332211")
+
+12. get_team_components:
+    - Purpose: Audits design library component definitions shared across global corporate workspaces.
+    - Arguments:
+      a) team_id: str - Core team container tracking index mapping value.
+      b) cred_key: str (default: "figma") - Account lookups parameters token configuration identifier.
+    - Returns: ToolResult packaging shared cross-project component dictionaries.
+    - How to call: FigmaTool.get_team_components(team_id="5544332211")
+
+13. get_versions:
+    - Purpose: Tracks structural file evolution timelines or isolates milestone versions for rollback comparisons.
+    - Arguments:
+      a) file_key: str - Managed workspace sheet code locator.
+      b) cred_key: str (default: "figma") - Default verification access lookup key context.
+    - Returns: ToolResult aggregating structural timestamp changes and metadata mappings.
+    - How to call: FigmaTool.get_versions(file_key="abcd1234")
+    """)
 
     _BASE = "https://api.figma.com/v1"
 
@@ -274,6 +415,127 @@ class BlenderTool:
         "Blender 3D automation via subprocess: render images/animations, "
         "import/export OBJ/FBX/glTF, apply materials, batch render, turntable video."
     )
+    use = (
+           """
+Name of Tool:- BlenderTool,
+
+Purpose of Tool:- 
+The BlenderTool enables powerful automation of Blender 3D software through headless subprocess execution. 
+It supports rendering still images and animations, importing/exporting common 3D formats (OBJ, FBX, glTF), applying materials, batch rendering multiple files, format conversion, and creating professional turntable videos. 
+It dynamically locates the Blender executable and uses temporary Python scripts passed to Blender's `--python` flag in background mode. 
+This tool is essential for 3D asset pipelines, automated visualization, batch processing, product render farms, and agentic 3D content generation workflows.
+
+Methods:-
+- _blender_exe: Internal helper to locate the Blender executable.
+- _run_blender: Internal helper to execute Blender with a temporary Python script.
+- render_image: Renders a single frame from a .blend file as an image.
+- render_animation: Renders a full animation sequence from a .blend file.
+- import_obj: Imports an OBJ file into a new or existing .blend file.
+- import_fbx: Imports an FBX file into a .blend file.
+- export_obj: Exports objects from a .blend file to OBJ format.
+- export_fbx: Exports objects from a .blend file to FBX format.
+- export_gltf: Exports objects from a .blend file to glTF/GLB format.
+- convert_format: Converts between supported 3D file formats.
+- apply_material: Applies a Principled BSDF material to a named object.
+- batch_render: Renders multiple .blend files in batch.
+- create_turntable_video: Creates a 360-degree turntable animation video of an object.
+
+How to use Tool Methods:-
+
+1. _blender_exe (Internal Helper):
+   - Purpose: Automatically detects the Blender executable on different operating systems and installation paths.
+   - Note: Internal method. Raises FileNotFoundError if Blender is not installed or not in PATH.
+
+2. _run_blender (Internal Helper):
+   - Purpose: Runs Blender in background mode with a dynamically generated Python script.
+   - Arguments:
+     a) blend_file: str or None - Path to .blend file (None for empty scene).
+     b) script: str - Python code to execute inside Blender.
+     c) extra_args: list (optional) - Additional command-line arguments.
+   - Note: Internal method used by all public operations.
+
+3. render_image:
+   - Purpose: Renders a single frame from a Blender scene to an image file.
+   - Arguments:
+     a) blend_file: str - Path to .blend file.
+     b) output: str (default: "render.png") - Output image path.
+     c) frame: int (default: 1) - Frame number to render.
+     d) resolution: tuple (default: (1920, 1080)) - (width, height).
+     e) samples: int (default: 128) - Cycles render samples.
+     f) engine: str (default: "CYCLES") - "CYCLES" or "BLENDER_EEVEE".
+   - How to call: BlenderTool.render_image(blend_file="scene.blend", output="output.png", resolution=(3840, 2160))
+
+4. render_animation:
+   - Purpose: Renders a full animation sequence as a series of PNG frames.
+   - Arguments:
+     a) blend_file: str
+     b) output_folder: str - Folder to save frame_####.png files.
+     c) start: int (default: 1)
+     d) end: int (default: 250)
+     e) fps: int (default: 24)
+     f) resolution: tuple (default: (1920, 1080))
+   - How to call: BlenderTool.render_animation(blend_file="anim.blend", output_folder="frames", start=1, end=120)
+
+5. import_obj:
+   - Purpose: Imports an OBJ file into Blender and saves as .blend.
+   - Arguments:
+     a) blend_file: str or None - Existing .blend (None = new file).
+     b) obj_path: str - Path to OBJ file.
+     c) output_blend: str - Path to save resulting .blend file.
+   - How to call: BlenderTool.import_obj(blend_file=None, obj_path="model.obj", output_blend="imported.blend")
+
+6. import_fbx:
+   - Purpose: Imports an FBX file (similar to import_obj).
+   - Arguments: blend_file, fbx_path, output_blend.
+   - How to call: BlenderTool.import_fbx(blend_file=None, fbx_path="model.fbx", output_blend="imported.blend")
+
+7. export_obj:
+   - Purpose: Exports selected or all objects from a .blend file to OBJ.
+   - Arguments:
+     a) blend_file: str
+     b) output_obj: str
+     c) objects: list (optional) - Specific object names to export.
+   - How to call: BlenderTool.export_obj(blend_file="scene.blend", output_obj="export.obj")
+
+8. export_fbx / export_gltf:
+   - Similar to export_obj but for FBX and glTF/GLB formats.
+   - How to call: BlenderTool.export_gltf(blend_file="scene.blend", output="model.glb", format="GLB")
+
+9. convert_format:
+   - Purpose: Converts between supported 3D formats (OBJ, FBX, STL, glTF/GLB) using Blender as a converter.
+   - Arguments:
+     a) input: str - Input file path.
+     b) output: str - Output file path.
+     c) format: str - Target format ("obj", "fbx", "stl", "glb", "gltf").
+   - How to call: BlenderTool.convert_format(input="model.obj", output="model.glb", format="glb")
+
+10. apply_material:
+    - Purpose: Applies a Principled BSDF material with specified properties to a named object.
+    - Arguments:
+      a) blend_file: str
+      b) object_name: str
+      c) material_props: dict - Keys like "base_color", "metallic", "roughness".
+      d) output_blend: str
+    - How to call: BlenderTool.apply_material(blend_file="scene.blend", object_name="Cube", material_props={"base_color": [1.0, 0.0, 0.0, 1.0], "metallic": 0.8}, output_blend="updated.blend")
+
+11. batch_render:
+    - Purpose: Renders multiple .blend files with consistent settings.
+    - Arguments:
+      a) blend_files: list - List of .blend paths.
+      b) output_folder: str
+      c) settings: dict (optional) - Render engine, samples, resolution, etc.
+    - How to call: BlenderTool.batch_render(blend_files=["file1.blend", "file2.blend"], output_folder="renders/")
+
+12. create_turntable_video:
+    - Purpose: Creates a professional 360-degree turntable animation video of a specific object.
+    - Arguments:
+      a) blend_file: str
+      b) object_name: str - Object to rotate around.
+      c) output: str - Output video path (e.g., "turntable.mp4").
+      d) frames: int (default: 72) - Number of frames for full rotation.
+      e) resolution: tuple (default: (1920, 1080))
+    - How to call: BlenderTool.create_turntable_video(blend_file="model.blend", object_name="Product", output="turntable.mp4", frames=120)
+""")
 
     @staticmethod
     def _blender_exe() -> str:
@@ -664,6 +926,123 @@ class SVGTool:
         "SVG generation, manipulation, animation, conversion (PNG/PDF), "
         "optimization, icon sets, bitmap tracing, and merging."
     )
+    use = (
+           """
+Name of Tool:- SVGTool,
+
+Purpose of Tool:- 
+The SVGTool provides a comprehensive suite for creating, manipulating, optimizing, converting, and animating Scalable Vector Graphics (SVG). 
+It supports programmatic SVG generation, element addition, format conversion (PNG/PDF), optimization, bitmap tracing, icon generation, animation via SMIL, batch processing, and merging multiple SVGs. 
+It uses libraries like svgwrite, cairosvg, and potrace (when available) for high-quality vector operations. 
+This tool is ideal for dynamic icon generation, data visualization, diagram automation, asset pipelines, and agentic graphic design workflows.
+
+Methods:-
+- create_svg: Creates a new SVG file from a list of element definitions.
+- add_element: Adds a new graphical element to an existing SVG file.
+- convert_to_png: Converts an SVG to a raster PNG image.
+- convert_to_pdf: Converts an SVG to PDF.
+- optimize: Optimizes SVG by removing metadata and minifying whitespace.
+- animate: Adds SMIL animation to a specific element in an SVG.
+- batch_convert: Batch converts multiple SVG files to PNG or PDF.
+- create_icon_set: Generates a set of simple placeholder icons.
+- trace_bitmap: Traces a bitmap image to vector SVG using potrace.
+- merge_svgs: Merges multiple SVGs into a single SVG (horizontal or vertical layout).
+
+How to use Tool Methods:-
+
+1. create_svg:
+   - Purpose: Generates a new SVG file from a structured list of elements (rect, circle, text, path, etc.).
+   - Arguments:
+     a) width: int - Canvas width in pixels.
+     b) height: int - Canvas height in pixels.
+     c) elements: List[dict] - List of element dictionaries with "type" and attributes.
+     d) output: str (default: "output.svg") - Output file path.
+   - How to call: 
+     SVGTool.create_svg(
+         width=800, height=600,
+         elements=[{"type": "rect", "x": 10, "y": 10, "width": 100, "height": 100, "fill": "red"}],
+         output="diagram.svg"
+     )
+
+2. add_element:
+   - Purpose: Appends a new SVG element to an existing SVG file using XML manipulation.
+   - Arguments:
+     a) svg_file: str - Path to existing SVG.
+     b) element_type: str - SVG element type (rect, circle, text, path, etc.).
+     c) attrs: dict - Attributes for the element (x, y, width, fill, etc.).
+     d) output: str - Path for the modified SVG.
+   - How to call: SVGTool.add_element(svg_file="base.svg", element_type="circle", attrs={"cx": 100, "cy": 100, "r": 50, "fill": "blue"}, output="updated.svg")
+
+3. convert_to_png:
+   - Purpose: Renders an SVG to a high-quality PNG raster image.
+   - Arguments:
+     a) svg: str - Path or URL to SVG file.
+     b) output: str (default: "output.png")
+     c) width: int (optional) - Output width.
+     d) height: int (optional) - Output height.
+     e) dpi: int (default: 96)
+   - How to call: SVGTool.convert_to_png(svg="design.svg", output="design.png", width=1200)
+
+4. convert_to_pdf:
+   - Purpose: Converts SVG to vector PDF.
+   - Arguments: svg, output (default: "output.pdf")
+   - How to call: SVGTool.convert_to_pdf(svg="design.svg", output="design.pdf")
+
+5. optimize:
+   - Purpose: Cleans and minifies an SVG file for smaller file size and better performance.
+   - Arguments:
+     a) svg: str - Input SVG path.
+     b) output: str - Output path.
+     c) remove_metadata: bool (default: True)
+     d) minify: bool (default: True)
+   - How to call: SVGTool.optimize(svg="large.svg", output="optimized.svg")
+
+6. animate:
+   - Purpose: Adds SMIL-based animation to a specific element by ID.
+   - Arguments:
+     a) svg: str - Input SVG path.
+     b) element_id: str - ID of the element to animate.
+     c) property: str - Attribute to animate (e.g., "x", "opacity", "transform").
+     d) from_val: str - Starting value.
+     e) to_val: str - Ending value.
+     f) duration: float (default: 1.0) - Duration in seconds.
+     g) output: str - Output path.
+   - How to call: SVGTool.animate(svg="icon.svg", element_id="circle1", property="cx", from_val="50", to_val="200", duration=2.0)
+
+7. batch_convert:
+   - Purpose: Converts all SVGs in a folder to PNG or PDF.
+   - Arguments:
+     a) folder: str - Input folder containing SVGs.
+     b) output_folder: str - Destination folder.
+     c) target_format: str (default: "png") - "png" or "pdf".
+   - How to call: SVGTool.batch_convert(folder="icons/", output_folder="pngs/", target_format="png")
+
+8. create_icon_set:
+   - Purpose: Generates a set of simple placeholder SVG icons with text labels.
+   - Arguments:
+     a) names: List[str] - List of icon names.
+     b) style: str (default: "outline") - "outline" or filled.
+     c) output_folder: str (default: "icons")
+   - How to call: SVGTool.create_icon_set(names=["home", "user", "settings"], style="outline")
+
+9. trace_bitmap:
+   - Purpose: Converts a bitmap image to vector SVG using potrace (requires potrace installed).
+   - Arguments:
+     a) image: str - Input image path.
+     b) output: str - Output SVG path.
+     c) color: str (default: "black")
+     d) threshold: int (default: 128) - Binarization threshold.
+   - How to call: SVGTool.trace_bitmap(image="logo.png", output="logo_vector.svg")
+
+10. merge_svgs:
+    - Purpose: Combines multiple SVGs into a single SVG file (horizontal or vertical layout).
+    - Arguments:
+      a) svgs: List[str] - List of input SVG paths.
+      b) output: str - Output path.
+      c) layout: str (default: "horizontal") - "horizontal" or "vertical".
+      d) spacing: int (default: 10) - Spacing between SVGs in pixels.
+    - How to call: SVGTool.merge_svgs(svgs=["icon1.svg", "icon2.svg"], output="combined.svg", layout="horizontal")
+""")
 
     @staticmethod
     def create_svg(
@@ -971,6 +1350,113 @@ class CanvaTool:
         "Canva Connect API integration: list/create/export designs, "
         "brand kits, assets and template-based design creation."
     )
+    use = (
+           """
+Name of Tool:- CanvaTool,
+
+Purpose of Tool:- 
+The CanvaTool provides integration with the Canva Connect REST API for automated design creation, management, and export. 
+It supports listing and retrieving designs, creating new custom-sized designs, exporting designs to high-quality formats (PDF, PNG, etc.), managing brand kits, listing/uploading assets, and generating designs from templates using autofill. 
+All operations use authenticated API calls with an access token stored in CredStore. 
+This tool is perfect for dynamic graphic generation, marketing asset automation, template-based content creation, brand-consistent design workflows, and agentic visual content production.
+
+Methods:-
+- _headers: Internal helper to generate authentication headers.
+- _get: Internal helper for GET requests to Canva API.
+- _post: Internal helper for POST requests.
+- list_designs: Lists all designs in the authenticated account.
+- get_design: Retrieves detailed information about a specific design.
+- create_design: Creates a new blank custom-sized design.
+- export_design: Exports a design to PDF/PNG/etc. with background job polling.
+- list_brand_kits: Lists available brand kits.
+- get_brand_kit: Retrieves details of a specific brand kit.
+- list_assets: Lists assets by type (images, etc.).
+- upload_asset: Uploads a local file as a Canva asset.
+- create_from_template: Creates a design from a template using autofill replacements and exports it.
+
+How to use Tool Methods:-
+
+1. _headers (Internal Authentication Helper):
+   - Purpose: Constructs Bearer token headers for Canva API requests.
+   - Arguments: cred_key: str (default: "canva")
+   - Credential requirement: CredStore must contain {'access_token': 'your-canva-access-token'}.
+   - Note: Internal method used by all API calls.
+
+2. list_designs:
+   - Purpose: Retrieves a list of all designs in the account.
+   - Arguments: cred_key: str (default: "canva")
+   - Returns: List of design objects with IDs, titles, etc.
+   - How to call: CanvaTool.list_designs()
+
+3. get_design:
+   - Purpose: Fetches complete details of a specific design by ID.
+   - Arguments:
+     a) design_id: str - Canva design identifier.
+     b) cred_key: str (default: "canva").
+   - How to call: CanvaTool.get_design(design_id="DAE123456789")
+
+4. create_design:
+   - Purpose: Creates a new blank design with custom dimensions and title.
+   - Arguments:
+     a) name: str - Title of the new design.
+     b) width: int (default: 800)
+     c) height: int (default: 600)
+     d) unit: str (default: "px") - "px", "mm", etc.
+     e) cred_key: str (default: "canva").
+   - Returns: Design creation response containing the new design ID.
+   - How to call: CanvaTool.create_design(name="Social Media Post", width=1080, height=1080)
+
+5. export_design:
+   - Purpose: Starts an export job for a design and polls until completion, then downloads the file.
+   - Arguments:
+     a) design_id: str - ID of the design to export.
+     b) output_path: str (default: "design_export.pdf") - Local path to save the exported file.
+     c) format: str (default: "pdf") - Supported formats like "pdf", "png", etc.
+     d) quality: str (default: "regular")
+     e) cred_key: str (default: "canva").
+   - How to call: CanvaTool.export_design(design_id="DAE123456789", output_path="final_poster.pdf", format="pdf")
+
+6. list_brand_kits:
+   - Purpose: Lists all brand kits available to the user.
+   - Arguments: cred_key: str (default: "canva")
+   - How to call: CanvaTool.list_brand_kits()
+
+7. get_brand_kit:
+   - Purpose: Retrieves detailed information about a specific brand kit.
+   - Arguments:
+     a) brand_kit_id: str
+     b) cred_key: str (default: "canva").
+   - How to call: CanvaTool.get_brand_kit(brand_kit_id="BK...")
+
+8. list_assets:
+   - Purpose: Lists assets (images, videos, elements, etc.) by type.
+   - Arguments:
+     a) asset_type: str (default: "image")
+     b) cred_key: str (default: "canva").
+   - How to call: CanvaTool.list_assets(asset_type="image")
+
+9. upload_asset:
+   - Purpose: Uploads a local file (image, video, etc.) to Canva as a reusable asset.
+   - Arguments:
+     a) file_path: str - Local path to the file.
+     b) name: str - Display name for the asset.
+     c) cred_key: str (default: "canva").
+   - How to call: CanvaTool.upload_asset(file_path="logo.png", name="Company Logo")
+
+10. create_from_template:
+    - Purpose: Creates a new design from an existing Canva template using autofill data and exports the result.
+    - Arguments:
+      a) template_id: str - Canva template ID.
+      b) replacements: dict - Dictionary of text replacements for autofill.
+      c) output: str - Path to save the exported design.
+      d) cred_key: str (default: "canva").
+    - How to call: 
+      CanvaTool.create_from_template(
+          template_id="T-abc123",
+          replacements={"title": "Q2 Report", "date": "June 2026"},
+          output="generated_report.pdf"
+      )
+""")
 
     _BASE = "https://api.canva.com/rest/v1"
 
@@ -1167,6 +1653,115 @@ class FontTool:
         "Font management: list system fonts, install/remove, render text images, "
         "animated text frames, font previews, conversion, subsetting and pairing."
     )
+    use = (
+           """Name of Tool:- FontTool
+
+Purpose of Tool:- 
+The FontTool provides an all-in-one system typography management and processing pipeline. It interacts directly with standard operating system directories to audit, configure, install, or drop structural TrueType (.ttf) and OpenType (.otf) font assets. It also acts as a programmatic graphics rendering engine to produce alpha-channeled text titles, multi-frame kinetic layout animations, and multi-size font specimen previews. For web performance, it supports font file structural conversion and dynamic context subsetting to compress files for target letter pools, alongside matching lookup engines to pair complementary typographic structures.
+
+Methods:-
+- list_system_fonts: Scans operating system directories to catalog all active typography font assets.
+- install_font: Downloads web font assets or copies local files to configure them securely in system fonts registries.
+- remove_font: Identifies and removes specific font files out of operating system asset paths.
+- render_text_image: Compiles a custom styled text block into an aligned rasterized PNG image file.
+- create_text_animation_frames: Generates sequential graphic frame arrays applying transition effects like fades, slides, or zooms.
+- generate_font_preview: Compiles a localized multi-point type scaling sample page for layout auditing.
+- convert_font: Transcodes desktop font resources into compressed web formatting architectures like WOFF or WOFF2.
+- subset_font: Strips unneeded glyph blocks out of a font file to output an optimized payload containing only selected character strings.
+- get_font_info: Extracts core design metadata tags including authorship copyrights, version strings, and designer profiles.
+- pair_fonts_suggestion: Evaluates a chosen font style to recommend design-appropriate, matching font combinations.
+
+How to use Tool Methods:-
+
+1. list_system_fonts:
+   - Purpose: Discovers typography files currently installed and ready on the host environment.
+   - Arguments: None.
+   - Returns: ToolResult listing unique font family name strings.
+   - How to call: FontTool.list_system_fonts()
+
+2. install_font:
+   - Purpose: Automates onboarding web styles or external files across multi-platform storage paths.
+   - Arguments:
+     a) font_path_or_url: str - Local disk directory reference or online download web path tracking a valid font file.
+   - Returns: ToolResult registering destination installation status markers.
+   - How to call: FontTool.install_font(font_path_or_url="https://fonts.gstatic.com/s/lobster/v30/neolw9o9l02v_bkaOux9.ttf")
+
+3. remove_font:
+   - Purpose: Deletes target custom typography assets to clean up corporate systems or refresh file versions.
+   - Arguments:
+     a) font_name: str - Partial or complete file name string used to match and target specific fonts.
+   - Returns: ToolResult mapping individual paths removed by the purge process.
+   - How to call: FontTool.remove_font(font_name="Lobster")
+
+4. render_text_image:
+   - Purpose: Generates styled headlines, watermark templates, or layout badges for downstream design pipelines.
+   - Arguments:
+     a) text: str - Core text characters to render into a graphic.
+     b) font: str (default: "Arial") - Target typographic system family name.
+     c) size: int (default: 48) - Structural size height point constraint.
+     d) color: str (default: "#000000") - Hex color code controlling text layout fill.
+     e) background: str (default: "#FFFFFF") - Background fill value mapping.
+     f) output: str (default: "text.png") - Local path where the image will save.
+     g) width: int (default: 800) - Canvas horizontal resolution bounding parameter.
+     h) height: int (default: 200) - Canvas vertical space allotment marker.
+     i) align: str (default: "center") - Layout alignment anchor position constraint ("center", "left", "right").
+   - Returns: ToolResult verifying canvas conversion accuracy.
+   - How to call: FontTool.render_text_image(text="PROMOTION", font="Impact", size=60, color="#FF0000", output="ads/banner.png")
+
+5. create_text_animation_frames:
+   - Purpose: Generates visual image loops and video layers using custom text transitions.
+   - Arguments:
+     a) text: str - Core wording pattern targeting sequence renders.
+     b) font: str (default: "Arial") - Target text design group.
+     c) size: int (default: 48) - Point scale configuration constraint mapping.
+     d) animation: str (default: "fade") - Selected kinetic motion trajectory logic ("fade", "slide_in", "zoom").
+     e) output_folder: str (default: "text_frames") - Local folder path to save sequential PNG files.
+     f) fps: int (default: 24) - Frame calculation volume metric mapping tracking.
+     g) duration: float (default: 1.0) - Time block boundary span tracking length constraints in seconds.
+   - Returns: ToolResult tracking full frame output logs metrics data maps.
+   - How to call: FontTool.create_text_animation_frames(text="Loading...", animation="zoom", output_folder="frames/loader", duration=2.0)
+
+6. generate_font_preview:
+   - Purpose: Creates type specimen charts to visually audit styling options before selection.
+   - Arguments:
+     a) font_name: str - Selected system family path reference indicator.
+     b) output: str (default: "font_preview.png") - Storage asset output indicator.
+     c) text: str (default: "The quick brown fox...") - Custom test phrase layer template string.
+     d) sizes: Optional[List[int]] (default: None) - Array of sizing milestones used to scale preview text lines.
+   - Returns: ToolResult certifying graphic file creation parameters.
+   - How to call: FontTool.generate_font_preview(font_name="Helvetica", sizes=[10, 14, 20, 32])
+
+7. convert_font:
+   - Purpose: Standardizes and compresses graphic layouts for optimal loading across modern web architectures.
+   - Arguments:
+     a) input: str - Path location reference tracking source TrueType/OpenType files.
+     b) output_format: str - Transcoding compression format target identifier ("woff", "woff2").
+   - Returns: ToolResult logging processed path conversions.
+   - How to call: FontTool.convert_font(input="fonts/custom.ttf", output_format="woff2")
+
+8. subset_font:
+   - Purpose: Minimizes application bundle sizes by stripping out unused character glyph blocks.
+   - Arguments:
+     a) font: str - File location pointer tracking input resources.
+     b) characters: str - Exact set of character strings to keep in the final file structure.
+     c) output: str - Destination storage path mapping for the optimized file.
+   - Returns: ToolResult indicating file optimization status.
+   - How to call: FontTool.subset_font(font="global.ttf", characters="0123456789$-.", output="minified_digits.ttf")
+
+9. get_font_info:
+   - Purpose: Audits legal compliance and version constraints by inspecting font file header tables.
+   - Arguments:
+     a) font_path: str - Local destination tracker pointing at core type assets.
+   - Returns: ToolResult holding an explanatory dictionary of font header records.
+   - How to call: FontTool.get_font_info(font_path="fonts/OpenSans-Regular.ttf")
+
+10. pair_fonts_suggestion:
+    - Purpose: Speeds up interface layout designs by matching headings with complementary body font choices.
+    - Arguments:
+      a) font_name: str - Reference style point key from which pairings determine.
+    - Returns: ToolResult providing pairing suggestion arrays.
+    - How to call: FontTool.pair_fonts_suggestion(font_name="Montserrat")
+    """)
 
     @staticmethod
     def list_system_fonts() -> ToolResult:
@@ -1453,6 +2048,120 @@ class ColorTool:
         "Color science: palette generation, image palette extraction, color space "
         "conversion, contrast checking, gradients, color wheels, brand palettes."
     )
+    use = (
+           """
+Name of Tool:- ColorTool,
+
+Purpose of Tool:- 
+The ColorTool is a comprehensive color science and design utility for palette generation, color space conversions, contrast analysis, gradient creation, image color extraction, brand palette suggestions, color wheel generation, and palette export in multiple formats. 
+It leverages Python standard libraries (colorsys), PIL for image processing, and supports hex, RGB, HSL, HSV, and CMYK color spaces. 
+This tool is essential for UI/UX design automation, data visualization, brand identity systems, accessibility checking, generative art, and agentic creative design workflows.
+
+Methods:-
+- _hex_to_rgb: Internal helper to convert hex color to RGB tuple.
+- _rgb_to_hex: Internal helper to convert RGB values to hex string.
+- generate_palette: Generates harmonious color palettes (complementary, triadic, analogous, etc.).
+- extract_palette_from_image: Extracts dominant colors from an image using quantization.
+- convert_color: Converts a color between different color spaces (hex, rgb, hsl, hsv, cmyk).
+- find_complementary: Calculates the complementary color of a given hex color.
+- create_gradient: Generates a smooth gradient image between multiple colors.
+- check_contrast_ratio: Calculates WCAG contrast ratio and accessibility compliance.
+- suggest_accessible_combination: Automatically suggests accessible color combinations.
+- create_color_wheel: Generates a full HSV color wheel image.
+- generate_brand_palette: Creates a professional brand palette with primary, accents, and neutrals.
+- export_palette: Exports a color palette to JSON, CSS, SCSS, or Adobe ASE format.
+- analyze_image_colors: Performs comprehensive color analysis on an image (average, dominant, brightness, etc.).
+
+How to use Tool Methods:-
+
+1. generate_palette:
+   - Purpose: Generates a harmonious color palette based on a base color and color theory rules.
+   - Arguments:
+     a) base_color: str - Hex color (e.g., "#FF0000").
+     b) harmony: str (default: "complementary") - "complementary", "triadic", "analogous", "split-complementary", "tetradic", or "monochromatic".
+     c) n_colors: int (default: 5) - Number of colors in the palette.
+   - Returns: List of hex colors.
+   - How to call: ColorTool.generate_palette(base_color="#3498db", harmony="triadic", n_colors=6)
+
+2. extract_palette_from_image:
+   - Purpose: Extracts the most dominant colors from an image using PIL quantization.
+   - Arguments:
+     a) image: str - Path to image file.
+     b) n_colors: int (default: 5) - Number of colors to extract.
+   - Returns: List of hex colors.
+   - How to call: ColorTool.extract_palette_from_image(image="photo.jpg", n_colors=8)
+
+3. convert_color:
+   - Purpose: Converts a color between supported color spaces.
+   - Arguments:
+     a) value: str - Color value in source space (e.g., "#FF0000", "rgb(255,0,0)", "hsl(0,100%,50%)").
+     b) from_space: str - "hex", "rgb", "hsl", "hsv".
+     c) to_space: str - "hex", "rgb", "hsl", "hsv", "cmyk".
+   - Returns: Converted color string.
+   - How to call: ColorTool.convert_color(value="#FF0000", from_space="hex", to_space="hsl")
+
+4. find_complementary:
+   - Purpose: Returns the complementary (opposite on color wheel) color.
+   - Arguments: hex_color: str
+   - Returns: Complementary hex color and details.
+   - How to call: ColorTool.find_complementary(hex_color="#00FF00")
+
+5. create_gradient:
+   - Purpose: Creates a smooth linear gradient image between multiple colors.
+   - Arguments:
+     a) colors: List[str] - List of hex colors.
+     b) steps: int (default: 10) - Not directly used in interpolation (segment-based).
+     c) direction: str (default: "horizontal") - "horizontal" or "vertical".
+     d) output_image: str (default: "gradient.png")
+     e) width, height: int - Image dimensions.
+   - How to call: ColorTool.create_gradient(colors=["#FF0000", "#00FF00", "#0000FF"], direction="horizontal", output_image="rainbow.png")
+
+6. check_contrast_ratio:
+   - Purpose: Calculates contrast ratio between two colors and checks WCAG AA/AAA compliance.
+   - Arguments:
+     a) color1: str - Hex color (background usually).
+     b) color2: str - Hex color (foreground/text).
+   - Returns: Ratio and accessibility flags.
+   - How to call: ColorTool.check_contrast_ratio(color1="#FFFFFF", color2="#000000")
+
+7. suggest_accessible_combination:
+   - Purpose: Automatically adjusts a foreground color to meet WCAG AA contrast requirements.
+   - Arguments:
+     a) background: str - Background hex color.
+     b) foreground: str - Initial foreground hex color.
+   - Returns: Adjusted accessible color pair.
+   - How to call: ColorTool.suggest_accessible_combination(background="#1E3A8A", foreground="#FFFFFF")
+
+8. create_color_wheel:
+   - Purpose: Generates a full HSV color wheel as a PNG image.
+   - Arguments:
+     a) output: str (default: "color_wheel.png")
+     b) size: int (default: 400) - Diameter in pixels.
+   - How to call: ColorTool.create_color_wheel(output="wheel.png", size=800)
+
+9. generate_brand_palette:
+   - Purpose: Creates a complete brand palette with primary, accent, and neutral colors.
+   - Arguments:
+     a) primary: str - Primary brand hex color.
+     b) n_accent: int (default: 3)
+     c) n_neutral: int (default: 4)
+   - Returns: Structured palette dictionary.
+   - How to call: ColorTool.generate_brand_palette(primary="#3B82F6", n_accent=4)
+
+10. export_palette:
+    - Purpose: Exports a list of colors to JSON, CSS variables, SCSS variables, or Adobe ASE swatch file.
+    - Arguments:
+      a) colors: List[str] - List of hex colors.
+      b) format: str (default: "json") - "json", "css", "scss", "ase".
+      c) output: str - Base filename (extension added automatically).
+    - How to call: ColorTool.export_palette(colors=["#FF0000", "#00FF00"], format="css", output="brand")
+
+11. analyze_image_colors:
+    - Purpose: Performs statistical color analysis on an image (average color, dominant colors, brightness, saturation, hue).
+    - Arguments: image: str - Path to image file.
+    - Returns: Detailed color analysis dictionary.
+    - How to call: ColorTool.analyze_image_colors(image="photo.jpg")
+""")
 
     @staticmethod
     def _hex_to_rgb(hex_color: str) -> tuple:
@@ -1804,6 +2513,91 @@ class IconTool:
         "Icon generation and management: generate icons from text/emoji, "
         "create app icon sets, resize, convert ICO, favicons, badges."
     )
+    use = (
+           """Name of Tool:- IconTool
+
+Purpose of Tool:- 
+The IconTool provides a robust utility suite for generating, optimizing, formatting, and restructuring digital iconography across major mobile, desktop, and web frameworks. It handles graphic modifications by rendering characters or emoji vectors onto structured shape canvases, generating platform-compliant multi-resolution asset matrices (iOS, Android, macOS, Windows), and exporting bundled favicon asset directories complete with progressive web application standard manifests. Additionally, it contains image processing operations for converting imagery to multi-layered ICO architectures, automated batch transcoding workflows, and localized graphic augmentation matrices to layer operational dynamic alert badges.
+
+Methods:-
+- generate_icon: Compiles an emoji character or plain-text string directly into a flat, rounded, or circular graphic emblem asset.
+- create_app_icon_set: Downsamples a primary master asset layout into comprehensive multi-resolution dimensions for specific platforms.
+- resize_icon: Scales an input image element into an explicit list of target resolution parameters.
+- convert_ico: Combines source design files into a multi-layer Windows architecture ICO graphic.
+- create_favicon_package: Generates an optimized deployment package containing legacy favicons, high-resolution web layers, mobile home touch layouts, and matching web manifest maps.
+- batch_convert_icons: Transcodes entire folders of graphic files simultaneously into a targeted design format.
+- add_badge: Layers a colorful graphic alert notification or numerical notification circle overlay directly onto canvas layout profiles.
+
+How to use Tool Methods:-
+
+1. generate_icon:
+   - Purpose: Builds fast interface profile elements, generic placeholder elements, or vector style avatars using simple text tokens or emojis.
+   - Arguments:
+     a) text_or_emoji: str - Characters or emoji strings to center on the canvas layout.
+     b) style: str (default: "flat") - Core boundary trimming shape style profile ("flat", "rounded", "circle").
+     c) size: int (default: 512) - Pixel size resolution boundary.
+     d) background: str (default: "#4F46E5") - Hex canvas fill color setting.
+     e) foreground: str (default: "#FFFFFF") - Text glyph color hex parameter.
+     f) output: str (default: "icon.png") - Path location map where the graphic will save.
+   - Returns: ToolResult tracking successful canvas creation profiles.
+   - How to call: IconTool.generate_icon(text_or_emoji="🚀", style="circle", background="#22C55E", output="icons/launch.png")
+
+2. create_app_icon_set:
+   - Purpose: Speeds up development pipelines by creating all required platform dimension variations automatically.
+   - Arguments:
+     a) source_image: str - High-resolution source master image path location reference.
+     b) output_folder: str - Folder destination directory path.
+     c) platform: str (default: "ios") - Specific ecosystem layout targets ("ios", "android", "web", "macos", "windows").
+   - Returns: ToolResult logging the generated target file paths.
+   - How to call: IconTool.create_app_icon_set(source_image="masters/logo.png", output_folder="build/assets", platform="android")
+
+3. resize_icon:
+   - Purpose: Resizes custom graphics down to specific layout requirements quickly.
+   - Arguments:
+     a) input: str - Input target file workspace resource location mapping.
+     b) sizes: List[int] - Array of sizing dimension integers to process.
+     c) output_folder: str - Target local saving directory endpoint.
+     d) format: str (default: "PNG") - Export file format option type syntax.
+   - Returns: ToolResult confirming the saved layout path array list.
+   - How to call: IconTool.resize_icon(input="app.png", sizes=[64, 128], output_folder="dist/icons")
+
+4. convert_ico:
+   - Purpose: Bundles multiple layout resolution paths into a single unified container file for system deployment profiles.
+   - Arguments:
+     a) input: str - Primary graphic master layout reference string pointer.
+     b) output: str - Target save path ending with `.ico`.
+     c) sizes: Optional[List[int]] (default: None) - Dimensional parameters matrix mapping options stack.
+   - Returns: ToolResult confirming execution parameters.
+   - How to call: IconTool.convert_ico(input="logo.png", output="favicon.ico", sizes=[16, 32, 48])
+
+5. create_favicon_package:
+   - Purpose: Prepares a website's complete bookmark and application shortcut package in one step.
+   - Arguments:
+     a) source: str - High resolution root design graphic layer file reference pointer.
+     b) output_folder: str - Destination tracking target workspace folder location.
+   - Returns: ToolResult verifying configuration map generations and file outputs.
+   - How to call: IconTool.create_favicon_package(source="branding/icon.png", output_folder="public/")
+
+6. batch_convert_icons:
+   - Purpose: Normalizes format properties across asset files uniformly.
+   - Arguments:
+     a) folder: str - Target workspace directory tracking incoming resource targets.
+     b) output_folder: str - Export path directory target container destination.
+     c) format: str (default: "ico") - Output translation architecture name format mapping.
+   - Returns: ToolResult displaying operational volume conversion statistics.
+   - How to call: IconTool.batch_convert_icons(folder="src/png_assets", output_folder="src/ico_assets", format="ico")
+
+7. add_badge:
+   - Purpose: Updates application icons with notification indicator counters or warning labels.
+   - Arguments:
+     a) icon: str - Baseline application graphic source layer directory tracker.
+     b) badge_text: str - Notice data or tally strings to layer over the icon.
+     c) badge_color: str (default: "#E53E3E") - Hex code color tracking badge circle fill logic.
+     d) position: str (default: "top-right") - Anchor location string choice ("top-right", "top-left", "bottom-right", "bottom-left").
+     e) output: str (default: "icon_badge.png") - Storage path location mapping tracker identifier.
+   - Returns: ToolResult detailing visual compilation status parameters.
+   - How to call: IconTool.add_badge(icon="app.png", badge_text="9+", position="top-right", output="notifications/alert_icon.png")
+   """)
 
     @staticmethod
     def generate_icon(
@@ -2009,6 +2803,115 @@ class DiagramTool:
         "class diagrams, network diagrams, Gantt charts, mind maps, org charts, "
         "Mermaid and PlantUML rendering."
     )
+    use = (
+           """
+Name of Tool:- DiagramTool,
+
+Purpose of Tool:- 
+The DiagramTool enables automated generation of various professional diagrams using matplotlib, networkx, and external tools (Mermaid CLI and PlantUML). 
+It supports flowcharts, ER diagrams, sequence diagrams, class diagrams, network diagrams, Gantt charts, mind maps, organization charts, and rendering of Mermaid and PlantUML code. 
+This tool is ideal for documentation automation, system architecture visualization, project planning, data modeling, and agentic diagram generation for reports, presentations, and technical documentation.
+
+Methods:-
+- create_flowchart: Generates a flowchart from a list of steps with different node types.
+- create_er_diagram: Creates an Entity-Relationship diagram from table definitions.
+- create_sequence_diagram: Generates a sequence diagram showing interactions between actors.
+- create_class_diagram: Creates a UML class diagram with attributes and methods.
+- create_network_diagram: Draws a network topology diagram using graph layout.
+- create_gantt: Generates a Gantt chart for project scheduling.
+- create_mindmap: Creates a hierarchical mind map.
+- create_org_chart: Generates an organization chart from a hierarchy.
+- render_mermaid: Renders Mermaid diagram code to an image (requires Mermaid CLI).
+- render_plantuml: Renders PlantUML diagram code to an image (requires PlantUML/Java).
+
+How to use Tool Methods:-
+
+1. create_flowchart:
+   - Purpose: Creates a vertical or horizontal flowchart with process, decision, start, and end nodes.
+   - Arguments:
+     a) steps: List[dict] - List of steps with "type" ("process", "decision", "start", "end") and "label".
+     b) output: str (default: "flowchart.png")
+     c) style: str (default: "default")
+     d) direction: str (default: "TB") - Currently fixed to vertical in implementation.
+   - How to call: 
+     DiagramTool.create_flowchart(
+         steps=[
+             {"type": "start", "label": "Start"},
+             {"type": "process", "label": "Process Data"},
+             {"type": "decision", "label": "Valid?"},
+             {"type": "end", "label": "End"}
+         ],
+         output="workflow.png"
+     )
+
+2. create_er_diagram:
+   - Purpose: Visualizes database schema with tables and fields.
+   - Arguments:
+     a) tables: List[dict] - Each dict has "name" and "fields" (list of strings or dicts with "name" and "type").
+     b) output: str (default: "er_diagram.png")
+   - How to call: DiagramTool.create_er_diagram(tables=[{"name": "users", "fields": ["id", "name", "email"]}], output="schema.png")
+
+3. create_sequence_diagram:
+   - Purpose: Creates UML sequence diagrams showing message flow between participants.
+   - Arguments:
+     a) actors: List[str] - List of participant names.
+     b) messages: List[dict] - Each dict has "from", "to", and "label".
+     c) output: str (default: "sequence.png")
+   - How to call: DiagramTool.create_sequence_diagram(actors=["User", "API", "DB"], messages=[{"from": "User", "to": "API", "label": "Request"}])
+
+4. create_class_diagram:
+   - Purpose: Generates UML class diagrams with class name, attributes, and methods.
+   - Arguments:
+     a) classes: List[dict] - Each dict has "name", "attributes" (list), "methods" (list).
+     b) output: str (default: "class_diagram.png")
+   - How to call: DiagramTool.create_class_diagram(classes=[{"name": "User", "attributes": ["id", "name"], "methods": ["login()"]}])
+
+5. create_network_diagram:
+   - Purpose: Draws network topology using graph layout.
+   - Arguments:
+     a) nodes: List[dict] - Each dict has "id", optional "label", "color".
+     b) connections: List[dict] - Each dict has "from", "to", optional "label".
+     c) output: str (default: "network.png")
+   - How to call: DiagramTool.create_network_diagram(nodes=[{"id": "Server"}], connections=[{"from": "Client", "to": "Server"}])
+
+6. create_gantt:
+   - Purpose: Creates a Gantt chart for project tasks with start and end times.
+   - Arguments:
+     a) tasks: List[dict] - Each dict has "name", "start", "end".
+     b) output: str (default: "gantt.png")
+   - How to call: DiagramTool.create_gantt(tasks=[{"name": "Task 1", "start": 0, "end": 5}])
+
+7. create_mindmap:
+   - Purpose: Generates a radial mind map from a hierarchical structure.
+   - Arguments:
+     a) root: str - Central topic.
+     b) children: dict - Nested dictionary of subtopics.
+     c) output: str (default: "mindmap.png")
+   - How to call: DiagramTool.create_mindmap(root="Project", children={"Phase 1": ["Task A", "Task B"]})
+
+8. create_org_chart:
+   - Purpose: Creates a hierarchical organization chart.
+   - Arguments:
+     a) hierarchy: dict - Nested structure with "name", "title", "children".
+     b) output: str (default: "org_chart.png")
+   - How to call: DiagramTool.create_org_chart(hierarchy={"name": "CEO", "children": [{"name": "CTO", ...}]})
+
+9. render_mermaid:
+   - Purpose: Renders Mermaid.js diagram code to an image.
+   - Arguments:
+     a) mermaid_code: str - Valid Mermaid syntax.
+     b) output: str (default: "diagram.png")
+     c) format: str (default: "png")
+   - How to call: DiagramTool.render_mermaid(mermaid_code="flowchart TD\nA-->B", output="flow.png")
+
+10. render_plantuml:
+    - Purpose: Renders PlantUML diagram code to an image.
+    - Arguments:
+      a) puml_code: str - Valid PlantUML syntax.
+      b) output: str (default: "diagram.png")
+      c) format: str (default: "png")
+    - How to call: DiagramTool.render_plantuml(puml_code="@startuml\nAlice -> Bob: Hello\n@enduml")
+""")
 
     @staticmethod
     def create_flowchart(
@@ -2409,6 +3312,108 @@ class PrintTool:
         "Print-ready document generation: business cards, flyers, posters, "
         "brochures, certificates, label sheets, letterheads, and bleed marks."
     )
+    use = (
+           """ Name of Tool:- PrintTool
+
+Purpose of Tool:- 
+The PrintTool is a dedicated programmatic document design and prepress engine built to compile print-ready branding materials and localized templates. It constructs highly formatted, vector-based PDF structures conforming to standard commercial media dimensions (such as A3, A4, and Letter shapes) and strict geometric layouts. The suite features automated background painting, geometric accent dividers, content wrapper string splitting, multi-panel brochure folds, and matrix addressing alignments. Crucially for physical workflows, it also provides an automated prepress registration utility that alters native document bounding containers to merge localized bleed bounds and precision corner target lines for standard press cutting systems.
+
+Methods:-
+- create_business_card: Compiles identity records, branding vectors, and details into custom 3.5" x 2" landscape PDF cards.
+- create_flyer: Packages visual image columns and structural copy paragraphs together into promotional media.
+- create_poster: Generates high-impact, wide-format marketing or informational placards using structured background motifs.
+- create_brochure: Implements geometric division paths and folding indicator marks to space multi-column panels dynamically.
+- create_certificate: Produces official merit sheets overlaid with complex double-bordered tracking loops and authorization lines.
+- create_label_sheet: Distributes cell coordinates down a grid sheet to output uniform commercial mailing indicators.
+- create_letterhead: Locks institutional contact configurations, tagline headers, and branding logos into official documentation blocks.
+- add_bleed_marks: Expands media canvas layers to superimpose registration and margin corner lines for printer cropping.
+
+How to use Tool Methods:-
+
+1. create_business_card:
+   - Purpose: Generates high-density corporate layout identifiers ready for commercial paper stocks.
+   - Arguments:
+     a) name: str - Target person identity token line.
+     b) title: str - Professional title or corporate department string.
+     c) email: str - Contact address parameter.
+     d) phone: str - Communication contact string value.
+     e) website: str (default: "") - Online portal destination map link.
+     f) logo: Optional[str] (default: None) - File reference pointing to a custom badge or image layer.
+     g) output: str (default: "business_card.pdf") - Local target storage destination tracker.
+     h) size: tuple (default: (3.5, 2)) - Physical canvas dimensional parameters in inches.
+   - Returns: ToolResult tracking asset file completion metrics.
+   - How to call: PrintTool.create_business_card(name="Alex Smith", title="Art Director", email="alex@studio.com", phone="555-0192", logo="assets/logo.png")
+
+2. create_flyer:
+   - Purpose: Constructs hand-out distributions or bulletin notices quickly and efficiently.
+   - Arguments:
+     a) title: str - Prominent structural title banner message.
+     b) content: str - Detailed descriptions or info text blocks.
+     c) images: Optional[List[str]] (default: None) - Array of local asset image references to scale underneath the heading banner.
+     d) output: str (default: "flyer.pdf") - Target local saving path string identifier.
+     e) size: str (default: "A4") - Hardcopy manufacturing size standard ("A4", "LETTER").
+     f) orientation: str (default: "portrait") - Structural canvas layout direction ("portrait", "landscape").
+   - Returns: ToolResult certifying graphic calculation outcomes.
+   - How to call: PrintTool.create_flyer(title="Summer Festival", content="Join us for music and food!", images=["fest.png"], size="Letter")
+
+3. create_poster:
+   - Purpose: Formats large event signage, showcase diagrams, or wall notices.
+   - Arguments:
+     a) title: str - Center headline message text string.
+     b) subtitle: str - Supporting contextual text string value.
+     c) content: str - Body tracking instructions or paragraphs.
+     d) background: str (default: "#1E3A5F") - Hex code styling background fill.
+     e) output: str (default: "poster.pdf") - Export storage marker location tracker.
+     b) size: str (default: "A3") - Dimensional surface standard string ("A3", "A4").
+   - Returns: ToolResult indicating visual document validation markers.
+   - How to call: PrintTool.create_poster(title="TECH CON 2026", subtitle="The Future is Now", content="Keynotes, labs, and panels.", background="#111827")
+
+4. create_brochure:
+   - Purpose: Maps complex promotional folds and product menus out neatly onto a single document sheet.
+   - Arguments:
+     a) sections: List[dict] - Structural data nodes holding `title` and `content` properties for individual panels.
+     b) output: str (default: "brochure.pdf") - Local file system string tracking endpoint targets.
+     c) folds: int (default: 2) - Number of mechanical fold segments (e.g., 2 folds creates a 3-panel trifold brochure).
+   - Returns: ToolResult confirming vector rendering integrity.
+   - How to call: PrintTool.create_brochure(sections=[{"title": "About", "content": "We do tech."}, {"title": "Services", "content": "Cloud computing."}], folds=2)
+
+5. create_certificate:
+   - Purpose: Automates corporate recognition plaques, course completions, or award tracking programs.
+   - Arguments:
+     a) template: str - Primary award headline text.
+     b) data: dict - Node containing key details such as `recipient`, `achievement`, `date`, and `issuer`.
+     c) output: str (default: "certificate.pdf") - Local output path target string.
+   - Returns: ToolResult verifying layout composition metrics.
+   - How to call: PrintTool.create_certificate(template="Diploma of Excellence", data={"recipient": "Jane Doe", "achievement": "First Place", "date": "2026-06-16", "issuer": "Academy"})
+
+6. create_label_sheet:
+   - Purpose: Automates structural print grids matching standard adhesive sheet templates like Avery.
+   - Arguments:
+     a) labels_data: List[dict] - Array of identity details tracking dictionary values (`name`, `line1`, `line2`, `line3`).
+     b) template: str (default: "avery_5160") - Predefined standard alignment parameters map identity key ("avery_5160", "avery_5163").
+     c) output: str (default: "labels.pdf") - File destination path tracker reference mapping.
+     d) paper_size: str (default: "LETTER") - Target substrate size choice tracking standard media profiles ("LETTER", "A4").
+   - Returns: ToolResult tracking address compilation tally details.
+   - How to call: PrintTool.create_label_sheet(labels_data=[{"name": "Warehouse", "line1": "123 Ind. Way"}], template="avery_5163")
+
+7. create_letterhead:
+   - Purpose: Prepares standard corporate communication sheets with official institutional branding.
+   - Arguments:
+     a) logo: Optional[str] - Path reference tracking company visual branding graphics.
+     b) company_info: dict - Dictionary holding fields such as `name`, `tagline`, `address`, `phone`, `email`, and `website`.
+     c) output: str (default: "letterhead.pdf") - Vector file workspace tracking target destination.
+   - Returns: ToolResult tracking visual document generation markers.
+   - How to call: PrintTool.create_letterhead(logo="brand/logo.png", company_info={"name": "Nexus Corp", "tagline": "Connecting People"})
+
+8. add_bleed_marks:
+   - Purpose: Modifies standard PDF containers to insert margin boundaries and cutting guides for production houses.
+   - Arguments:
+     a) input: str - Location pointer tracking the source input PDF document.
+     b) output: str - Target local saving path string tracking expanded margins outputs.
+     c) bleed_size: float (default: 3.0) - Structural border width offset tracking parameters measured in millimeters.
+   - Returns: ToolResult logging processed prepress updates.
+   - How to call: PrintTool.add_bleed_marks(input="drafts/flyer.pdf", output="production/flyer_w_bleed.pdf", bleed_size=4.0)
+   """)
 
     @staticmethod
     def create_business_card(
@@ -2826,6 +3831,91 @@ class ThreeDTool:
         "3D model utilities without Blender: view, inspect, convert formats, "
         "optimize mesh, center, scale, merge models, generate thumbnails."
     )
+    use = (
+           """
+Name of Tool:- ThreeDTool,
+
+Purpose of Tool:- 
+The ThreeDTool provides a lightweight, Blender-independent interface for working with 3D models using the trimesh library (with optional pyrender for advanced rendering). 
+It supports loading/inspecting models, format conversion, mesh optimization (decimation), centering and scaling, merging multiple models, and generating high-quality thumbnails. 
+This tool is ideal for 3D asset pipelines, model validation, batch processing, thumbnail generation, and agentic 3D content management without requiring a full 3D modeling suite.
+
+Methods:-
+- _load_mesh: Internal helper to load a 3D model using trimesh.
+- view_model: Opens an interactive 3D viewer window for the model.
+- get_model_info: Returns detailed geometric and topological information about a model.
+- convert_model: Converts a 3D model between supported formats (OBJ, FBX, GLB, STL, etc.).
+- optimize_mesh: Reduces the complexity of a mesh (face count) while preserving shape.
+- center_model: Translates the model so its centroid is at the origin.
+- scale_model: Uniformly scales the model by a given factor.
+- merge_models: Combines multiple 3D models into a single mesh.
+- generate_thumbnail: Renders a static 2D thumbnail image of the 3D model (uses pyrender when available, falls back to trimesh).
+
+How to use Tool Methods:-
+
+1. _load_mesh (Internal Helper):
+   - Purpose: Loads a 3D model file into a trimesh object.
+   - Arguments: file: str - Path to the 3D model file.
+   - Note: Internal method used by most operations. Supports OBJ, FBX, GLB, STL, PLY, and many others.
+
+2. view_model:
+   - Purpose: Opens an interactive 3D viewer window to visually inspect the model.
+   - Arguments: file: str - Path to the 3D model.
+   - How to call: ThreeDTool.view_model(file="model.obj")
+
+3. get_model_info:
+   - Purpose: Returns comprehensive metadata about the 3D model including vertex/face count, volume, surface area, bounds, etc.
+   - Arguments: file: str - Path to the 3D model.
+   - Returns: Dictionary with geometric statistics.
+   - How to call: ThreeDTool.get_model_info(file="model.glb")
+
+4. convert_model:
+   - Purpose: Converts a 3D model from one format to another.
+   - Arguments:
+     a) input: str - Input model file path.
+     b) output: str - Desired output file path (extension determines format).
+     c) target_format: str - Explicit target format (e.g., "obj", "glb").
+   - How to call: ThreeDTool.convert_model(input="model.fbx", output="model.glb", target_format="glb")
+
+5. optimize_mesh:
+   - Purpose: Reduces polygon count (decimation) to optimize the model for performance while preserving shape.
+   - Arguments:
+     a) input: str - Input model path.
+     b) output: str - Output optimized model path.
+     c) target_faces: int (default: 10000) - Desired maximum number of faces.
+   - How to call: ThreeDTool.optimize_mesh(input="highpoly.obj", output="optimized.obj", target_faces=5000)
+
+6. center_model:
+   - Purpose: Centers the model at the origin (0,0,0) by translating its centroid.
+   - Arguments:
+     a) input: str
+     b) output: str
+   - How to call: ThreeDTool.center_model(input="model.obj", output="centered.obj")
+
+7. scale_model:
+   - Purpose: Applies uniform scaling to the entire model.
+   - Arguments:
+     a) input: str
+     b) output: str
+     c) scale: float - Scaling factor (e.g., 0.5 for half size, 2.0 for double).
+   - How to call: ThreeDTool.scale_model(input="model.obj", output="scaled.obj", scale=0.1)
+
+8. merge_models:
+   - Purpose: Combines multiple 3D models into a single mesh file.
+   - Arguments:
+     a) inputs: List[str] - List of input model file paths.
+     b) output: str - Output merged model path.
+   - How to call: ThreeDTool.merge_models(inputs=["part1.obj", "part2.obj"], output="combined.glb")
+
+9. generate_thumbnail:
+   - Purpose: Renders a static 2D thumbnail image of the 3D model from a nice angle.
+   - Arguments:
+     a) model_file: str - Path to the 3D model.
+     b) output: str (default: "thumbnail.png")
+     c) width, height: int (default: 512) - Thumbnail resolution.
+     d) background_color: tuple (default: (255, 255, 255)) - RGB background.
+   - How to call: ThreeDTool.generate_thumbnail(model_file="product.glb", output="thumb.png", width=1024, height=1024)
+""")
 
     @staticmethod
     def _load_mesh(file: str):
