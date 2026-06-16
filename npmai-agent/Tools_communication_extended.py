@@ -2386,6 +2386,131 @@ class CalendarTool:#############################################################
         "Google Calendar: list/create/update/delete events, quick-add, list/create calendars, "
         "find free slots, send invites, and sync/import iCal files."
     )
+    use = (
+        """
+Name of Tool:- CalendarTool,
+
+Purpose of Tool:- 
+The CalendarTool provides a full-featured interface to Google Calendar for event and calendar management. 
+It supports listing, creating, updating, deleting, and quick-adding events, managing multiple calendars, finding free time slots, sending meeting invites, and bidirectional sync with iCalendar (.ics) files. 
+All operations use the official Google Calendar API v3 with OAuth2 credentials stored in CredStore. 
+This tool is ideal for scheduling automation, meeting coordination, availability checking, calendar synchronization, and agentic personal/organizational productivity workflows.
+
+Methods:-
+- _service: Internal helper to build an authenticated Google Calendar service client.
+- list_events: Lists upcoming or historical events from a calendar.
+- create_event: Creates a new event with attendees, reminders, and location.
+- update_event: Updates fields of an existing event.
+- delete_event: Deletes a specific event.
+- quick_add_event: Creates an event using natural language quick-add syntax.
+- list_calendars: Lists all calendars accessible to the user.
+- create_calendar: Creates a new secondary calendar.
+- find_free_slots: Finds available time slots in a day considering existing events.
+- send_invite: Creates and sends a meeting invite to multiple attendees (convenience wrapper).
+- sync_to_local: Exports calendar events to a local .ics file.
+- import_ical: Imports events from an .ics file into a Google Calendar.
+
+How to use Tool Methods:-
+
+1. _service (Internal Authentication Helper):
+   - Purpose: Builds and returns an authenticated Google Calendar API v3 service client.
+   - Arguments: cred_key: str (default: "google_calendar")
+   - Credential requirement in CredStore: OAuth2 tokens including token, refresh_token, client_id, client_secret.
+   - Note: Internal method. Do not call directly.
+
+2. list_events:
+   - Purpose: Retrieves a list of events from a calendar with optional time filtering.
+   - Arguments:
+     a) calendar_id: str (default: "primary") - Calendar ID or "primary".
+     b) time_min: str (default: now) - ISO 8601 start time.
+     c) time_max: str (optional) - ISO 8601 end time.
+     d) max_results: int (default: 20).
+     e) cred_key: str (default: "google_calendar").
+   - Returns: List of Google Calendar event objects.
+   - How to call: CalendarTool.list_events(calendar_id="primary", max_results=50)
+
+3. create_event:
+   - Purpose: Creates a new calendar event with rich options including attendees and reminders.
+   - Arguments:
+     a) calendar_id: str (default: "primary")
+     b) summary: str - Event title.
+     c) start: str - ISO 8601 start datetime.
+     d) end: str - ISO 8601 end datetime.
+     e) description: str (optional)
+     f) location: str (optional)
+     g) attendees: list (optional) - List of email addresses.
+     h) reminders: list (optional) - Custom reminders.
+     i) cred_key.
+   - Returns: Created event details including htmlLink.
+   - How to call: CalendarTool.create_event(summary="Team Meeting", start="2026-06-20T10:00:00Z", end="2026-06-20T11:00:00Z", attendees=["user@example.com"])
+
+4. update_event:
+   - Purpose: Updates any field(s) of an existing event.
+   - Arguments:
+     a) calendar_id: str
+     b) event_id: str - Event ID.
+     c) data: dict - Dictionary of fields to update.
+     d) cred_key.
+   - How to call: CalendarTool.update_event(calendar_id="primary", event_id="event123", data={"summary": "Updated Title"})
+
+5. delete_event:
+   - Purpose: Permanently deletes an event.
+   - Arguments: calendar_id, event_id, cred_key.
+   - How to call: CalendarTool.delete_event(calendar_id="primary", event_id="event123")
+
+6. quick_add_event:
+   - Purpose: Creates an event using Google’s natural language quick-add (e.g., "Meeting with John tomorrow at 3pm").
+   - Arguments:
+     a) calendar_id: str (default: "primary")
+     b) text: str - Natural language event description.
+     c) cred_key.
+   - How to call: CalendarTool.quick_add_event(text="Doctor appointment tomorrow 10am")
+
+7. list_calendars:
+   - Purpose: Lists all calendars the authenticated user has access to.
+   - Arguments: cred_key.
+   - How to call: CalendarTool.list_calendars()
+
+8. create_calendar:
+   - Purpose: Creates a new secondary calendar.
+   - Arguments:
+     a) summary: str - Calendar name.
+     b) timezone: str (default: "UTC")
+     c) cred_key.
+   - How to call: CalendarTool.create_calendar(summary="Work Calendar", timezone="Asia/Kolkata")
+
+9. find_free_slots:
+   - Purpose: Finds available time slots within working hours on a given day.
+   - Arguments:
+     a) calendar_id: str
+     b) duration_minutes: int (default: 30)
+     c) date: str (optional) - Target date (ISO).
+     d) working_hours: tuple (default: (9, 17)) - Start and end hour.
+     e) cred_key.
+   - Returns: List of free time slots with start/end ISO times.
+   - How to call: CalendarTool.find_free_slots(duration_minutes=60, date="2026-06-20")
+
+10. send_invite:
+    - Purpose: Convenience method to create and send a meeting invite (calls create_event internally).
+    - Arguments: summary, start, end, attendee_emails, location, description, cred_key.
+    - How to call: CalendarTool.send_invite(summary="Project Review", start=..., end=..., attendee_emails=["a@example.com", "b@example.com"])
+
+11. sync_to_local:
+    - Purpose: Exports events from Google Calendar to a local .ics file.
+    - Arguments:
+      a) calendar_id: str
+      b) output_ical: str (default: "calendar.ics")
+      c) cred_key.
+    - How to call: CalendarTool.sync_to_local(calendar_id="primary", output_ical="my_calendar.ics")
+
+12. import_ical:
+    - Purpose: Imports events from a local .ics file into Google Calendar.
+    - Arguments:
+      a) calendar_id: str
+      b) ical_path: str - Path to .ics file.
+      c) cred_key.
+    - How to call: CalendarTool.import_ical(calendar_id="primary", ical_path="events.ics")
+""")
 
     @staticmethod
     def _service(cred_key: str = "google_calendar"):
@@ -2666,6 +2791,119 @@ class ChatOpsAutomationTool:####################################################
         "Cross-platform ChatOps: alerts, incidents, deployments, standups, approval workflows, "
         "announcements, and scheduled messages across Slack, Discord, Teams, and Telegram."
     )
+    use = (
+        """
+Name of Tool:- ChatOpsAutomationTool,
+
+Purpose of Tool:- 
+The ChatOpsAutomationTool provides a unified interface for ChatOps workflows across Slack, Discord, Microsoft Teams, and Telegram. 
+It supports sending alerts with severity levels, creating and tracking incidents, deployment notifications, daily standup reminders, approval workflows, announcements, and scheduled messages. 
+It maintains internal workflow state for incidents and approvals and supports multiple notification channels through a common abstraction layer. 
+This tool is ideal for DevOps teams, SRE practices, incident response, team coordination, and agentic automation of communication and collaboration processes.
+
+Methods:-
+- _send_to_channel: Internal helper to send messages to different chat platforms.
+- route_alert: Routes alerts with severity-based formatting to multiple channels.
+- create_incident: Creates a tracked incident and notifies channels.
+- post_deployment_notification: Posts structured deployment status updates.
+- send_daily_standup_reminder: Sends standup prompts to team channels.
+- collect_standup_responses: Collects standup responses (Slack only in current implementation).
+- create_approval_workflow: Creates an interactive approval request workflow.
+- check_approval_status: Checks the status of a workflow (incident or approval).
+- broadcast_announcement: Sends important announcements to multiple channels.
+- schedule_message: Schedules a message to be sent at a future time.
+
+How to use Tool Methods:-
+
+1. _send_to_channel (Internal Helper):
+   - Purpose: Sends a plain text message to a specific channel on supported platforms.
+   - Arguments:
+     a) channel_type: str - "slack", "discord", "teams", or "telegram".
+     b) channel_id: str - Channel ID, webhook URL, or chat ID.
+     c) message: str - Message content.
+     d) cred_key: str (optional) - Credential key for the platform.
+   - Note: Internal method. You generally do not call it directly.
+
+2. route_alert:
+   - Purpose: Sends formatted alerts with severity emoji to one or more channels.
+   - Arguments:
+     a) message: str - Alert message body.
+     b) severity: str (default: "info") - "critical", "high", "medium", "low", "info".
+     c) channels_config: list (default: None) - List of dicts with "type" and "id".
+   - How to call: 
+     ChatOpsAutomationTool.route_alert(
+         message="Database connection failed",
+         severity="critical",
+         channels_config=[{"type": "slack", "id": "#alerts"}, {"type": "teams", "id": "webhook-url"}]
+     )
+
+3. create_incident:
+   - Purpose: Creates a tracked incident with unique ID and notifies channels.
+   - Arguments:
+     a) title: str - Incident title.
+     b) description: str - Detailed description.
+     c) severity: str (default: "high").
+     d) channels: list (optional) - List of channel config dicts.
+   - Returns: Incident ID and notification status.
+   - How to call: ChatOpsAutomationTool.create_incident(title="Service Outage", description="...", severity="critical")
+
+4. post_deployment_notification:
+   - Purpose: Posts a standardized deployment status update.
+   - Arguments:
+     a) service: str - Service name.
+     b) version: str - Deployed version.
+     c) environment: str - Target environment.
+     d) status: str - "success" or "failed".
+     e) changelog: str (optional).
+     f) channels: list (optional).
+   - How to call: ChatOpsAutomationTool.post_deployment_notification(service="api", version="v2.3.1", environment="production", status="success")
+
+5. send_daily_standup_reminder:
+   - Purpose: Sends a daily standup prompt with standard questions to multiple channels.
+   - Arguments:
+     a) team_channels: list - List of channel config dicts.
+     b) questions: list (optional) - Custom standup questions.
+   - How to call: ChatOpsAutomationTool.send_daily_standup_reminder(team_channels=[{"type": "slack", "id": "#team"}])
+
+6. collect_standup_responses:
+   - Purpose: Collects recent messages from a Slack channel as standup responses (time-limited).
+   - Arguments:
+     a) channel: dict - {"type": "slack", "id": "channel-id"}.
+     b) timeout: int (default: 300) - Collection duration in seconds.
+   - Note: Currently supports Slack only.
+   - How to call: ChatOpsAutomationTool.collect_standup_responses(channel={"type": "slack", "id": "C12345"})
+
+7. create_approval_workflow:
+   - Purpose: Creates a tracked approval request with instructions for approvers to reply with APPROVE/REJECT + ID.
+   - Arguments:
+     a) request_title: str
+     b) details: str
+     c) approvers: list - List of approver names/emails.
+     d) channels: list (optional).
+   - Returns: Workflow ID.
+   - How to call: ChatOpsAutomationTool.create_approval_workflow(request_title="Budget Approval", details="...", approvers=["Alice", "Bob"])
+
+8. check_approval_status:
+   - Purpose: Retrieves the current status of an incident or approval workflow.
+   - Arguments: workflow_id: str
+   - How to call: ChatOpsAutomationTool.check_approval_status(workflow_id="A1B2C3D4")
+
+9. broadcast_announcement:
+   - Purpose: Sends a high-visibility announcement to multiple channels.
+   - Arguments:
+     a) message: str
+     b) channels_config: list (optional).
+   - How to call: ChatOpsAutomationTool.broadcast_announcement(message="All hands meeting at 4 PM", channels_config=[...])
+
+10. schedule_message:
+    - Purpose: Schedules a message to be sent at a future ISO timestamp using a background thread.
+    - Arguments:
+      a) channel_type: str - Platform type.
+      b) channel_id: str
+      c) message: str
+      d) send_at: str - ISO 8601 datetime (UTC).
+    - How to call: ChatOpsAutomationTool.schedule_message(channel_type="slack", channel_id="#general", message="Reminder", send_at="2026-06-20T10:00:00")
+""")
 
     _workflows: dict = {}
 
