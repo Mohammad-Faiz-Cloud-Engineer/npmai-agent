@@ -1691,7 +1691,146 @@ How to use Tool Methods:-
 class InvoiceTool:
     name = "invoice"
     description = "Professional invoice, quote, receipt, and PO generation; send via email; batch create; AI data extraction"
+    use = (
+        """
+Name of Tool:- InvoiceTool,
 
+Purpose of Tool:- 
+The InvoiceTool is a comprehensive professional document generation system for creating high-quality PDF business documents including Invoices, Quotations, Receipts, and Purchase Orders. 
+It features beautiful ReportLab-based PDF rendering with tables, branding (logos and colored headers), automatic calculations (subtotal, tax, discount, grand total), email delivery via SMTP, batch processing from CSV data, AI-powered data extraction from existing PDFs using local LLMs, and support for recurring invoices. 
+This tool is designed for business automation, accounting workflows, e-commerce, freelancing, and agentic financial document management.
+
+Methods:-
+- _draw_pdf_table: Internal helper method to render styled tables in PDFs.
+- create_invoice: Generates a professional invoice PDF.
+- create_quote: Generates a professional quotation PDF.
+- create_receipt: Generates a payment receipt PDF.
+- create_purchase_order: Generates a purchase order PDF.
+- send_invoice_email: Sends generated PDF documents via email with attachment.
+- batch_create_invoices: Creates multiple invoices from a CSV file.
+- extract_invoice_data: Extracts structured data from an existing invoice PDF using AI.
+- create_recurring_invoice: Creates a recurring invoice based on a template and schedule.
+
+How to use Tool Methods:-
+
+1. _draw_pdf_table (Internal Helper):
+   - Purpose: Draws a formatted table (with header, alternating row colors, grid, etc.) on the PDF canvas. Used internally by all document creation methods.
+   - Arguments:
+     a) c_obj: Canvas object from ReportLab.
+     b) items: List[Dict] - List of row data.
+     c) x: float - Starting X coordinate.
+     d) y: float - Starting Y coordinate.
+     e) col_widths: List[float] - Widths for each column.
+     f) headers: List[str] - Column header names.
+   - Returns: Updated Y position after drawing the table.
+   - Note: This is an internal method. You generally do not call it directly.
+
+2. create_invoice:
+   - Purpose: Creates a beautifully formatted professional invoice PDF with header, logo support, from/to details, itemized table, tax calculation, and totals.
+   - Arguments:
+     a) invoice_number: str - Unique invoice identifier (required).
+     b) date: str - Invoice issue date (e.g., "2026-06-16").
+     c) due_date: str - Payment due date.
+     d) from_details: Dict - Sender/company details (keys: name, address, city, email, phone).
+     e) to_details: Dict - Customer/bill-to details (same keys as from_details).
+     f) items: List[Dict] - List of items. Each item should have keys like "description"/"name", "qty"/"quantity", "price"/"unit_price".
+     g) tax_rate: float (default: 0.0) - Tax percentage (e.g., 18.0 for 18%).
+     h) currency: str (default: "USD") - Currency symbol/text.
+     i) logo: str (default: "") - Path to logo image file (optional).
+     j) output: str (default: "invoice.pdf") - Output PDF file path.
+   - Returns: ToolResult with success status, message, and data containing file path and grand total.
+   - How to call: 
+     InvoiceTool.create_invoice(
+         invoice_number="INV-2026001", 
+         date="2026-06-16", 
+         due_date="2026-07-16",
+         from_details={"name": "My Company", "address": "...", "email": "..."},
+         to_details={"name": "Client Name", ...},
+         items=[{"description": "Service", "qty": 2, "price": 150.00}, ...],
+         tax_rate=18.0,
+         currency="USD",
+         logo="logo.png",
+         output="invoice_001.pdf"
+     )
+
+3. create_quote:
+   - Purpose: Creates a professional quotation PDF with similar styling to invoice but includes discount and validity period.
+   - Arguments:
+     a) quote_number: str - Unique quote identifier.
+     b) date: str - Quote date.
+     c) valid_until: str - Validity expiry date.
+     d) from_details: Dict - Sender details.
+     e) to_details: Dict - Recipient details.
+     f) items: List[Dict] - Same structure as invoice.
+     g) discount: float (default: 0.0) - Discount percentage.
+     h) output: str (default: "quote.pdf").
+   - Returns: ToolResult with path and total after discount.
+   - How to call: Similar to create_invoice, but with quote-specific fields.
+
+4. create_receipt:
+   - Purpose: Creates a payment receipt PDF confirming a transaction.
+   - Arguments:
+     a) transaction_id: str - Unique transaction identifier.
+     b) date: str - Receipt date.
+     c) items: List[Dict] - Items purchased.
+     d) payment_method: str - e.g., "Credit Card", "Bank Transfer", "Cash".
+     e) from_details: Dict - Business details.
+     f) to_details: Dict - Customer details.
+     g) output: str (default: "receipt.pdf").
+   - Returns: ToolResult with path and total paid.
+   - How to call: InvoiceTool.create_receipt(transaction_id="TXN-98765", date="2026-06-16", items=[...], payment_method="Credit Card", ...)
+
+5. create_purchase_order:
+   - Purpose: Creates a formal Purchase Order (PO) document for procurement.
+   - Arguments:
+     a) po_number: str - Purchase Order number.
+     b) date: str - PO date.
+     c) vendor: Dict - Supplier/vendor details.
+     d) items: List[Dict] - Items with "name", "qty", "unit_price".
+     e) ship_to: Dict - Delivery address details.
+     f) output: str (default: "po.pdf").
+   - Returns: ToolResult with path and total.
+   - How to call: Similar structure to other document methods.
+
+6. send_invoice_email:
+   - Purpose: Sends any generated PDF (invoice, quote, receipt, PO) as an email attachment using SMTP.
+   - Arguments:
+     a) invoice_path: str - Full path to the PDF file to attach.
+     b) to_email: str - Recipient email address.
+     c) subject: str (default: "Your Invoice") - Email subject.
+     d) message: str (default: "Please find your invoice attached.") - Email body.
+     e) cc: str (default: "") - CC email addresses (comma-separated if multiple).
+     f) cred_key: str (default: "gmail") - Credential key in CredStore for SMTP settings.
+   - Credential requirement: CredStore must contain {"email": "...", "password": "...", "smtp_host": "...", "smtp_port": 587}.
+   - How to call: InvoiceTool.send_invoice_email(invoice_path="invoice_001.pdf", to_email="client@example.com", subject="Invoice #INV-2026001")
+
+7. batch_create_invoices:
+   - Purpose: Generates multiple invoices in batch from a CSV file using a template.
+   - Arguments:
+     a) data_csv: str - Path to CSV file containing invoice data (must have columns like invoice_number, date, due_date, name, address, items_json, etc.).
+     b) template: Dict - Default values for from_details, tax_rate, currency, items, etc.
+     c) output_folder: str - Folder where generated PDFs will be saved.
+   - Returns: List of created PDF paths.
+   - How to call: InvoiceTool.batch_create_invoices(data_csv="clients.csv", template={...}, output_folder="invoices_batch")
+
+8. extract_invoice_data:
+   - Purpose: Uses AI (local Ollama LLM) to extract structured information from any invoice PDF.
+   - Arguments:
+     a) invoice_pdf: str - Path to the input PDF file.
+     b) model: str (default: "llama3.2:3b") - Ollama model to use for extraction.
+   - Returns: Structured JSON with keys: invoice_number, date, due_date, from_name, to_name, items (list), subtotal, tax, total, currency, etc.
+   - How to call: InvoiceTool.extract_invoice_data(invoice_pdf="scanned_invoice.pdf", model="mistral:7b")
+
+9. create_recurring_invoice:
+   - Purpose: Generates a recurring invoice based on a template and billing schedule.
+   - Arguments:
+     a) template: Dict - Complete template containing from_details, to_details, items, tax_rate, currency, etc.
+     b) schedule: str - One of: "monthly", "weekly", "quarterly".
+     c) output_folder: str - Folder to save the generated invoice.
+   - Returns: Path to the created recurring invoice PDF.
+   - How to call: InvoiceTool.create_recurring_invoice(template=my_template, schedule="monthly", output_folder="recurring")
+""")
+    
     @staticmethod
     def _draw_pdf_table(c_obj, items: List[Dict], x: float, y: float, col_widths: List[float], headers: List[str]) -> float:
         from reportlab.lib import colors
@@ -2044,7 +2183,125 @@ JSON only:"""
 class AccountingTool:
     name = "accounting"
     description = "Financial calculations: GST, VAT, P&L, balance sheet, cash flow, depreciation, currency conversion, tax liability, expense tracking"
+    use = (
+        """Name of Tool:- AccountingTool
 
+Purpose of Tool:- 
+The AccountingTool serves as a programmatic evaluation kit designed to standardize foundational financial modeling and tax auditing pipelines. Operating via pure Python modules, it streamlines tax compliance mechanisms (such as processing multi-tier India New Tax Regime slabs or localized VAT assessments), checks business performance records (generating clean, structured arrays mapping Revenue, Operating Expenses, and margins), monitors general company stability parameters (evaluating structural double-entry integrity thresholds across Assets, Liabilities, and Equity arrays), tracks capital health transformations (calculating Straight Line or Accelerated Double-Declining asset decay intervals), handles multinational transactional values (pulling active open currency conversion indices), and simplifies bookkeeping audits (parsing unstructured CSV files into classified corporate accounting ledger views).
+
+Methods:-
+- calculate_gst: Evaluates domestic direct tax parameters split explicitly by central and regional percentages.
+- calculate_vat: Computes value-added tax components using country-specific variables.
+- generate_profit_loss: Aggregates global corporate receipts and matching operating costs to define accurate net margin percentages.
+- generate_balance_sheet: Verifies operational double-entry balancing rules across corporate assets and backing claims.
+- generate_cash_flow: Tracks movement across operating, investing, and financing accounts.
+- depreciation_schedule: Builds localized asset value decay logs over structural life ranges.
+- currency_convert: Executes direct foreign exchange conversions based on real-time market indexing values.
+- get_exchange_rates: Extracts arrays mapping foreign exchange rates relative to a preferred base currency asset.
+- track_expenses: Automatically classifies multi-row CSV bank records into structural accounting categories.
+- calculate_tax_liability: Processes progressive personal tax brackets across chosen national systems to estimate tax obligations.
+
+How to use Tool Methods:-
+
+1. calculate_gst:
+   - Purpose: Calculates domestic Goods and Services Tax splits based on whether pricing models are inclusive or exclusive.
+   - Arguments:
+     a) amount: float - Base monetary value submitted for processing.
+     b) rate: float (default: 18.0) - Designated statutory taxation percentage criteria.
+     c) type: str (default: "exclusive") - Tells the function if the tax amount is added onto the base (`exclusive`) or extracted from it (`inclusive`).
+   - Returns: ToolResult storing structured keys tracking base costs, exact CGST/SGST breakdowns, and final combined values.
+   - How to call: AccountingTool.calculate_gst(amount=15000.0, rate=18.0, type="exclusive")
+
+2. calculate_vat:
+   - Purpose: Applies simple flat taxation formulas matching standard international value-added rulesets.
+   - Arguments:
+     a) amount: float - Baseline valuation variable prior to tax additions.
+     b) rate: float - The statutory regional taxation percentage constant.
+     c) country: str (default: "UK") - Local text string tag tracking country contexts.
+   - Returns: ToolResult housing separate fields for tax values and combined totals.
+   - How to call: AccountingTool.calculate_vat(amount=2500.0, rate=20.0, country="UK")
+
+3. generate_profit_loss:
+   - Purpose: Compiles high-level business performance trackers documenting profitability over chosen operational intervals.
+   - Arguments:
+     a) revenue_items: List[Dict] - Array records capturing income streams (e.g., `[{"item": "SaaS Subs", "amount": 50000}]`).
+     b) expense_items: List[Dict] - Array files capturing operational costs (e.g., `[{"item": "Server Cost", "amount": 12000}]`).
+     c) period: str (default: "") - Description text label defining the reporting timeframe window.
+     d) output: str (default: "") - Target system file path destination used to automatically save report files.
+   - Returns: ToolResult sorting summaries into net revenue totals, gross expenses, margins, and itemized listings.
+   - How to call: AccountingTool.generate_profit_loss(revenue_items=[{"name": "Consulting", "amount": 8000.0}], expense_items=[{"name": "Software Licences", "amount": 450.0}], period="Q1 2026")
+
+4. generate_balance_sheet:
+   - Purpose: Evaluates statement assets to verify balancing equity equations: Assets = Liabilities + Equity.
+   - Arguments:
+     a) assets: dict - Maps internal cash, inventory, or physical capital values (e.g., `{"cash": 10000, "equipment": 5000}`).
+     b) liabilities: dict - Maps structural debts or trade payables (e.g., `{"loans": 4000}`).
+     c) equity: dict - Maps tracking shares or retained corporate capital reserves (e.g., `{"retained_earnings": 11000}`).
+     d) date: str (default: "") - Calendar tracking checkpoint string.
+     e) output: str (default: "") - Path destination strings identifying file targets for saving records.
+   - Returns: ToolResult outputting balanced boolean flags along with aggregated metric fields.
+   - How to call: AccountingTool.generate_balance_sheet(assets={"cash": 50000.0, "inventory": 15000.0}, liabilities={"bank_loan": 20000.0}, equity={"capital": 45000.0})
+
+5. generate_cash_flow:
+   - Purpose: Groups liquidity adjustments across standard corporate operational categories.
+   - Arguments:
+     a) operating: List[Dict] - Cash tracking profiles mapping day-to-day business actions.
+     b) investing: List[Dict] - Receipts/payouts detailing equipment or asset updates.
+     c) financing: List[Dict] - Financial tracking rows logging stock variables or dividend distributions.
+     d) period: str (default: "") - Timeline context descriptors.
+     e) output: str (default: "") - Local disk directory targets for generating report files.
+   - Returns: ToolResult evaluating composite liquid flows.
+   - How to call: AccountingTool.generate_cash_flow(operating=[{"desc": "Customer Receipts", "amount": 12000.0}], investing=[{"desc": "Laptop Purchase", "amount": -1500.0}], financing=[{"desc": "Loan Repayment", "amount": -2000.0}])
+
+6. depreciation_schedule:
+   - Purpose: Projects value tracking metrics across long-term asset lifecycles.
+   - Arguments:
+     a) asset_name: str - Inventory naming string label identifying the item.
+     b) cost: float - Absolute original purchase value.
+     c) salvage: float - Estimated value at the end of the asset's useful life.
+     d) life: int - Total expected years of asset use.
+     e) method: str (default: "straight_line") - Allocation calculation formulas (choose `straight_line` or `double_declining`).
+     f) output: str (default: "") - Local file path target strings for output files.
+   - Returns: ToolResult passing yearly arrays tracking step decay changes, accumulated write-offs, and updated book values.
+   - How to call: AccountingTool.depreciation_schedule(asset_name="Server Rack", cost=12000.0, salvage=2000.0, life=5, method="straight_line")
+
+7. currency_convert:
+   - Purpose: Calculates exchange values across different international currencies.
+   - Arguments:
+     a) amount: float - Monetary value volume submitted for conversion.
+     b) from_currency: str - ISO currency code index tracking origin values (e.g., `"USD"`).
+     c) to_currency: str - Target conversion currency token descriptor (e.g., `"EUR"`).
+   - Returns: ToolResult documenting exact conversion rates and resulting values.
+   - How to call: AccountingTool.currency_convert(amount=500.0, from_currency="USD", to_currency="INR")
+
+8. get_exchange_rates:
+   - Purpose: Extracts a comprehensive matrix tracking global foreign exchange variations.
+   - Arguments:
+     a) base: str (default: "USD") - Fixed monetary marker used as the conversion benchmark.
+     b) currencies: List[str] (default: None) - Array targets to filter specific required rate profiles.
+   - Returns: ToolResult wrapping rate mappings.
+   - How to call: AccountingTool.get_exchange_rates(base="EUR", currencies=["USD", "GBP", "JPY"])
+
+9. track_expenses:
+   - Purpose: Automatically reads bank CSV logs to categorize expenditures using specified keyword filters.
+   - Arguments:
+     a) transactions_csv: str - Disk path mapping source CSV statement documents.
+     b) categories: dict (default: None) - Map configurations setting keyword rules linked to group targets (e.g., `{"Travel": ["Uber", "Flight"]}`).
+     c) output_folder: str (default: "") - Target folder location for saving processed report artifacts.
+   - Returns: ToolResult displaying category sum matrices, item counts, and net values.
+   - How to call: AccountingTool.track_expenses(transactions_csv="bank_statement.csv", categories={"Utilities": ["AWS", "Electric"], "Office": ["Stationery", "Rent"]})
+
+10. calculate_tax_liability:
+    - Purpose: Analyzes multi-tier income brackets to estimate standard progressive tax liabilities.
+    - Arguments:
+      a) income: float - Absolute yearly gross earnings metrics submitted for analysis.
+      b) deductions: float - Allowed pre-tax write-offs or exempt investment values.
+      c) country: str (default: "IN") - National bracket rules lookup token flags (supports `IN` or `US`).
+      d) filing_status: str (default: "individual") - Classification status matching local rules requirements.
+    - Returns: ToolResult containing taxable balances, progressive tier breakdown charts, specific surcharges, and effective rate percentages.
+    - How to call: AccountingTool.calculate_tax_liability(income=1400000.0, deductions=75000.0, country="IN")
+    """)
+    
     @staticmethod
     def calculate_gst(amount: float, rate: float = 18.0, type: str = "exclusive") -> ToolResult:
         try:
@@ -2267,7 +2524,189 @@ class AccountingTool:
 class CRMTool:
     name = "crm"
     description = "Lightweight local CRM (SQLite): contacts, deals, pipeline, activities, reminders, sales reports, conversion rates"
+    use = (
+        """Name of Tool:- CRMTool
 
+Purpose of Tool:- 
+The CRMTool is a lightweight local Customer Relationship Management application powered by an underlying SQLite configuration. It centralizes client communication workflows, deal monitoring systems, contact categorization metrics, sales pipeline visibility parameters, and customer-focused logging tasks. By housing operational datasets in isolated local tables, this utility provides programmatic control over customer onboarding (including individual contact modifications, comprehensive data queries, and bulk CSV ingestion frameworks), transactional visibility maps (tracking individual deals, pipeline velocity metrics, closed-won classifications, and localized sales values), historical task management blocks (logging real-time business activities, customer phone calls, and contextual follow-up milestones), and advanced business health reporting models (compiling total revenue metrics, progressive sales funnel conversions, and targeted stage-to-stage percentage calculations).
+
+Methods:-
+- add_contact: Registers a standalone customer profile into the database log tracking array.
+- update_contact: Modifies detailed data values for an established customer record coordinate.
+- delete_contact: Erases individual client listings out of localized table logs completely.
+- list_contacts: Aggregates client indexes applying specified sorting rules or string filter matches.
+- search_contacts: Queries global field layers to capture rows matching specific text values.
+- import_contacts_csv: Extracts raw external tabular customer lists and loops through ingestion schemas.
+- export_contacts: Packs target contact arrays into cleanly formatted external CSV or JSON structures.
+- merge_duplicate_contacts: Resolves store communication data pollution by combining identical email identities.
+- add_deal: Attaches an open sales transaction to the current customer pipeline matrix.
+- update_deal: Injects configuration updates directly into an active sales opportunity block.
+- close_deal: Concludes active transaction parameters by declaring specific open leads as won or lost.
+- list_deals: Filters active contract instances by current progress stages or closing dates.
+- get_pipeline_value: Evaluates total prospective monetary value flowing across pipeline checkpoints.
+- add_activity: Logs interaction histories detailing meetings, communications, and task times.
+- list_activities: Restructures historical activity logging histories filtered by consumer index codes.
+- set_reminder: Builds event notifications linking distinct clients to designated operational dates.
+- generate_sales_report: Measures organizational metrics detailing customer totals, gross revenue, and absolute conversion milestones.
+- get_conversion_rate: Measures deal volume transformations when leads transition from an initial status to downstream checkpoints.
+
+How to use Tool Methods:-
+
+1. add_contact:
+   - Purpose: Registers a customer data block into the underlying storage database workspace.
+   - Arguments:
+     a) name: str - Full legal identifier or corporate title string labeling the record.
+     b) email: str (default: "") - Direct communication address formatting string coordinates.
+     c) phone: str (default: "") - Numerical communication contact sequence string.
+     d) company: str (default: "") - The workspace business entity title associated with the contact.
+     e) tags: str (default: "") - Search terms separated by commas used for categorization rules.
+     f) notes: str (default: "") - Freeform contextual background context description notes.
+   - Returns: ToolResult holding the generated system ID token verifying creation.
+   - How to call: CRMTool.add_contact(name="Alex Rivera", email="alex@company.com", company="Nexus Labs", tags="lead, enterprise")
+
+2. update_contact:
+   - Purpose: Performs selective schema cell modifications on an individual client profile mapping block.
+   - Arguments:
+     a) contact_id: int - The index value pointing to target rows within database records.
+     b) data: dict - Dynamic map key configurations assigning matching values for updating fields.
+   - Returns: ToolResult outputting execution safety confirmations.
+   - How to call: CRMTool.update_contact(contact_id=14, data={"notes": "Prefers evening contact times", "tags": "active, enterprise"})
+
+3. delete_contact:
+   - Purpose: Hard-deletes target contact profiles and metadata fields out of internal system files.
+   - Arguments:
+     a) contact_id: int - Specific record index numbers designated for permanent removal.
+   - Returns: ToolResult presenting boolean operational verification logs.
+   - How to call: CRMTool.delete_contact(contact_id=14)
+
+4. list_contacts:
+   - Purpose: Generates structural listing indices matching requested alpha or timeline sorting properties.
+   - Arguments:
+     a) filter: str (default: "") - Evaluates names, emails, or company cells using loose character matching.
+     b) sort: str (default: "name") - Direct schema parameter string declaring sorting columns (e.g., `name`, `created_at`).
+   - Returns: ToolResult packaging row collection objects inside data matrices.
+   - How to call: CRMTool.list_contacts(filter="Nexus", sort="created_at")
+
+5. search_contacts:
+   - Purpose: Scans all text fields within the contact table to identify specific query criteria matches.
+   - Arguments:
+     a) query: str - Strict or approximate search text variables executed against contact profiles.
+   - Returns: ToolResult returning matching rows array summaries.
+   - How to call: CRMTool.search_contacts(query="enterprise")
+
+6. import_contacts_csv:
+   - Purpose: Processes data imports using structural header mappings in standard delimited source text files.
+   - Arguments:
+     a) path: str - Local system path layout directions pointing to target CSV document files.
+   - Returns: ToolResult displaying calculated ingestion metrics totals.
+   - How to call: CRMTool.import_contacts_csv(path="/data/leads_export.csv")
+
+7. export_contacts:
+   - Purpose: Generates external structured data snapshots from current contact tables.
+   - Arguments:
+     a) format: str (default: "csv") - Serialization layouts format selector (supports `csv` or `json`).
+     b) filter: str (default: "") - Text parameters to constrain exported profiles before writing out files.
+     c) output: str (default: "contacts_export") - Designated base system file location strings for export data.
+   - Returns: ToolResult confirming file generation status metrics.
+   - How to call: CRMTool.export_contacts(format="json", filter="lead", output="exports/june_leads")
+
+8. merge_duplicate_contacts:
+   - Purpose: Cleans database indexes by combining redundant records sharing identical primary email values.
+   - Arguments: None.
+   - Returns: ToolResult identifying the number of duplicate profile lines removed during processing.
+   - How to call: CRMTool.merge_duplicate_contacts()
+
+9. add_deal:
+   - Purpose: Registers a sales opportunity attached to a designated client account key.
+   - Arguments:
+     a) name: str - Distinct nomenclature title tracking active contract proposals.
+     b) value: float - Target total monetary volume expected from the commercial pipeline agreement.
+     c) stage: str - Current position within sales workflows (e.g., `Qualification`, `Proposal`, `Negotiation`).
+     d) contact_id: int (default: 0) - Backing validation number linking deals to source profiles.
+     e) close_date: str (default: "") - Expected execution target date formatting token string.
+   - Returns: ToolResult packing deep tracking ID numbers identifying the deal.
+   - How to call: CRMTool.add_deal(name="Enterprise License Tier 1", value=25000.0, stage="Proposal", contact_id=14)
+
+10. update_deal:
+    - Purpose: Alters specific metric weights or phase labels tracked on registered transactions.
+    - Arguments:
+      a) deal_id: int - Operational identity indexing keys targeting deal fields.
+      b) data: dict - Map key variables mapping field modifications into row records.
+    - Returns: ToolResult providing transactional update confirmations.
+    - How to call: CRMTool.update_deal(deal_id=45, data={"stage": "Negotiation", "value": 23500.0})
+
+11. close_deal:
+    - Purpose: Moves active prospects out of processing pipelines by signing them off as finalized parameters.
+    - Arguments:
+      a) deal_id: int - Selected reference pointer specifying individual deal rows.
+      b) won: bool (default: True) - Declares deal results as a success (`True`, sets stage to Won) or failure (`False`, sets stage to Lost).
+    - Returns: ToolResult reflecting state logging updates.
+    - How to call: CRMTool.close_deal(deal_id=45, won=True)
+
+12. list_deals:
+    - Purpose: Filters transaction matrices across defined milestone stages or timeline windows.
+    - Arguments:
+      a) stage: str (default: "") - Isolates records to specific sales statuses (e.g., `Won`).
+      b) owner: str (default: "") - Conceptual user identification filter string.
+      c) date_range: Tuple (default: None) - Date value pairs establishing filtering windows (e.g., `("2026-01-01", "2026-06-30")`).
+   - Returns: ToolResult parsing all records matching target filter metrics.
+   - How to call: CRMTool.list_deals(stage="Won", date_range=("2026-06-01", "2026-06-30"))
+
+13. get_pipeline_value:
+    - Purpose: Aggregates monetary values tracked within active store pipeline stages.
+    - Arguments:
+      a) stage: str (default: "") - Targets single validation positions; pulls all active states when left blank.
+    - Returns: ToolResult reporting combined pipeline values and item counts.
+    - How to call: CRMTool.get_pipeline_value(stage="Proposal")
+
+14. add_activity:
+    - Purpose: Records an interaction timeline milestone against a target customer profile.
+    - Arguments:
+      a) contact_id: int - Verification key assigning logged tasks to profiles.
+      b) type: str - Categorization mode label markers (e.g., `Call`, `Email`, `Meeting`).
+      c) description: str - Summary text log capturing explicit conversation milestones.
+      d) date: str (default: "") - ISO timeline entry; uses current date details when left empty.
+      e) duration: int (default: 0) - Active interaction timeframe tracked using minutes tracking.
+    - Returns: ToolResult outlining status task entries.
+    - How to call: CRMTool.add_activity(contact_id=14, type="Call", description="Discussed pricing options for license packages", duration=25)
+
+15. list_activities:
+    - Purpose: Collects sequential client relationship history files ordered by date metrics.
+    - Arguments:
+      a) contact_id: int (default: 0) - Pulls activities tied to a single user profile when greater than 0.
+      b) type: str (default: "") - Filters results down to matching action categories (e.g., `Meeting`).
+      c) date_range: Tuple (default: None) - Boundary date values filtering the activity window.
+    - Returns: ToolResult parsing sorted customer interaction lists.
+    - How to call: CRMTool.list_activities(contact_id=14, type="Call")
+
+16. set_reminder:
+    - Purpose: Sets system action alarms linked to specific follow-up client targets.
+    - Arguments:
+      a) contact_id: int - Identification key associating tasks with consumer entities.
+      b) message: str - Context reminder text string outlining requested actions.
+      c) remind_at: str - ISO calendar timeline checkpoint target for notification triggers.
+    - Returns: ToolResult confirming operational setup parameters.
+    - How to call: CRMTool.set_reminder(contact_id=14, message="Follow up on proposed enterprise contract", remind_at="2026-06-23T10:00:00")
+
+17. generate_sales_report:
+    - Purpose: Generates high-level summaries measuring overall business performance metrics.
+    - Arguments:
+      a) period: str (default: "monthly") - Scale tracking interval parameters.
+      b) breakdown: str (default: "stage") - Property dimension fields sorting report metrics.
+      c) output: str (default: "") - System target destination path used for generating file copies.
+    - Returns: ToolResult detailing macro revenue, total interactions, win counts, and composite conversion efficiencies.
+    - How to call: CRMTool.generate_sales_report(period="monthly", output="reports/sales_june_2026.json")
+
+18. get_conversion_rate:
+    - Purpose: Evaluates transition percentages between different stages of the sales process.
+    - Arguments:
+      a) stage_from: str - Base funnel status checkpoint coordinate serving as the starting benchmark.
+      b) stage_to: str - Advanced status target serving as the conversion benchmark.
+      c) period: str (default: "") - Calendar filtering constraint window parameter strings.
+    - Returns: ToolResult tracking record ratios and percentage calculations.
+    - How to call: CRMTool.get_conversion_rate(stage_from="Proposal", stage_to="Won")
+    """)
+    
     DB_PATH = str(Path.home() / ".npmai_agent" / "crm.db")
 
     @staticmethod
@@ -2567,7 +3006,167 @@ class CRMTool:
 class EmailMarketingTool:
     name = "email_marketing"
     description = "Mailchimp campaign management: lists, subscribers, campaigns, schedules, automations, templates, stats, unsubscribes"
+    use = (
+        """
+Name of Tool:- EmailMarketingTool,
 
+Purpose of Tool:- 
+The EmailMarketingTool provides a comprehensive interface to the Mailchimp API for professional email marketing automation. 
+It supports full campaign lifecycle (create, set content, schedule, send), audience/list management (create lists, add/remove subscribers, bulk import), automation workflows, email templates, campaign and list statistics, and unsubscribe management. 
+All operations are performed through authenticated Mailchimp API access using API key and server prefix stored in CredStore. 
+This tool is designed for marketing automation, newsletter management, customer engagement campaigns, bulk email operations, and agentic email marketing workflows.
+
+Methods:-
+- _mc: Internal helper to initialize authenticated Mailchimp client.
+- create_campaign: Creates a new regular email campaign and sets its HTML content.
+- schedule_campaign: Schedules a campaign to be sent at a specific future time.
+- send_campaign_now: Immediately sends an existing campaign.
+- create_list: Creates a new audience/list.
+- add_subscriber: Adds a single subscriber to a list.
+- remove_subscriber: Unsubscribes a member from a specific list.
+- import_subscribers: Bulk imports or updates subscribers from a CSV file.
+- get_campaign_stats: Retrieves detailed performance statistics for a campaign.
+- get_list_stats: Retrieves statistics for an audience/list.
+- create_automation: Creates a basic automation workflow.
+- create_template: Creates a reusable email template.
+- unsubscribe: Unsubscribes an email address from all lists.
+- get_unsubscribes: Retrieves unsubscribed members from a specific list.
+
+How to use Tool Methods:-
+
+1. _mc (Internal Authentication Helper):
+   - Purpose: Creates and returns an authenticated Mailchimp Marketing API client.
+   - Arguments:
+     a) cred_key: str (default: "mailchimp") - The key used to load credentials from CredStore.
+   - Credential format expected in CredStore: {'api_key': 'your-mailchimp-api-key', 'server_prefix': 'us1' (or your datacenter)}.
+   - Note: This method is called internally by all other methods. You generally do not call it directly.
+   - Requirement: Valid Mailchimp API key must be saved using CredStore.save('mailchimp', {'api_key': '...', 'server_prefix': 'us1'}).
+
+2. create_campaign:
+   - Purpose: Creates a new regular email campaign, sets its recipients list, basic settings, and HTML content in one operation.
+   - Arguments:
+     a) name: str - Internal campaign title.
+     b) subject: str - Email subject line.
+     c) from_name: str - Sender name displayed to recipients.
+     d) from_email: str - Reply-to email address.
+     e) content: str - Full HTML content of the email.
+     f) list_id: str - Audience/List ID to send to.
+     g) cred_key: str (default: "mailchimp").
+   - Returns: ToolResult with campaign ID.
+   - How to call: 
+     EmailMarketingTool.create_campaign(
+         name="Summer Sale Campaign",
+         subject="Don't miss our biggest sale of the year!",
+         from_name="My Brand",
+         from_email="hello@mybrand.com",
+         content="<html><body><h1>Special Offer</h1>...</body></html>",
+         list_id="abc123def456"
+     )
+
+3. schedule_campaign:
+   - Purpose: Schedules an already created campaign to be sent at a future datetime.
+   - Arguments:
+     a) campaign_id: str - The campaign ID returned from create_campaign.
+     b) send_time: str - ISO 8601 datetime string (e.g., "2026-06-20T10:00:00+00:00").
+     c) cred_key: str (default: "mailchimp").
+   - How to call: EmailMarketingTool.schedule_campaign(campaign_id="abc123", send_time="2026-06-20T14:30:00+00:00")
+
+4. send_campaign_now:
+   - Purpose: Immediately sends a ready campaign (use with caution).
+   - Arguments:
+     a) campaign_id: str
+     b) cred_key: str (default: "mailchimp").
+   - How to call: EmailMarketingTool.send_campaign_now(campaign_id="abc123")
+
+5. create_list:
+   - Purpose: Creates a new Mailchimp audience/list.
+   - Arguments:
+     a) name: str - Name of the new list.
+     b) from_name: str (default: "NPM Agent") - Default sender name.
+     c) from_email: str (default: "") - Default from email.
+     d) cred_key: str (default: "mailchimp").
+   - Returns: List ID.
+   - How to call: EmailMarketingTool.create_list(name="Newsletter Subscribers", from_email="newsletter@mybrand.com")
+
+6. add_subscriber:
+   - Purpose: Adds or updates a single email subscriber to a list with merge fields.
+   - Arguments:
+     a) list_id: str - Target audience ID.
+     b) email: str - Subscriber email address.
+     c) name: str (default: "") - Full name (automatically split into FNAME/LNAME).
+     d) custom_fields: Dict (default: None) - Additional merge fields (e.g., {"PHONE": "12345", "COMPANY": "ABC"}).
+     e) cred_key: str (default: "mailchimp").
+   - How to call: EmailMarketingTool.add_subscriber(list_id="abc123", email="user@example.com", name="John Doe", custom_fields={"AGE": "30"})
+
+7. remove_subscriber:
+   - Purpose: Unsubscribes a member from a specific list (changes status to unsubscribed).
+   - Arguments:
+     a) list_id: str
+     b) email: str
+     c) cred_key: str (default: "mailchimp").
+   - How to call: EmailMarketingTool.remove_subscriber(list_id="abc123", email="user@example.com")
+
+8. import_subscribers:
+   - Purpose: Bulk import or update multiple subscribers from a CSV file.
+   - Arguments:
+     a) list_id: str
+     b) csv_path: str - Path to CSV file (must contain columns like email, first_name, last_name, etc.).
+     c) cred_key: str (default: "mailchimp").
+   - Returns: Summary of created and updated counts.
+   - How to call: EmailMarketingTool.import_subscribers(list_id="abc123", csv_path="subscribers.csv")
+
+9. get_campaign_stats:
+   - Purpose: Retrieves comprehensive performance metrics for a sent campaign.
+   - Arguments:
+     a) campaign_id: str
+     b) cred_key: str (default: "mailchimp").
+   - Returns: Dict with emails_sent, opens, unique_opens, open_rate, clicks, click_rate, unsubscribes, bounces, etc.
+   - How to call: EmailMarketingTool.get_campaign_stats(campaign_id="abc123")
+
+10. get_list_stats:
+    - Purpose: Gets audience statistics (member count, open rates, etc.).
+    - Arguments:
+      a) list_id: str
+      b) cred_key: str (default: "mailchimp").
+    - How to call: EmailMarketingTool.get_list_stats(list_id="abc123")
+
+11. create_automation:
+    - Purpose: Creates a basic automation workflow (note: current implementation is simplified).
+    - Arguments:
+      a) name: str - Automation title.
+      b) trigger: str - Workflow trigger type.
+      c) actions: List[Dict] - List of actions (uses first action's list_id).
+      d) cred_key: str (default: "mailchimp").
+    - How to call: EmailMarketingTool.create_automation(name="Welcome Series", trigger="subscribe", actions=[{"list_id": "abc123"}])
+
+12. create_template:
+    - Purpose: Creates a reusable email template in Mailchimp.
+    - Arguments:
+      a) name: str - Template name.
+      b) html: str - Full HTML content.
+      c) text: str (default: "") - Plain text version (optional).
+      d) cred_key: str (default: "mailchimp").
+    - Returns: Template ID.
+    - How to call: EmailMarketingTool.create_template(name="Newsletter Template", html="<html>...</html>")
+
+13. unsubscribe:
+    - Purpose: Unsubscribes an email address from **all** lists the user belongs to.
+    - Arguments:
+      a) email: str
+      b) reason: str (default: "") - Optional reason.
+      c) cred_key: str (default: "mailchimp").
+    - How to call: EmailMarketingTool.unsubscribe(email="user@example.com")
+
+14. get_unsubscribes:
+    - Purpose: Retrieves list of unsubscribed members from a specific list.
+    - Arguments:
+      a) list_id: str
+      b) date_range: Tuple (default: None) - Not fully utilized in current code.
+      c) cred_key: str (default: "mailchimp").
+    - Returns: List of unsubscribed emails with details.
+    - How to call: EmailMarketingTool.get_unsubscribes(list_id="abc123")
+""")
+    
     @staticmethod
     def _mc(cred_key: str = "mailchimp"):
         import mailchimp_marketing as MailchimpMarketing
@@ -2755,7 +3354,132 @@ class EmailMarketingTool:
 class AnalyticsTool:
     name = "analytics"
     description = "Google Analytics 4 reporting: sessions, top pages, traffic sources, conversions, realtime users, custom reports, weekly summaries"
+    use = (
+        """
+Name of Tool:- AnalyticsTool,
 
+Purpose of Tool:- 
+The AnalyticsTool provides a powerful interface to Google Analytics 4 (GA4) for retrieving reporting data, real-time insights, custom reports, and event tracking. 
+It supports sessions & users analysis, top pages performance, traffic source/medium breakdown, conversion tracking, real-time active users, flexible custom reporting, automated weekly summaries, and server-side event tracking via the Measurement Protocol. 
+Authentication is handled through Google service account credentials (either from a JSON file or stored via CredStore). 
+This tool is essential for data-driven decision making, performance monitoring, marketing analytics, and agentic business intelligence workflows.
+
+Methods:-
+- _ga_client: Internal helper to initialize authenticated GA4 client.
+- connect_google_analytics: Saves Google Analytics service account credentials to CredStore.
+- get_sessions: Retrieves session and user data with optional dimensions.
+- get_top_pages: Gets the top performing pages by page views.
+- get_traffic_sources: Analyzes traffic sources and mediums.
+- get_conversions: Retrieves conversion data for specific events/goals.
+- get_realtime_users: Returns the number of currently active users on the site.
+- create_custom_report: Builds and runs fully customizable GA4 reports.
+- generate_weekly_report: Generates a complete weekly analytics summary report.
+- track_event: Sends server-side events to GA4 using the Measurement Protocol.
+
+How to use Tool Methods:-
+
+1. _ga_client (Internal Authentication Helper):
+   - Purpose: Initializes and returns an authenticated Google Analytics Data API (v1beta) client using service account credentials.
+   - Arguments:
+     a) credentials_path: str (default: "") - Optional direct path to service account JSON file.
+     b) cred_key: str (default: "google_analytics") - Key to load credentials from CredStore.
+   - Note: This is an internal method. You generally do not call it directly. It supports both file-based and CredStore-based credential loading.
+   - Requirement: Service account must have "Analytics Data Reader" role on the GA4 property.
+
+2. connect_google_analytics:
+   - Purpose: Loads service account credentials from a JSON file and saves them securely into CredStore for future use.
+   - Arguments:
+     a) credentials: str - Path to the Google service account JSON file.
+     b) cred_key: str (default: "google_analytics").
+   - How to call: AnalyticsTool.connect_google_analytics(credentials="path/to/ga4-service-account.json")
+
+3. get_sessions:
+   - Purpose: Fetches historical session and user counts, optionally broken down by dimensions like date, device, country, etc.
+   - Arguments:
+     a) property_id: str - GA4 Property ID (numeric, e.g., "123456789").
+     b) start_date: str - Start date in YYYY-MM-DD format or "30daysAgo", "7daysAgo", etc.
+     c) end_date: str - End date in YYYY-MM-DD format or "today".
+     d) dimensions: List[str] (default: None) - e.g., ["date"], ["country"], ["deviceCategory"].
+     e) cred_key: str (default: "google_analytics").
+   - Returns: List of rows with dimensions and metrics (sessions, users).
+   - How to call: AnalyticsTool.get_sessions(property_id="123456789", start_date="2026-06-01", end_date="2026-06-16", dimensions=["date"])
+
+4. get_top_pages:
+   - Purpose: Retrieves the highest performing pages ranked by screen page views.
+   - Arguments:
+     a) property_id: str
+     b) start_date: str
+     c) end_date: str
+     d) limit: int (default: 10) - Number of top pages to return.
+     e) cred_key: str (default: "google_analytics").
+   - Returns: List of pages with page path, views, and sessions.
+   - How to call: AnalyticsTool.get_top_pages(property_id="123456789", start_date="30daysAgo", end_date="today", limit=15)
+
+5. get_traffic_sources:
+   - Purpose: Breaks down traffic by source and medium (e.g., google / organic, facebook / social, direct / none).
+   - Arguments:
+     a) property_id: str
+     b) start_date: str
+     c) end_date: str
+     d) cred_key: str (default: "google_analytics").
+   - Returns: List of sources with sessions and users.
+   - How to call: AnalyticsTool.get_traffic_sources(property_id="123456789", start_date="2026-06-01", end_date="2026-06-16")
+
+6. get_conversions:
+   - Purpose: Reports on specific conversion events or goals.
+   - Arguments:
+     a) property_id: str
+     b) goal_id: str - Event name to filter (e.g., "purchase", "sign_up").
+     c) start_date: str
+     d) end_date: str
+     e) cred_key: str (default: "google_analytics").
+   - Returns: Conversion counts and event totals.
+   - How to call: AnalyticsTool.get_conversions(property_id="123456789", goal_id="purchase", start_date="30daysAgo", end_date="today")
+
+7. get_realtime_users:
+   - Purpose: Returns the number of users currently active on the website/app in real time.
+   - Arguments:
+     a) property_id: str
+     b) cred_key: str (default: "google_analytics").
+   - Returns: Current active user count.
+   - How to call: AnalyticsTool.get_realtime_users(property_id="123456789")
+
+8. create_custom_report:
+   - Purpose: Creates highly flexible custom reports with any combination of metrics, dimensions, and date ranges.
+   - Arguments:
+     a) property_id: str
+     b) metrics: List[str] - e.g., ["sessions", "screenPageViews", "bounceRate", "averageSessionDuration"].
+     c) dimensions: List[str] - e.g., ["date", "pagePath", "sessionSource"].
+     d) filters: Dict (default: None) - Advanced dimension filters (optional).
+     e) start_date: str (default: "30daysAgo")
+     f) end_date: str (default: "today")
+     g) output: str (default: "") - If provided, saves the report as JSON file.
+     h) cred_key: str (default: "google_analytics").
+   - Returns: List of report rows.
+   - How to call: AnalyticsTool.create_custom_report(property_id="123456789", metrics=["sessions", "users"], dimensions=["date", "country"], output="custom_report.json")
+
+9. generate_weekly_report:
+   - Purpose: Automatically generates a complete weekly analytics summary including sessions, top pages, and traffic sources.
+   - Arguments:
+     a) property_id: str
+     b) output: str (default: "weekly_analytics.json") - Path where the JSON report will be saved.
+     c) cred_key: str (default: "google_analytics").
+   - Returns: Full weekly report dictionary.
+   - How to call: AnalyticsTool.generate_weekly_report(property_id="123456789", output="weekly_report_20260616.json")
+
+10. track_event:
+    - Purpose: Sends custom events to GA4 from the server-side using the Measurement Protocol (useful for backend conversions, offline events, etc.).
+    - Arguments:
+      a) category: str - Event category (e.g., "engagement", "ecommerce").
+      b) action: str - Event action/name (e.g., "purchase", "button_click").
+      c) label: str (default: "") - Additional label/context.
+      d) value: int (default: 0) - Numeric value associated with the event.
+      e) measurement_id: str (default: "") - GA4 Measurement ID (G-XXXXXXXXXX).
+      f) api_secret: str (default: "") - API Secret from GA4 data stream.
+      g) cred_key: str (default: "google_analytics") - Can store measurement_id and api_secret.
+    - How to call: AnalyticsTool.track_event(category="ecommerce", action="purchase", label="product123", value=99)
+""")
+    
     @staticmethod
     def _ga_client(credentials_path: str = "", cred_key: str = "google_analytics"):
         from google.analytics.data_v1beta import BetaAnalyticsDataClient
@@ -2929,7 +3653,127 @@ class AnalyticsTool:
 class InventoryTool:
     name = "inventory"
     description = "Stock and inventory management via SQLite: add/update products, record sales/purchases, low stock alerts, demand forecasting, reports"
+    use = (
+        """Name of Tool:- InventoryTool
 
+Purpose of Tool:- 
+The InventoryTool is a local stock management utility backed by an SQLite file configuration. It streamlines retail and warehouse supply chains by providing programmatic control over database logging operations. It maps individual inventory profiles (creating, updating, and modifying unique SKU rows detailing storage locations and minimum safety counts), processes transactional event metrics (logging sales to customers, capturing purchases from suppliers, and applying custom manual corrections), runs proactive alert lookups (flagging items that fall below reorder benchmarks or are out of stock), tracks operational values (calculating net cash ties across cost or retail price limits), and builds forecasting approximations (analyzing average historical order logs to calculate run-out intervals and order quantities).
+
+Methods:-
+- add_product: Registers a new item or updates an existing SKU configuration matrix.
+- update_stock: Modifies unit balances manually using dedicated adjustment logs.
+- get_stock_level: Inspects item volumes and verifies safety reorder limits.
+- list_low_stock: Generates arrays capturing SKUs operating below designated safety thresholds.
+- list_out_of_stock: Identifies missing products where absolute volume counts hit zero.
+- get_inventory_value: Computes macro financial investments across wholesale and retail price dimensions.
+- record_sale: Processes consumer transaction records, logging revenue while reducing stock depth.
+- record_purchase: Logs supplier warehouse shipments, automatically increasing localized unit counts.
+- generate_stock_report: Compiles comprehensive metadata tables tracking item metrics and operational performance.
+- forecast_demand: Projects unit requirements using localized daily sales averages.
+- export_inventory: Formats internal database rows into isolated local CSV or JSON storage structures.
+- import_inventory: Ingests external tabular spreadsheets to perform bulk item setups.
+
+How to use Tool Methods:-
+
+1. add_product:
+   - Purpose: Injects or completely updates an item record within the local data store.
+   - Arguments:
+     a) sku: str - A unique alphanumeric code string used to identify a specific product.
+     b) name: str - Descriptive terminology title labeling the asset.
+     c) quantity: int - Absolute starting baseline unit count.
+     d) cost_price: float - Supplier purchase expense metric per unit.
+     e) sell_price: float - Listed retail market face value price per unit.
+     f) location: str (default: "") - Specific warehouse zone label or aisle tag string.
+     g) reorder_point: int (default: 10) - Safety stock volume trigger that flags a low stock warning.
+   - Returns: ToolResult capturing structural execution status details.
+   - How to call: InventoryTool.add_product(sku="PROD-102-X", name="Ergonomic Desk Chair", quantity=45, cost_price=75.0, sell_price=149.99, location="Aisle 4B", reorder_point=12)
+
+2. update_stock:
+   - Purpose: Performs isolated balance corrections to handle counts outside standard transactional boundaries.
+   - Arguments:
+     a) sku: str - Target index string tracking the product.
+     b) quantity_change: int - Integer step indicator adding (+ value) or subtracting (- value) items.
+     c) reason: str (default: "") - Context text notation detailing why the correction happened (e.g., `damaged stock`).
+   - Returns: ToolResult passing previous state balances alongside new total calculations.
+   - How to call: InventoryTool.update_stock(sku="PROD-102-X", quantity_change=-2, reason="Showroom display damage")
+
+3. get_stock_level:
+   - Purpose: Returns the precise volume status and safety health metrics of a specific product.
+   - Arguments:
+     a) sku: str - Alphanumeric product token identifier.
+   - Returns: ToolResult containing a complete field map dictionary and structural low-stock warning tags.
+   - How to call: InventoryTool.get_stock_level(sku="PROD-102-X")
+
+4. list_low_stock:
+   - Purpose: Extracts records of products whose quantities have fallen to critical replenishment levels.
+   - Arguments:
+     a) threshold: int (default: 0) - Manual filter range check boundary overrides; leaves evaluation to standard product reorder triggers when set to 0.
+   - Returns: ToolResult outputting list elements grouping at-risk product parameters.
+   - How to call: InventoryTool.list_low_stock(threshold=15)
+
+5. list_out_of_stock:
+   - Purpose: Flags completely exhausted items that require immediate vendor purchasing orders.
+   - Arguments: None.
+   - Returns: ToolResult tracking empty inventory arrays.
+   - How to call: InventoryTool.list_out_of_stock()
+
+6. get_inventory_value:
+   - Purpose: Summarizes current asset values across cost investments and target retail valuations.
+   - Arguments: None.
+   - Returns: ToolResult providing fields for cost_value totals, retail_value metrics, and total product type counts.
+   - How to call: InventoryTool.get_inventory_value()
+
+7. record_sale:
+   - Purpose: Deducts item counts out of storage rows and appends an explicit transaction entry log.
+   - Arguments:
+     a) sku: str - Alphanumeric product token matching target indexes.
+     b) quantity: int - Number of components ordered during consumer checks.
+     c) price: float - Active revenue value per component collected during sales.
+     d) customer: str (default: "") - Buyer identity identification token string.
+   - Returns: ToolResult validating performance safety metrics and remaining unit weights.
+   - How to call: InventoryTool.record_sale(sku="PROD-102-X", quantity=3, price=149.99, customer="TechCorp Inc")
+
+8. record_purchase:
+   - Purpose: Logs restocking actions from vendor partners, updating the unit balances and standard cost values.
+   - Arguments:
+     a) sku: str - Target product lookup identifier.
+     b) quantity: int - Number of items received at the loading bay.
+     c) cost: float - Absolute wholesale unit rate cost billed by the vendor.
+     d) supplier: str (default: "") - Manufacturer corporate name identification text strings.
+   - Returns: ToolResult confirming arrival status changes.
+   - How to call: InventoryTool.record_purchase(sku="PROD-102-X", quantity=50, cost=72.50, supplier="OfficeSupply Ltd")
+
+9. generate_stock_report:
+   - Purpose: Runs high-level calculations across historical ledger logs to generate operational snapshots.
+   - Arguments:
+     a) output: str (default: "") - File layout directory maps defining save targets for the generated JSON document.
+   - Returns: ToolResult packaging nested metric summaries, item arrays, and timeline generation milestones.
+   - How to call: InventoryTool.generate_stock_report(output="reports/inventory_status.json")
+
+10. forecast_demand:
+    - Purpose: Estimates prospective unit burn rates using linear historical sales histories.
+    - Arguments:
+      a) sku: str - Product tracking marker used to compile historical sales trends.
+      b) days_ahead: int (default: 30) - Timeline projection scale window tracked using day variables.
+    - Returns: ToolResult generating fields detailing estimated demand, run-out intervals, and recommended order sizes.
+    - How to call: InventoryTool.forecast_demand(sku="PROD-102-X", days_ahead=45)
+
+11. export_inventory:
+    - Purpose: Converts active internal structured data snapshots into external documents.
+    - Arguments:
+      a) format: str (default: "csv") - Target output format selector (supports `csv` or `json`).
+      b) output: str (default: "inventory_export") - Target directory save path used for final output generation.
+    - Returns: ToolResult verifying file save pathways and total record exports.
+    - How to call: InventoryTool.export_inventory(format="csv", output="exports/warehouse_snapshot")
+
+12. import_inventory:
+    - Purpose: Parses spreadsheet rows to automate high-volume catalog onboarding workflows.
+    - Arguments:
+      a) csv_path: str - Local destination folder tracking target source CSV files.
+    - Returns: ToolResult delivering operational execution tally numbers.
+    - How to call: InventoryTool.import_inventory(csv_path="imports/new_catalog_2026.csv")
+    """)
+    
     DB_PATH = str(Path.home() / ".npmai_agent" / "inventory.db")
 
     @staticmethod
@@ -3145,7 +3989,119 @@ class InventoryTool:
 class ContractTool:
     name = "contract"
     description = "Contract and legal document automation: NDA, service agreements, employment contracts, template filling, AI extraction, comparison"
+    use = (
+        """Name of Tool:- ContractTool
 
+Purpose of Tool:- 
+The ContractTool is a legal document automation utility designed to streamline the lifecycle of business agreements through programmatic generation, parsing, and modification. It programmatically generates standardized legal agreements—specifically Non-Disclosure Agreements (NDAs), Service Agreements, and Employment Contracts—and exports them as stylized PDFs via ReportLab. Beyond generation, the tool integrates light AI capability (via Ollama text models) and layout utilities to analyze text layers, extract key parameters (such as obligation milestones, pricing structures, or jurisdictional scopes) into structured JSON formats, parse temporal metrics to throw alerts on past-due or rapidly approaching critical dates, track textual drift across multiple iterations via unified diff calculations, and modify layouts by injecting interactive coordinate-based signature boxes into underlying PDF arrays.
+
+Methods:-
+- create_nda: Programmatically outputs a legally structured PDF document covering mutual data-sharing restrictions.
+- create_service_agreement: Compiles specific business provision maps, pricing variables, and termination properties into a signed workflow PDF.
+- create_employment_contract: Organizes corporate job rules, wage variables, hours, and non-compete clauses into an actionable workspace PDF.
+- fill_template: Performs automated batch string replacements against common token templates and exports them as PDF, Word, or text files.
+- extract_key_terms: Utilizes localized large language models to structuralize disparate legal language sections into key-value JSON parameters.
+- summarize_contract: Condenses voluminous legal texts into high-level, human-readable prose executive summaries.
+- check_contract_dates: Scans active string coordinates to extract calendar dates and flags expired parameters or upcoming liabilities.
+- compare_contracts: Processes textual drift between document revisions to map added or removed lines into unified delta logs.
+- add_signature_field: Injects customized signature block borders and date variables onto explicit document space configurations.
+- verify_signature: Inspects file structural layers to summarize active metadata components and identify form elements.
+
+How to use Tool Methods:-
+
+1. create_nda:
+   - Purpose: Builds a standard, customized Non-Disclosure Agreement PDF file with designated execution spaces.
+   - Arguments:
+     a) parties: dict - A structural nested key map outlining details for `party_a` (disclosing entity) and `party_b` (receiving entity) containing `name` and `address` values.
+     b) effective_date: str - Calendar start date labeling when standard non-disclosure enforcement starts.
+     c) duration: str (default: "2 years") - Total lifetime window defining how long proprietary items remain protected.
+     d) jurisdiction: str (default: "India") - Legal territorial boundary governing execution disputes.
+     e) output: str (default: "nda.pdf") - Target destination folder path for the final generated PDF file.
+   - Returns: ToolResult providing validation messages upon successful file creation.
+   - How to call: ContractTool.create_nda(parties={"party_a": {"name": "Alpha Corp", "address": "New Delhi"}, "party_b": {"name": "Beta LLC", "address": "Mumbai"}}, effective_date="2026-06-16", duration="3 years", jurisdiction="India")
+
+2. create_service_agreement:
+   - Purpose: Automates contractor vendor parameters by binding deliverables to specific financial frameworks.
+   - Arguments:
+     a) provider: dict - Entity dictionary specifying the vendor's `name`, `email`, and `city`.
+     b) client: dict - Entity dictionary specifying the purchaser's `name` and `email`.
+     c) services: str - Detailed paragraph block describing standard milestones or task definitions.
+     d) payment: dict - Variable parameters dict holding structural keys like `amount`, `currency`, `due` dates, `late_fee`, and `notice_days`.
+     e) output: str (default: "service_agreement.pdf") - Designated output folder location mapping the agreement document.
+   - Returns: ToolResult confirming successful execution.
+   - How to call: ContractTool.create_service_agreement(provider={"name": "DevSolutions", "email": "dev@solutions.in", "city": "Bangalore"}, client={"name": "RetailHub", "email": "ops@retailhub.com"}, services="Custom software engineering and deployment of CRM backend integration modules.", payment={"amount": 450000, "currency": "INR", "due": "Net 30", "notice_days": "30"})
+
+3. create_employment_contract:
+   - Purpose: Formalizes structural organizational hiring tasks by saving employee parameter lists to a PDF document.
+   - Arguments:
+     a) employer: dict - Structural map recording company metrics like `name`, `address`, standard operational `hours`, and `location`.
+     b) employee: dict - Candidate profile keys detailing full legal `name` and physical `address`.
+     c) role: str - Corporate tier title labeling the active assignment.
+     d) salary: dict - Variable metric block mapping parameters such as wage `amount`, `currency`, pay `period`, `type`, `probation` months, and `non_compete` windows.
+     e) start_date: str - Official arrival window tracking when operations begin.
+     f) output: str (default: "employment_contract.pdf") - System file directory pointer mapping final PDF layouts.
+   - Returns: ToolResult verifying standard workspace setup parameters.
+   - How to call: ContractTool.create_employment_contract(employer={"name": "Fintech Solutions India", "address": "Tech Park, Hyderabad"}, employee={"name": "Rohan Sharma", "address": "Gachibowli, Hyderabad"}, role="Senior Systems Engineer", salary={"amount": 150000, "currency": "₹", "period": "month", "probation": "6 months"}, start_date="2026-07-01")
+
+4. fill_template:
+   - Purpose: Swaps user variable dictionaries into draft forms using loose bracket replacements across multiple layout choices.
+   - Arguments:
+     a) template_path: str - Target file path map pointing to base text files containing template token blocks.
+     b) data_dict: dict - Replacement key-value collection that maps dynamic text strings over placeholders.
+     c) output: str - Target workspace save directory containing specific extensions like `.pdf`, `.docx`, or `.txt`.
+   - Returns: ToolResult updating generation status details.
+   - How to call: ContractTool.fill_template(template_path="templates/base_nda.txt", data_dict={"party_a": "Initech Corp", "effective_date": "2026-06-16"}, output="drafts/filled_nda.docx")
+
+5. extract_key_terms:
+   - Purpose: Uses natural language parsing execution steps to organize unstructured document text layers into schema field maps.
+   - Arguments:
+     a) contract_pdf: str - Local filesystem location tracking target source document files.
+     b) model: str (default: "llama3.2:3b") - Local model identifier sequence selected for language extraction jobs.
+   - Returns: ToolResult outputting structured fields covering names, timeline dates, financial structures, and liability parameters.
+   - How to call: ContractTool.extract_key_terms(contract_pdf="received/vendor_proposal.pdf", model="mistral:7b")
+
+6. summarize_contract:
+   - Purpose: Condenses complex legal jargon into a clear, high-level summary overview.
+   - Arguments:
+     a) contract_pdf: str - Input file location path mapping target legal documents.
+     b) model: str (default: "llama3.2:3b") - Local model identifier sequence processing summary generation tasks.
+   - Returns: ToolResult packaging plain language explanations outlining baseline terms and operational risks.
+   - How to call: ContractTool.summarize_contract(contract_pdf="received/lease_agreement.pdf")
+
+7. check_contract_dates:
+   - Purpose: Extracts structural text dates out of a contract to verify scheduling variables and catch looming deadline flags.
+   - Arguments:
+     a) contract_pdf: str - Destination tracking coordinates pointing to the target PDF layout files.
+   - Returns: ToolResult parsing all isolated date occurrences alongside clear alert arrays highlighting items in the past or items expiring soon.
+   - How to call: ContractTool.check_contract_dates(contract_pdf="vault/active_nda.pdf")
+
+8. compare_contracts:
+   - Purpose: Generates line-by-line unified structural difference text files to review changes across drafting cycles.
+   - Arguments:
+     a) contract1: str - Base file directory locator matching the original contract draft layer.
+     b) contract2: str - Modified secondary document file directory path tracking replacement drafts.
+     c) output: str (default: "contract_diff.txt") - Destination file tracking path mapping structural delta text assets.
+   - Returns: ToolResult tracking numeric tallies for additions and removals.
+   - How to call: ContractTool.compare_contracts(contract1="drafts/v1_final.pdf", contract2="drafts/v2_amended.pdf", output="diffs/amendment_check.txt")
+
+9. add_signature_field:
+   - Purpose: Draws an interactive rectangular signature block on the first page of a document using specified layout coordinates.
+   - Arguments:
+     a) pdf: str - Baseline source document layer tracking path.
+     b) name: str - Target signee name printed as helper text underneath the boundary layout line.
+     c) position: Tuple (default: (100, 100)) - Coordinate offset integers mapping exact layout distances `(X, Y)` from bottom-left corner boundaries.
+     d) output: str (default: "") - Generated target storage name overrides; falls back to appending `_with_sig` suffix tags when empty.
+   - Returns: ToolResult highlighting modified output destination paths.
+   - How to call: ContractTool.add_signature_field(pdf="drafts/service_agreement.pdf", name="Alex Rivera", position=(150, 200), output="final/ready_to_sign.pdf")
+
+10. verify_signature:
+    - Purpose: Scans internal interactive arrays to count electronic entry layers and summarize structural system properties.
+    - Arguments:
+      a) pdf: str - System document file layout destination string.
+    - Returns: ToolResult supplying key-value indices tracking signature fields, global page numbers, and core file parameters.
+    - How to call: ContractTool.verify_signature(pdf="final/signed_nda.pdf")
+    """)
+    
     @staticmethod
     def _pdf_header(c_obj, title: str, subtitle: str, W: float, H: float):
         from reportlab.lib import colors
