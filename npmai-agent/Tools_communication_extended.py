@@ -51,7 +51,81 @@ class MicrosoftTeamsTool:
         "Microsoft Teams integration: send messages, adaptive cards, file notifications, "
         "mentions, and approval requests via Incoming Webhooks."
     )
+    use = (
+        """
+Name of Tool:- MicrosoftTeamsTool,
 
+Purpose of Tool:- 
+The MicrosoftTeamsTool enables seamless integration with Microsoft Teams channels through Incoming Webhooks. 
+It supports sending rich formatted messages using MessageCard format, Adaptive Cards, file sharing notifications, user mentions, and interactive approval request cards with action buttons. 
+This tool is perfect for notifications, alerts, workflow approvals, file sharing updates, and team collaboration automation directly from agents or scripts without requiring full Graph API permissions.
+
+Methods:-
+- send_message: Sends a rich MessageCard with title, text, facts, and optional actions.
+- send_adaptive_card: Sends a fully custom Adaptive Card payload.
+- send_file_notification: Sends a notification about a shared file with direct open link.
+- create_channel_message_with_mention: Sends a message that mentions a specific user by email.
+- send_approval_request: Sends an interactive approval card with customizable action buttons.
+
+How to use Tool Methods:-
+
+1. send_message:
+   - Purpose: Sends a standard rich MessageCard to a Teams channel with title, description, optional facts table, and action buttons.
+   - Arguments:
+     a) webhook_url: str - The Incoming Webhook URL for the target Teams channel (required).
+     b) title: str - Main title of the message.
+     c) text: str - Detailed message body.
+     d) color: str (default: "0078D7") - Hex color code for the accent bar (without #).
+     e) facts: list (default: None) - List of fact dictionaries (e.g., [{"name": "Status", "value": "Approved"}]).
+     f) actions: list (default: None) - List of potentialAction objects for buttons.
+   - How to call:
+     MicrosoftTeamsTool.send_message(
+         webhook_url="https://your-webhook-url",
+         title="Deployment Completed",
+         text="Version 2.3.1 has been deployed successfully.",
+         color="00FF00",
+         facts=[{"name": "Environment", "value": "Production"}]
+     )
+
+2. send_adaptive_card:
+   - Purpose: Sends a completely custom Adaptive Card (more flexible layout, inputs, and actions).
+   - Arguments:
+     a) webhook_url: str - Teams webhook URL.
+     b) card_json: dict - Full Adaptive Card JSON payload (must follow Adaptive Cards schema).
+   - How to call: MicrosoftTeamsTool.send_adaptive_card(webhook_url=webhook, card_json={ "type": "AdaptiveCard", "body": [...], "actions": [...] })
+
+3. send_file_notification:
+   - Purpose: Sends a clean notification card when a file is ready for download or review, with a direct "Open File" button.
+   - Arguments:
+     a) webhook_url: str
+     b) filename: str - Name of the file.
+     c) url: str - Direct download or view URL for the file.
+   - How to call: MicrosoftTeamsTool.send_file_notification(webhook_url=webhook, filename="report.pdf", url="https://example.com/report.pdf")
+
+4. create_channel_message_with_mention:
+   - Purpose: Sends a message that mentions a specific user (highlights their name and notifies them).
+   - Arguments:
+     a) webhook_url: str
+     b) mention_email: str - Email address of the user to mention.
+     c) message: str - The message content.
+   - How to call: MicrosoftTeamsTool.create_channel_message_with_mention(webhook_url=webhook, mention_email="user@company.com", message="Please review the latest changes.")
+
+5. send_approval_request:
+   - Purpose: Sends an interactive approval card with action buttons (Approve/Reject or custom options). Note: Actual button responses require additional backend handling on the webhook side.
+   - Arguments:
+     a) webhook_url: str
+     b) title: str - Approval title.
+     c) description: str - Detailed request description.
+     d) options: list (default: ["Approve", "Reject"]) - Custom button labels.
+   - How to call: 
+     MicrosoftTeamsTool.send_approval_request(
+         webhook_url=webhook,
+         title="Expense Approval",
+         description="Request for $1500 travel reimbursement",
+         options=["Approve", "Reject", "Need More Info"]
+     )
+""")
+    
     @staticmethod
     def send_message(
         webhook_url: str,
@@ -225,6 +299,127 @@ class ZoomTool:
         "Zoom meeting automation: create/list/update/delete meetings, get participants, "
         "recordings, webinars, and registrants via Zoom OAuth2 API."
     )
+    use = (
+        """
+Name of Tool:- ZoomTool,
+
+Purpose of Tool:- 
+The ZoomTool provides a comprehensive interface to the Zoom API for automating meeting and webinar management. 
+It supports creating, listing, updating, deleting meetings and webinars, retrieving participant lists, accessing recordings, and managing registrants. 
+Authentication is handled via Server-to-Server OAuth using Account Credentials (account_id, client_id, client_secret) stored in CredStore. 
+This tool is ideal for scheduling automation, event management, post-meeting analytics, webinar operations, and agentic Zoom workflow integration.
+
+Methods:-
+- _get_token: Internal helper to obtain a fresh OAuth access token.
+- _headers: Internal helper to generate authenticated headers.
+- create_meeting: Creates a new scheduled Zoom meeting.
+- list_meetings: Lists scheduled, live, or past meetings.
+- get_meeting: Retrieves detailed information about a specific meeting.
+- update_meeting: Updates settings of an existing meeting.
+- delete_meeting: Deletes a meeting.
+- get_meeting_participants: Gets participant list for a past meeting.
+- get_recording: Retrieves recording information for a meeting.
+- list_recordings: Lists recordings within a date range.
+- create_webinar: Creates a new scheduled webinar.
+- get_registrants: Retrieves list of webinar registrants.
+
+How to use Tool Methods:-
+
+1. _get_token (Internal Authentication Helper):
+   - Purpose: Obtains a short-lived OAuth2 access token using Server-to-Server OAuth (Account Credentials flow).
+   - Arguments: cred_key: str (default: "zoom")
+   - Credential requirement in CredStore: {'account_id': '...', 'client_id': '...', 'client_secret': '...'}
+   - Note: Called automatically by _headers(). Do not call directly.
+
+2. _headers (Internal Helper):
+   - Purpose: Returns authorization headers with a fresh Bearer token.
+   - Arguments: cred_key: str (default: "zoom")
+   - Note: Internal method used by all API calls.
+
+3. create_meeting:
+   - Purpose: Creates a new scheduled Zoom meeting with customizable settings.
+   - Arguments:
+     a) topic: str - Meeting title.
+     b) start_time: str - Start time in ISO 8601 format (e.g., "2026-06-20T14:00:00Z").
+     c) duration: int (default: 60) - Duration in minutes.
+     d) agenda: str (default: "") - Meeting description.
+     e) password: str (default: "") - Meeting password.
+     f) waiting_room: bool (default: True) - Enable waiting room.
+     g) cred_key: str (default: "zoom").
+   - Returns: Full meeting details including join_url, start_url, ID, etc.
+   - How to call: 
+     ZoomTool.create_meeting(
+         topic="Team Sync",
+         start_time="2026-06-20T15:00:00Z",
+         duration=45,
+         waiting_room=True
+     )
+
+4. list_meetings:
+   - Purpose: Lists meetings for the authenticated user.
+   - Arguments:
+     a) type: str (default: "scheduled") - "scheduled", "live", "upcoming", "previous".
+     b) page_size: int (default: 30).
+     c) cred_key.
+   - Returns: List of meeting objects.
+   - How to call: ZoomTool.list_meetings(type="scheduled")
+
+5. get_meeting:
+   - Purpose: Retrieves complete details of a specific meeting.
+   - Arguments:
+     a) meeting_id: str - Meeting ID or UUID.
+     b) cred_key.
+   - How to call: ZoomTool.get_meeting(meeting_id="123456789")
+
+6. update_meeting:
+   - Purpose: Updates settings of an existing meeting.
+   - Arguments:
+     a) meeting_id: str
+     b) data: dict - Fields to update (topic, start_time, duration, settings, etc.).
+     c) cred_key.
+   - How to call: ZoomTool.update_meeting(meeting_id="123456789", data={"topic": "Updated Title", "duration": 90})
+
+7. delete_meeting:
+   - Purpose: Deletes a meeting permanently.
+   - Arguments: meeting_id, cred_key.
+   - How to call: ZoomTool.delete_meeting(meeting_id="123456789")
+
+8. get_meeting_participants:
+   - Purpose: Retrieves list of participants who joined a past meeting (requires past meeting ID).
+   - Arguments: meeting_id, cred_key.
+   - Returns: List of participants with name, email, join/leave time, duration, etc.
+   - How to call: ZoomTool.get_meeting_participants(meeting_id="123456789")
+
+9. get_recording:
+   - Purpose: Gets recording details and download links for a meeting.
+   - Arguments: meeting_id, cred_key.
+   - How to call: ZoomTool.get_recording(meeting_id="123456789")
+
+10. list_recordings:
+    - Purpose: Lists all recordings for the user within a date range.
+    - Arguments:
+      a) from_date: str - Start date (YYYY-MM-DD).
+      b) to_date: str - End date (YYYY-MM-DD).
+      c) cred_key.
+    - How to call: ZoomTool.list_recordings(from_date="2026-06-01", to_date="2026-06-30")
+
+11. create_webinar:
+    - Purpose: Creates a new scheduled webinar.
+    - Arguments:
+      a) topic: str
+      b) start_time: str (ISO format)
+      c) duration: int (default: 60)
+      d) agenda: str (default: "")
+      e) cred_key.
+    - Returns: Webinar details including join_url and registration URL.
+    - How to call: Similar to create_meeting.
+
+12. get_registrants:
+    - Purpose: Retrieves list of people who registered for a webinar.
+    - Arguments: webinar_id, cred_key.
+    - Returns: List of registrants with name, email, status, etc.
+    - How to call: ZoomTool.get_registrants(webinar_id="987654321")
+""")
 
     @staticmethod
     def _get_token(cred_key: str = "zoom") -> str:
@@ -472,6 +667,134 @@ class TwilioTool:
     description = (
         "Twilio SMS, voice calls, WhatsApp Business, verification, and subaccount management."
     )
+    use  = (
+        """
+Name of Tool:- TwilioTool,
+
+Purpose of Tool:- 
+The TwilioTool provides a comprehensive interface to the Twilio API for communication automation. 
+It supports sending SMS and WhatsApp messages (including templates), making voice calls, checking call and message status, bulk messaging, phone number verification (OTP), listing message history, creating subaccounts, and retrieving account balance. 
+All operations use the official Twilio Python client with credentials (account_sid, auth_token, and optional from numbers / verify service) loaded from CredStore. 
+This tool is ideal for customer notifications, marketing campaigns, 2FA/verification flows, voice broadcasting, and agentic communication workflows.
+
+Methods:-
+- _client: Internal helper to initialize the Twilio REST client.
+- send_sms: Sends a standard SMS message.
+- send_bulk_sms: Sends the same message to multiple recipients.
+- make_call: Initiates an outbound voice call (with TwiML or URL).
+- get_call_status: Retrieves the current status of a voice call.
+- send_whatsapp: Sends a WhatsApp message (text or with media).
+- send_whatsapp_template: Sends a WhatsApp Business template message.
+- get_message_status: Checks delivery status of an SMS/WhatsApp message.
+- list_messages: Lists recent messages with optional filters.
+- verify_phone: Starts a phone number verification (OTP) via SMS or call.
+- check_verification: Validates a verification code.
+- create_subaccount: Creates a new Twilio subaccount.
+- get_account_balance: Retrieves the current account balance.
+
+How to use Tool Methods:-
+
+1. _client (Internal Authentication Helper):
+   - Purpose: Creates and returns an authenticated Twilio REST Client instance.
+   - Arguments: cred_key: str (default: "twilio")
+   - Credential requirement in CredStore: {'account_sid': '...', 'auth_token': '...', 'from_number': '...', 'whatsapp_from': '...', 'verify_service_sid': '...'}
+   - Note: Internal method. Do not call directly.
+
+2. send_sms:
+   - Purpose: Sends a standard text SMS message.
+   - Arguments:
+     a) to: str - Recipient phone number in E.164 format (e.g., "+1234567890").
+     b) body: str - Message content.
+     c) from_number: str (default: None) - Override sender number from credentials.
+     d) cred_key: str (default: "twilio").
+   - Returns: Message SID on success.
+   - How to call: TwilioTool.send_sms(to="+1234567890", body="Hello from NPM Agent!")
+
+3. send_bulk_sms:
+   - Purpose: Sends the same SMS to multiple recipients with individual error handling.
+   - Arguments:
+     a) numbers: list - List of phone numbers in E.164 format.
+     b) message: str - Message body.
+     c) from_number: str (optional).
+     d) cred_key.
+   - Returns: Detailed results array with success/failure per recipient.
+   - How to call: TwilioTool.send_bulk_sms(numbers=["+1...", "+91..."], message="Promo alert!")
+
+4. make_call:
+   - Purpose: Initiates an outbound voice call.
+   - Arguments:
+     a) to: str - Recipient phone number.
+     b) from_number: str (optional).
+     c) url_or_twiml: str - Either a TwiML URL or raw TwiML XML string.
+     d) cred_key.
+   - Returns: Call SID.
+   - How to call: TwilioTool.make_call(to="+1234567890", url_or_twiml="http://demo.twilio.com/docs/voice.xml")
+
+5. get_call_status:
+   - Purpose: Checks the real-time status of a voice call.
+   - Arguments: call_sid: str, cred_key.
+   - Returns: Status and duration.
+   - How to call: TwilioTool.get_call_status(call_sid="CAxxxxxxxxxxxxxxxx")
+
+6. send_whatsapp:
+   - Purpose: Sends a WhatsApp message (text or with media attachment).
+   - Arguments:
+     a) to: str - Recipient WhatsApp number (without "whatsapp:").
+     b) body: str - Message text.
+     c) from_number: str (optional) - WhatsApp sender number from credentials.
+     d) media_url: str (optional) - URL of image/video/document.
+     e) cred_key.
+   - How to call: TwilioTool.send_whatsapp(to="919876543210", body="Hello!", media_url="https://example.com/image.jpg")
+
+7. send_whatsapp_template:
+   - Purpose: Sends a pre-approved WhatsApp Business template message with variables.
+   - Arguments:
+     a) to: str
+     b) template_sid: str - WhatsApp template SID.
+     c) variables: dict (default: None) - Template parameters.
+     d) from_number, cred_key.
+   - How to call: TwilioTool.send_whatsapp_template(to="919876543210", template_sid="HX...", variables={"1": "John"})
+
+8. get_message_status:
+   - Purpose: Retrieves delivery status of an SMS or WhatsApp message.
+   - Arguments: message_sid, cred_key.
+   - How to call: TwilioTool.get_message_status(message_sid="SMxxxxxxxxxxxxxxxx")
+
+9. list_messages:
+   - Purpose: Retrieves a filtered list of sent/received messages.
+   - Arguments:
+     a) from_date: str (ISO) - Filter after this date.
+     b) to_date: str (ISO)
+     c) to: str - Recipient filter.
+     d) from_num: str - Sender filter.
+     e) cred_key.
+   - Returns: List of message summaries.
+   - How to call: TwilioTool.list_messages(from_date="2026-06-01", to="+1234567890")
+
+10. verify_phone:
+    - Purpose: Starts a verification process (OTP) via SMS or voice call.
+    - Arguments:
+      a) phone_number: str - Number to verify.
+      b) channel: str (default: "sms") - "sms" or "call".
+      c) cred_key (must have verify_service_sid).
+    - How to call: TwilioTool.verify_phone(phone_number="+1234567890", channel="sms")
+
+11. check_verification:
+    - Purpose: Validates the OTP code entered by the user.
+    - Arguments: phone, code, cred_key.
+    - Returns: Approval status.
+    - How to call: TwilioTool.check_verification(phone="+1234567890", code="123456")
+
+12. create_subaccount:
+    - Purpose: Creates a new Twilio subaccount for isolated billing/permissions.
+    - Arguments: friendly_name: str, cred_key.
+    - How to call: TwilioTool.create_subaccount(friendly_name="Marketing Campaign")
+
+13. get_account_balance:
+    - Purpose: Retrieves the current account balance and currency.
+    - Arguments: cred_key.
+    - How to call: TwilioTool.get_account_balance()
+""")
 
     @staticmethod
     def _client(cred_key: str = "twilio"):
@@ -691,7 +1014,153 @@ class SendGridTool:
         "SendGrid transactional email at scale: single/bulk sends, templates, contact lists, "
         "campaigns, scheduling, and stats."
     )
+    use = (
+        """
+Name of Tool:- SendGridTool,
 
+Purpose of Tool:- 
+The SendGridTool provides a comprehensive interface to the SendGrid email delivery platform for transactional and marketing emails. 
+It supports single and bulk email sending, dynamic templates, contact list management, campaign creation and scheduling, email statistics, and suppression list management (bounces and spam reports). 
+All operations use the official SendGrid Python library and REST API with an API key stored in CredStore. 
+This tool is ideal for automated customer notifications, marketing campaigns, transactional emails, deliverability monitoring, and agentic email communication workflows at scale.
+
+Methods:-
+- _api_key: Internal helper to retrieve the SendGrid API key from credentials.
+- send_email: Sends a single rich HTML email with optional attachments.
+- send_bulk: Sends personalized bulk emails to multiple recipients.
+- send_with_template: Sends an email using a pre-designed SendGrid dynamic template.
+- create_template: Creates a new dynamic email template.
+- update_template: Updates an existing template.
+- list_templates: Lists all dynamic templates.
+- create_contact_list: Creates a new marketing contact list.
+- add_contacts: Adds contacts to a marketing list.
+- create_campaign: Creates a marketing campaign.
+- schedule_campaign: Schedules a campaign for future sending.
+- get_stats: Retrieves email performance statistics.
+- get_bounces: Retrieves bounce records.
+- delete_bounce: Removes a specific email from the bounce suppression list.
+- get_spam_reports: Retrieves spam report records.
+
+How to use Tool Methods:-
+
+1. _api_key (Internal Authentication Helper):
+   - Purpose: Retrieves the SendGrid API key from CredStore.
+   - Arguments: cred_key: str (default: "sendgrid")
+   - Credential requirement: CredStore must contain {'api_key': 'SG.xxxxxxxxxxxxxxxxxxxxxxx', 'from_email': 'noreply@example.com'}
+   - Note: Internal method. Do not call directly.
+
+2. send_email:
+   - Purpose: Sends a single transactional or marketing email with HTML content and optional attachments.
+   - Arguments:
+     a) to: str - Recipient email address.
+     b) subject: str - Email subject line.
+     c) html_content: str - Full HTML body of the email.
+     d) from_email: str (default: None) - Override sender email from credentials.
+     e) from_name: str (default: "NPM Agent") - Sender display name.
+     f) reply_to: str (default: None).
+     g) attachments: list (default: None) - List of local file paths to attach.
+     h) cred_key: str (default: "sendgrid").
+   - Returns: Status code confirmation.
+   - How to call: 
+     SendGridTool.send_email(
+         to="user@example.com",
+         subject="Welcome to Our Platform",
+         html_content="<h1>Hello!</h1><p>Welcome message...</p>",
+         attachments=["/path/to/invoice.pdf"]
+     )
+
+3. send_bulk:
+   - Purpose: Sends the same (or lightly personalized) email to multiple recipients efficiently.
+   - Arguments:
+     a) recipients: list - List of email strings or dicts containing email + substitution data.
+     b) subject: str
+     c) html_template: str - HTML content (can contain substitution placeholders).
+     d) from_email: str (optional)
+     e) substitutions: dict (optional) - Global substitutions.
+     f) cred_key.
+   - Returns: Success status and count of recipients.
+   - How to call: SendGridTool.send_bulk(recipients=["a@example.com", "b@example.com"], subject="Promo", html_template=html)
+
+4. send_with_template:
+   - Purpose: Sends an email using a pre-built SendGrid dynamic template with dynamic data.
+   - Arguments:
+     a) to: str
+     b) template_id: str - SendGrid template ID.
+     c) dynamic_data: dict - Data to populate template variables.
+     d) from_email: str (optional)
+     e) cred_key.
+   - How to call: SendGridTool.send_with_template(to="user@example.com", template_id="d-abc123", dynamic_data={"name": "John", "order_id": "12345"})
+
+5. create_template:
+   - Purpose: Creates a new dynamic template and its first version in SendGrid.
+   - Arguments:
+     a) name: str - Template name.
+     b) subject: str - Default subject.
+     c) html_content: str - HTML body.
+     d) plain_content: str (default: "") - Plain text version.
+     e) cred_key.
+   - Returns: Template ID.
+   - How to call: SendGridTool.create_template(name="Welcome Email", subject="Welcome!", html_content=html)
+
+6. update_template:
+   - Purpose: Updates an existing template's metadata.
+   - Arguments:
+     a) template_id: str
+     b) data: dict - Fields to update.
+     c) cred_key.
+   - How to call: SendGridTool.update_template(template_id="d-abc123", data={"name": "New Name"})
+
+7. list_templates:
+   - Purpose: Lists all dynamic templates in the account.
+   - Arguments: cred_key.
+   - How to call: SendGridTool.list_templates()
+
+8. create_contact_list:
+   - Purpose: Creates a new marketing contact list.
+   - Arguments: name: str, cred_key.
+   - How to call: SendGridTool.create_contact_list(name="Newsletter Subscribers")
+
+9. add_contacts:
+   - Purpose: Adds one or more contacts to a marketing list.
+   - Arguments:
+     a) list_id: str
+     b) contacts: list - List of contact dictionaries (email + custom fields).
+     c) cred_key.
+   - How to call: SendGridTool.add_contacts(list_id="list-abc123", contacts=[{"email": "user@example.com", "first_name": "John"}])
+
+10. create_campaign:
+    - Purpose: Creates a marketing campaign.
+    - Arguments:
+      a) name: str
+      b) subject: str
+      c) from_email: str
+      d) html_content: str
+      e) list_ids: list - Target contact list IDs.
+      f) cred_key.
+    - How to call: SendGridTool.create_campaign(name="Summer Sale", subject="Big Sale!", from_email="marketing@...", html_content=html, list_ids=["list1"])
+
+11. schedule_campaign:
+    - Purpose: Schedules a campaign to be sent at a future time.
+    - Arguments:
+      a) campaign_id: str
+      b) send_at: str - ISO 8601 timestamp.
+      c) cred_key.
+    - How to call: SendGridTool.schedule_campaign(campaign_id="campaign-123", send_at="2026-06-20T10:00:00Z")
+
+12. get_stats:
+    - Purpose: Retrieves email performance statistics (opens, clicks, bounces, etc.).
+    - Arguments:
+      a) start_date: str (YYYY-MM-DD)
+      b) end_date: str (YYYY-MM-DD)
+      c) aggregated_by: str (default: "day")
+      d) cred_key.
+    - How to call: SendGridTool.get_stats(start_date="2026-06-01", end_date="2026-06-15")
+
+13. get_bounces / delete_bounce / get_spam_reports:
+    - Purpose: Manage suppression lists (bounces and spam reports) for better deliverability.
+    - How to call: SendGridTool.get_bounces(start_date="2026-06-01") or SendGridTool.delete_bounce(email="bad@example.com")
+""")
+    
     @staticmethod
     def _api_key(cred_key: str = "sendgrid") -> str:
         key = CredStore.load(cred_key).get("api_key", "")
@@ -1025,6 +1494,110 @@ class PushNotificationTool:
         "Mobile and web push notifications: FCM (Firebase), APNs, web push (VAPID), "
         "Pushbullet, and Pushover."
     )
+    use = (
+        """Name of Tool:- PushNotificationTool
+
+Purpose of Tool:- 
+The PushNotificationTool is a cross-platform messaging and alert dispatching utility designed to send alerts programmatically to mobile devices, web browsers, and desktop systems. It acts as a unified hub connecting back to premier transport frameworks including Firebase Cloud Messaging (FCM), Apple Push Notification service (APNs), decentralized web push configurations using VAPID keys, alongside personal notify streams like Pushbullet and Pushover. The tool enables direct transaction payloads, segmented channel multicasting, automated state updates, localized application routing, sound preferences, and visual asset integrations to handle modern contextual device alerting strategies cleanly.
+
+Methods:-
+- send_fcm: Dispatches a personalized rich push alert directly onto an Android or generic target device using an individual token register.
+- send_fcm_bulk: Groups distinct target system IDs to concurrently fire massive arrays of push notification blocks.
+- send_fcm_topic: Transmits contextual messaging assets across massive client categories registered under shared subscription tracking tags.
+- send_apns: Uses JSON Web Tokens and HTTP/2 connections to securely transmit custom iOS payload blocks directly onto target Apple ecosystems.
+- send_web_push: Signs web payload data packets over to secure browser service worker routines using VAPID protocols.
+- send_pushbullet: Fires notes or redirect URLs directly to individual device channels tracked in a user's personal Pushbullet profile.
+- send_pushover: Uses simple REST requests to immediately deliver high-priority contextual messages to a user's multi-platform Pushover dashboard.
+
+How to use Tool Methods:-
+
+1. send_fcm:
+   - Purpose: Transmits individual notifications containing explicit graphics, action intents, and embedded payload values to an active device token.
+   - Arguments:
+     a) device_token: str - Target identification alphanumeric chain indicating a client terminal instance.
+     b) title: str - Primary focal header text appearing inside active status trays.
+     c) body: str - Main contextual notification text narrative block.
+     d) data: dict (default: None) - Hidden transactional key-value pairs parsed during background run loops.
+     e) image: str (default: None) - Live web URL string rendering large visual image banners in the notification.
+     f) click_action: str (default: None) - System intent action target used to open predefined application windows.
+     g) cred_key: str (default: "firebase") - Credential lookup pointer used to reference Firebase SDK certificate configurations.
+   - Returns: ToolResult storing unique backend message transaction string IDs.
+   - How to call: PushNotificationTool.send_fcm(device_token="bk3RNwM-E_...", title="Order Picked Up", body="Your rider is on the way!", image="https://cdn.io/map.jpg", click_action="OPEN_TRACKING_ACTIVITY")
+
+2. send_fcm_bulk:
+   - Purpose: Accelerates delivery across large audience fractions by processing a unified array block of targeting IDs in one network step.
+   - Arguments:
+     a) tokens: list - Array containing discrete device token string targets.
+     b) title: str - Notification header context string.
+     c) body: str - Main narrative textual data array block.
+     d) data: dict (default: None) - Optional backend routing key-value configurations.
+     e) cred_key: str (default: "firebase") - Internal credential storage index identifier.
+   - Returns: ToolResult documenting successful versus failed delivery transaction tallies.
+   - How to call: PushNotificationTool.send_fcm_bulk(tokens=["tok_1", "tok_2", "tok_3"], title="Flash Sale Alert!", body="Everything is 40% off for the next 20 minutes.")
+
+3. send_fcm_topic:
+   - Purpose: Simplifies high-volume broadcast notifications by letting the server target named channel pools rather than individual device tokens.
+   - Arguments:
+     a) topic: str - Subscription routing tag string target.
+     b) title: str - Broadcast subject line.
+     c) body: str - Main message body detail block.
+     d) data: dict (default: None) - Context metadata mapping dictionary.
+     e) cred_key: str (default: "firebase") - System validation token lookup map index.
+   - Returns: ToolResult passing global message tracking strings.
+   - How to call: PushNotificationTool.send_fcm_topic(topic="weather_alerts_city", title="Storm Warning", body="Severe weather expected at 4 PM IST.")
+
+4. send_apns:
+   - Purpose: Standardizes communication to Apple environments using customized JWT authentication keys and structured sandbox/production routing targets.
+   - Arguments:
+     a) device_token: str - Unique hexadecimal Apple terminal registration device code.
+     b) title: str - Alert heading text.
+     c) body: str - Contextual message narrative block.
+     d) badge: int (default: 1) - Integer counter displayed directly over application home screen icons.
+     e) sound: str (default: "default") - Target file audio string to fire on arrival.
+     d) data: dict (default: None) - Extended JSON parameters loaded outside canonical `aps` scopes.
+     g) cred_key: str (default: "apns") - Storage profile containing private keys, team IDs, and bundle IDs.
+   - Returns: ToolResult verifying whether Apple's HTTP/2 systems validated and accepted the payload structure.
+   - How to call: PushNotificationTool.send_apns(device_token="740fc5512...", title="New DM", body="Alex sent you a photo", badge=3, sound="ping.caf")
+
+5. send_web_push:
+   - Purpose: Delivers secure notifications onto user desktop and web browsers via pre-negotiated subscription signatures.
+   - Arguments:
+     a) subscription_info: dict - Browser client endpoint vectors, keys, and security parameters block.
+     b) title: str - Browser popup header banner string text.
+     c) body: str - Contextual content text.
+     d) icon: str (default: "") - Web path linking small layout graphics display components.
+     e) url: str (default: "") - Target hyperlink destination opened when users click the web element.
+     f) vapid_private_key: str (default: None) - Raw private server identifier key string used to sign request headers.
+     g) cred_key: str (default: "webpush") - Vault map lookup pointing to administrative contact addresses and defaults.
+   - Returns: ToolResult certifying secure service worker receipt.
+   - How to call: PushNotificationTool.send_web_push(subscription_info={"endpoint": "https://fcm.googleapis.com/...", "keys": {"p256dh": "...", "auth": "..."}}, title="Web App Update", body="Click to refresh and view your new workspace dashboards.", url="https://myapp.com/dashboard")
+
+6. send_pushbullet:
+   - Purpose: Pushes rapid logs, textual notes, or shared links to specific active devices linked to a user's personal profile.
+   - Arguments:
+     a) title: str - Core caption metadata text.
+     b) body: str - Main note message or link explanation details.
+     c) type: str (default: "note") - Transmit style identifier toggle defining message structural types ("note" or "link").
+     d) url: str (default: "") - Active hyperlink destination path parameter passed during link dispatches.
+     e) device_iden: str (default: None) - Target alphanumeric identifier filtering the push to an individual explicit screen.
+     g) cred_key: str (default: "pushbullet") - Reference index defining user account API tokens.
+   - Returns: ToolResult listing raw delivery mapping logs.
+   - How to call: PushNotificationTool.send_pushbullet(title="Build Pipeline Failed", body="Error logs located at destination path", type="link", url="https://ci.server/logs/404")
+
+7. send_pushover:
+   - Purpose: Injects immediate system events or custom priority warnings directly into personal notification tracking setups.
+   - Arguments:
+     a) token: str - Administrative application authorization token string.
+     b) user: str - Specific target user token address configuration key.
+     c) message: str - Core text block dispatched down to recipient screens.
+     d) title: str (default: "") - Optional layout header string text description.
+     b) priority: int (default: 0) - Integer ranking value ranging from low-profile backgrounds up to emergency alarms.
+     f) url: str (default: "") - Embedded fallback connection link.
+     g) sound: str (default: "pushover") - Audio asset descriptor tag selecting specific system tones.
+     h) cred_key: str (default: "pushover") - Profile credentials fallback store pointer.
+   - Returns: ToolResult ensuring explicit message transmission and processing validation.
+   - How to call: PushNotificationTool.send_pushover(token="", user="", message="Server CPU usage exceeded 95% on node-02", title="CRITICAL ALERT", priority=1, sound="alien")
+   """)
 
     @staticmethod
     def send_fcm(
@@ -1279,6 +1852,107 @@ class RSSFeedTool:
         "RSS/Atom feed operations: parse, monitor, compare, create, aggregate, search, export, "
         "and subscribe-and-notify."
     )
+    use = (
+        """
+Name of Tool:- RSSFeedTool,
+
+Purpose of Tool:- 
+The RSSFeedTool provides a complete set of operations for working with RSS and Atom feeds. 
+It supports parsing feeds, monitoring for new items, comparing feeds for changes, generating custom RSS feeds, aggregating multiple feeds, searching within feeds, exporting data, and setting up real-time subscriptions with notifications. 
+Built on feedparser with additional utilities for monitoring, deduplication, and export, this tool is ideal for content aggregation, news monitoring, automated alerts, data pipelines, and agentic information gathering from web sources.
+
+Methods:-
+- parse_feed: Parses an RSS/Atom feed and extracts structured items.
+- monitor_feed: Continuously monitors a feed for new items in a background thread.
+- compare_feeds: Identifies new items by comparing current feed against previously seen items.
+- get_new_items: Filters feed items published after a specific date.
+- create_rss_feed: Generates a new RSS 2.0 feed XML file from a list of items.
+- aggregate_feeds: Combines items from multiple feeds with optional deduplication.
+- search_in_feed: Searches for keywords across feed items.
+- export_feed_items: Exports parsed feed items to JSON or CSV.
+- subscribe_and_notify: Subscribes to a feed and sends notifications on new items.
+
+How to use Tool Methods:-
+
+1. parse_feed:
+   - Purpose: Parses a remote RSS/Atom feed and returns structured item data.
+   - Arguments:
+     a) url: str - Full URL of the RSS/Atom feed.
+     b) limit: int (default: 20) - Maximum number of items to return.
+     c) full_content: bool (default: False) - Whether to include full article content when available.
+   - Returns: List of items with title, link, published date, summary, and optional content.
+   - How to call: 
+     RSSFeedTool.parse_feed(url="https://example.com/rss", limit=50, full_content=True)
+
+2. monitor_feed:
+   - Purpose: Starts a background thread that continuously polls a feed and calls a callback on new items.
+   - Arguments:
+     a) url: str - Feed URL.
+     b) interval: int (default: 300) - Polling interval in seconds.
+     c) callback: callable (optional) - Function to call with new entry.
+     d) last_check: str (optional) - Not actively used in current implementation.
+   - Returns: Confirmation that monitoring has started.
+   - How to call: RSSFeedTool.monitor_feed(url="https://news.example.com/rss", interval=60, callback=my_callback)
+
+3. compare_feeds:
+   - Purpose: Detects new items by comparing current feed against a list of previously seen items.
+   - Arguments:
+     a) url: str - Feed URL.
+     b) last_items: list - Previously seen items (dicts or objects with "link" key).
+   - Returns: List of new entries.
+   - How to call: RSSFeedTool.compare_feeds(url=feed_url, last_items=previous_items)
+
+4. get_new_items:
+   - Purpose: Returns only items published after a given ISO date.
+   - Arguments:
+     a) url: str - Feed URL.
+     b) since_date: str - ISO datetime string (e.g., "2026-06-01T00:00:00").
+   - Returns: List of new items.
+   - How to call: RSSFeedTool.get_new_items(url=feed_url, since_date="2026-06-10")
+
+5. create_rss_feed:
+   - Purpose: Generates a valid RSS 2.0 XML file from a list of items.
+   - Arguments:
+     a) title: str - Channel title.
+     b) link: str - Channel link.
+     c) description: str - Channel description.
+     d) items: list - List of item dictionaries (title, link, description, pubDate).
+     e) output: str (default: "feed.xml") - Output file path.
+   - How to call: RSSFeedTool.create_rss_feed(title="My Feed", link="https://...", description="...", items=my_items)
+
+6. aggregate_feeds:
+   - Purpose: Combines entries from multiple RSS feeds into a single unified list.
+   - Arguments:
+     a) urls: list - List of feed URLs.
+     b) limit_per_feed: int (default: 10).
+     c) deduplicate: bool (default: True) - Remove duplicate links.
+   - Returns: Aggregated list of items with source information.
+   - How to call: RSSFeedTool.aggregate_feeds(urls=["https://feed1", "https://feed2"], limit_per_feed=15)
+
+7. search_in_feed:
+   - Purpose: Searches for a keyword or phrase across titles and summaries in a feed.
+   - Arguments:
+     a) url: str - Feed URL.
+     b) query: str - Search term (case-insensitive).
+   - Returns: Matching items.
+   - How to call: RSSFeedTool.search_in_feed(url=feed_url, query="AI")
+
+8. export_feed_items:
+   - Purpose: Parses a feed and exports items to JSON or CSV format.
+   - Arguments:
+     a) url: str - Feed URL.
+     b) format: str (default: "json") - "json" or "csv".
+     c) output: str (default: "feed_export.json") - Output file path.
+   - How to call: RSSFeedTool.export_feed_items(url=feed_url, format="csv", output="news.csv")
+
+9. subscribe_and_notify:
+   - Purpose: Subscribes to a feed and automatically prints or sends notifications (Slack supported) when new items appear.
+   - Arguments:
+     a) url: str - Feed URL.
+     b) notification_channel: str (default: "print") - "print" or "slack".
+   - Returns: Confirmation that subscription is active.
+   - How to call: RSSFeedTool.subscribe_and_notify(url=feed_url, notification_channel="slack")
+""")
 
     @staticmethod
     def parse_feed(
