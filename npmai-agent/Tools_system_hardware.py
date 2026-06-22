@@ -53,6 +53,210 @@ class SystemAdvancedTool:
         "Deep OS operations cross-platform: system info, services, cron, firewall, startup, "
         "hosts file, DNS, programs, restore points, volume, battery, USB, drives."
     )
+    use = ("""
+Name of Tool:- SystemAdvancedTool
+
+Purpose of Tool:- 
+The SystemAdvancedTool provides a comprehensive cross-platform interface for performing deep Operating System operations. 
+It supports robust hardware monitoring, detailed system resource reporting, service lifecycle orchestration (Windows, macOS, Linux), 
+cron/scheduled task automation, host-file layout mutations, live DNS flushing, package/program inventory evaluations, uninstall sequences, 
+Windows restore point baselines, software volume tracking, real-time peripheral diagnostic queries (battery, USB layouts), and disk 
+lifecycle actions (ejection, multi-filesystem drive formatting).
+This tool is designed for systemic automation, engineering infrastructure monitoring, and system-level agent configurations across 
+Windows, macOS, and Linux kernels.
+
+Methods:-
+- get_full_system_info: Collects core operating system, environment, processing core configurations, memory capacity, and platform runtime context metrics.
+- get_hardware_info: Collects diagnostic state frames mapping physical core utilities, partition tables, disk storage maps, interface network configurations, and systemic thermal/fan telemetry if fully initialized.
+- manage_service: Modulates platform-native background system services (state updates like starting, stopping, reloading, restarting) via sub-layer system calls.
+- list_services: Fetches an exhaustive string matrix representation of active and inactive background tasks running via standard system service layers.
+- create_cron_job: Inserts system-scheduled crontab workflows or task-scheduler executions targeting persistent operational workflows.
+- list_cron_jobs: Enumerates raw multi-line records tracking existing system scripts bound inside crontab schemas or scheduler configurations.
+- remove_cron_job: Filters matching commands out of underlying automation crontabs or task-scheduler repositories to clear execution routines.
+- manage_firewall: Alters local machine operational connectivity profiles to filter target TCP/UDP ports or process active configurations.
+- create_startup_item: Configures system hooks within the registry matrix, plist launch domains, or target init configurations for boot executions.
+- remove_startup_item: Disables and destroys configurations keeping target startup services initialized at early boot runtime environments.
+- manage_hosts_file: Manipulates or extracts explicit local static domain-name target routes matching defined IP network configurations.
+- flush_dns: Invalidates operating system local resolve caches to clear path bindings on dynamic network configurations.
+- get_installed_programs: Indexes system software registries, application paths, or system package managers to build an exhaustive binary landscape.
+- uninstall_program: Forces automated native application execution sequences to remove files and target binaries.
+- create_restore_point: Instantiates a persistent system recovery index on Windows environments to safe-keep current OS files.
+- list_restore_points: Queries the structural historical timeline listing existing Windows restore configurations and baseline indexes.
+- set_system_volume: Updates physical master terminal system audio indicators by mapping a concrete percentage index context.
+- get_battery_info: Reports systemic hardware cell metrics including structural depletion percentages, line power connection vectors, and remaining lifespan estimations.
+- set_screen_brightness: Programs display hardware control lines to re-index the operational target balance parameters on laptop panels.
+- list_usb_devices: Discovers structural multi-class USB processing trees and attached hardware interface devices currently reporting connections.
+- eject_drive: Performs safely handled block-level unmount operations targeting local drives or removeable media layouts.
+- format_drive: Overwrites layout headers and builds clean multi-flavor structural platforms targeting disk file containers.
+
+How to use Tool Methods:-
+
+1. get_full_system_info:
+   - Purpose: Collects an overarching diagnostic frame aggregating OS platform identifiers, CPU designators, physical core indexes, RAM capacities, dynamic tracking margins, root storage availability layouts, and baseline boot epoch times.
+   - Arguments: None.
+   - Returns: ToolResult tracking successful completion status, validation strings, and a dictionary packing platform markers.
+   - How to call: SystemAdvancedTool.get_full_system_info()
+
+2. get_hardware_info:
+   - Purpose: Samples underlying computing sub-components to deliver structured reports charting component-by-component hardware utilization rates and device state parameters.
+   - Arguments:
+     a) detail_level: str (default: "basic") - Selects analytical depths. Choosing "full" appends live thermal structural sensors and cooling fan rotational reporting data matrices where hardware access permissions permit.
+   - Returns: ToolResult indicating diagnostic generation status, diagnostic logging strings, and a nested hardware configuration topology dictionary.
+   - How to call: SystemAdvancedTool.get_hardware_info(detail_level="full")
+
+3. manage_service:
+   - Purpose: Programmatically dispatches command directives controlling platform background daemons, running through Windows "sc", macOS "launchctl", or Linux "systemctl" frameworks.
+   - Arguments:
+     a) name: str - The specific target identifier labeling the service structure under configuration.
+     b) action: str - Command action to execute (e.g., "start", "stop", "restart", "reload").
+     c) os_platform: str (default: None) - Manually target platform overrides. Leaves mapping automated based on detected system metrics when unassigned.
+   - Returns: ToolResult outlining processing success parameters alongside captured process output logs.
+   - How to call: SystemAdvancedTool.manage_service(name="nginx", action="restart", os_platform="Linux")
+
+4. list_services:
+   - Purpose: Queries standard system management tools to output a unified textual list mapping all registered service elements matching targeted parameter spaces.
+   - Arguments:
+     a) os_platform: str (default: None) - Directs selection variables targeting explicit OS environments. Falls back to local auto-detection if none provided.
+     b) status_filter: str (default: "") - Token match string applied to filter matching output list elements during compilation stages.
+   - Returns: ToolResult holding evaluation success markers and a multi-string sequence tracking individual lines of active components.
+   - How to call: SystemAdvancedTool.list_services(os_platform="Windows", status_filter="running")
+
+5. create_cron_job:
+   - Purpose: Schedules an automated application execution rule set based on crontab parameters for Unix structures or daily Scheduled Tasks ("schtasks") environments for Windows setups.
+   - Arguments:
+     a) command: str - Raw programmatic script strings, application paths, or shell execution sequences targeted for persistent scheduling.
+     b) schedule: str - Unix standard positional time instruction rulesets (e.g., "* * * * *") mapped down to simple hour/minute specifications when matching Windows environments.
+     c) user: str (default: None) - Context parameter allocating target user table mappings on Linux configurations.
+   - Returns: ToolResult capturing operational deployment success metrics alongside validation logs.
+   - How to call: SystemAdvancedTool.create_cron_job(command="/usr/bin/backup.sh", schedule="0 2 * * *")
+
+6. list_cron_jobs:
+   - Purpose: Exposes automated execution timelines by dumping individual entries found across active scheduled user tasks or system crontab tables.
+   - Arguments:
+     a) user: str (default: None) - Filters results for a specific username when querying multi-user crontab registers.
+   - Returns: ToolResult with completion flags accompanied by a string matrix sorting target operational lines.
+   - How to call: SystemAdvancedTool.list_cron_jobs(user="root")
+
+7. remove_cron_job:
+   - Purpose: Scrubs scheduled scripts from automation registers by eliminating all table configuration records matching tracking criteria strings.
+   - Arguments:
+     a) command: str - Substring string target used to scan and remove items from scheduling system tables.
+   - Returns: ToolResult tracking completion validation flags along with descriptive process results text.
+   - How to call: SystemAdvancedTool.remove_cron_job(command="/usr/bin/backup.sh")
+
+8. manage_firewall:
+   - Purpose: Re-allocates ingress network packet filters across platform interface utilities like Windows Advanced Firewall netsh profiles, Apple pfctl configurations, or Linux ufw tools.
+   - Arguments:
+     a) action: str - Security action directive to enforce on the firewall stack (e.g., "allow", "deny", "status").
+     b) port: int (default: None) - Numeric target network port marker targeted for explicit programmatic entry changes.
+     c) protocol: str (default: "tcp") - Operational transport layer tracking scheme selector, typically supporting "tcp" or "udp" models.
+     d) source_ip: str (default: "any") - Source network address constraints filtering packet traffic routes.
+     e) os_platform: str (default: None) - Selects operational engine context maps. Automatically resolves from local platform signatures if left empty.
+   - Returns: ToolResult formatting processing success conditions and reporting systemic responses.
+   - How to call: SystemAdvancedTool.manage_firewall(action="allow", port=8080, protocol="tcp")
+
+9. create_startup_item:
+   - Purpose: Injects tracking links into the system to run targeted scripts automatically upon boot-up, using the Windows HKCU Run registry path, macOS LaunchAgents plist directories, or systemd target definitions.
+   - Arguments:
+     a) name: str - Target application descriptor tagging deployment configs.
+     b) command: str - The specific target terminal execution command string triggered on boot events.
+     c) os_platform: str (default: None) - System processing environment engine target switcher.
+   - Returns: ToolResult displaying status parameters alongside execution logging frames.
+   - How to call: SystemAdvancedTool.create_startup_item(name="MyAgent", command="/usr/local/bin/agent --start")
+
+10. remove_startup_item:
+    - Purpose: Removes application entries from system startup registers to prevent them from executing on next boot.
+    - Arguments:
+      a) name: str - Label identifier targeting files or key values slated for removal from startup configurations.
+      b) os_platform: str (default: None) - System architectural processing framework selector switch override.
+    - Returns: ToolResult detailing execution completion properties.
+    - How to call: SystemAdvancedTool.remove_startup_item(name="MyAgent")
+
+11. manage_hosts_file:
+    - Purpose: Processes read, update, or clear mutations directly on system local networking resolution route tables.
+    - Arguments:
+      a) action: str - Explicit file operation direction target choice supporting parameters "add", "remove", or "list".
+      b) ip: str (default: "") - Specific IP network destination routing node parameter string mapped during actions.
+      c) hostname: str (default: "") - Target network naming label reference used during configuration modifications.
+    - Returns: ToolResult packaging structural mapping evaluation flags alongside multi-line operational data blocks.
+    - How to call: SystemAdvancedTool.manage_hosts_file(action="add", ip="127.0.0.1", hostname="local.test")
+
+12. flush_dns:
+    - Purpose: Purges operating system runtime domain resolution memory stores to force live cache updates over changing routing structures.
+    - Arguments: None.
+    - Returns: ToolResult outlining flush tracking confirmations and operation status values.
+    - How to call: SystemAdvancedTool.flush_dns()
+
+13. get_installed_programs:
+    - Purpose: Indexes system locations such as Windows Uninstall paths, macOS Application structures, or Linux package registers (dpkg/rpm) to build a software tracking matrix.
+    - Arguments:
+      a) os_platform: str (default: None) - Architectural layout override switch targeting cross-system engines.
+    - Returns: ToolResult providing success state metadata alongside an array sequence containing discovered application names.
+    - How to call: SystemAdvancedTool.get_installed_programs(os_platform="Linux")
+
+14. uninstall_program:
+    - Purpose: Invokes native package removals or system application delete operations to erase tools from processing directories.
+    - Arguments:
+      a) name: str - Specific name key or program label pattern searched for during uninstall execution loops.
+      b) os_platform: str (default: None) - Platform environment selector tracking operating conditions.
+    - Returns: ToolResult declaring total tracking removal success indicators and application output logging.
+    - How to call: SystemAdvancedTool.uninstall_program(name="badapp")
+
+15. create_restore_point:
+    - Purpose: Generates a system baseline state record via Windows PowerShell checkpoint utilities to protect operational states before running updates.
+    - Arguments:
+      a) description: str - Human-readable comment detailing why the restore point was generated.
+    - Returns: ToolResult charting checkpoint production status or reporting validation blockages on non-supported OS targets.
+    - How to call: SystemAdvancedTool.create_restore_point(description="Before Major Update")
+
+16. list_restore_points:
+    - Purpose: Returns historical indices containing dates and descriptions of previously compiled Windows restore operations.
+    - Arguments: None.
+    - Returns: ToolResult mapping data compilation states alongside list arrays outlining restore configuration rows.
+    - How to call: SystemAdvancedTool.list_restore_points()
+
+17. set_system_volume:
+    - Purpose: Directly updates active terminal system audio processing attributes by enforcing concrete balance limits across standard platform engines.
+    - Arguments:
+      a) percent: int - Int parameter ranging between 0 and 100 pointing to the targeted sound pressure audio level.
+    - Returns: ToolResult confirming new volume setting levels.
+    - How to call: SystemAdvancedTool.set_system_volume(percent=75)
+
+18. get_battery_info:
+    - Purpose: Accesses system internal power infrastructure interfaces to track battery performance metrics.
+    - Arguments: None.
+    - Returns: ToolResult outputting runtime power status details including current remaining charge metrics, power brick connectivity states, and remaining runtime estimates.
+    - How to call: SystemAdvancedTool.get_battery_info()
+
+19. set_screen_brightness:
+    - Purpose: Adjusts active visual monitor backlighting power levels via platform-native interface pathways.
+    - Arguments:
+      a) percent: int - Int target bounded from 0 to 100 mapping out the target screen visibility coefficient.
+    - Returns: ToolResult documenting tracking change validations.
+    - How to call: SystemAdvancedTool.set_screen_brightness(percent=80)
+
+20. list_usb_devices:
+    - Purpose: Triggers deep subsystem processing hardware walks to collect raw JSON metadata arrays or text representations enumerating visible USB devices.
+    - Arguments: None.
+    - Returns: ToolResult tracking parsing success parameters along with data records logging connected devices.
+    - How to call: SystemAdvancedTool.list_usb_devices()
+
+21. eject_drive:
+    - Purpose: Unmounts specified target partitions or removeable hardware mount blocks cleanly to prevent data corruption.
+    - Arguments:
+      a) drive_path: str - Target filesystem mount route designation, storage label pattern, or platform volume reference (e.g., "E:", "/dev/sdb1").
+    - Returns: ToolResult displaying execution validation logs and partition state reports.
+    - How to call: SystemAdvancedTool.eject_drive(drive_path="E:")
+
+22. format_drive:
+    - Purpose: Erases structural sector properties and builds a fresh, clean filesystem framework across targeted storage blocks.
+    - Arguments:
+      a) drive_path: str - Targeted volume identifier or path reference pointing to the destination hardware block under configuration.
+      b) filesystem: str (default: "ext4") - Filesystem format layout selection token (e.g., "ext4", "ntfs", "fat32", "exfat").
+      c) label: str (default: "") - Appends a volume label name identifier to the formatted disk space.
+    - Returns: ToolResult packing formatting block processing success indicators along with sub-layer terminal execution details.
+    - How to call: SystemAdvancedTool.format_drive(drive_path="/dev/sdb1", filesystem="ext4", label="BackupDrive")
+""")
 
     @staticmethod
     def get_full_system_info() -> ToolResult:
@@ -592,6 +796,216 @@ class NetworkAdvancedTool:
         "Network diagnostics and management: ping, traceroute, port scan, DNS, WHOIS, "
         "SSL, HTTP test, bandwidth, ARP, routing, uptime monitoring, SSH tunnels."
     )
+    use = ("""
+Name of Tool:- NetworkAdvancedTool
+
+Purpose of Tool:- 
+The NetworkAdvancedTool provides an advanced interface for executing core network diagnostics, probing host reachability, 
+monitoring web health, mapping routing layouts, and handling secure encrypted communication forwarding mechanisms. It standardizes cross-platform 
+diagnostics (ICMP ping, multi-hop packet routing paths) and low-level socket integrations (TCP port sweeps, specific port validation checks). 
+Additionally, the tool automates public/private address reporting, DNS query tracking, reverse zone maps, deep domain WHOIS ownership indexes, 
+SSL/TLS validation timelines, precise HTTP payload validations, live bandwidth throttling calculations, link-layer ARP caches, IP routing rulesets, 
+and background multi-threaded uptime monitors alongside Paramiko-driven SSH tunneling channels.
+
+Methods:-
+- ping: Verifies physical remote host connectivity over low-overhead system ICMP requests.
+- traceroute: Captures network path configurations by stepping through individual multi-hop gateways separating intermediate hardware channels.
+- port_scan: Scans selected port lists to find exposed endpoints running on a target host.
+- check_port_open: Fast-probes an explicit single transport address using native non-blocking TCP handshake sequences.
+- dns_lookup: Interfaces with standard resolution tools to pull specific network record indicators mapping domain targets.
+- reverse_dns: Back-resolves a numeric remote IP address layout into its registered textual pointer address name.
+- whois_lookup: Extracts comprehensive registration metadata detailing domain records, hosting parameters, and administrative entities.
+- get_local_ip: Checks the active interface routing configuration to identify the host machine's primary internal IP.
+- get_public_ip: Queries an external secure API gateway to retrieve the machine's external-facing WAN IP address.
+- get_network_interfaces: Enumerates system interfaces while indexing structural throughput indicators, operational states, and layer address pools.
+- check_ssl_certificate: Handshakes with secure endpoints to inspect the root validity parameters of active x509 encryption keys.
+- get_ssl_expiry: Computes standard certificate expiration parameters to safely predict remaining validation times.
+- http_test: Dispatches customizable web request frames to measure performance timings and return payloads.
+- bandwidth_test: Performs streaming operations over high-throughput content endpoints to calculate link speeds.
+- capture_packets: Leverages Scapy mechanisms to monitor network interfaces and compile explicit raw payload capture records (.pcap).
+- get_arp_table: Extracts network neighbor mappings linking Layer 2 physical hardware paths with active Layer 3 address structures.
+- get_routing_table: Details current systemic destination routing rules and core interface gateways.
+- set_dns_servers: Modifies primary static resolver endpoints within system scripts or configuration utilities.
+- check_domain_health: Synthesizes multi-vector testing paths across DNS, HTTP status configurations, and encryption states to evaluate system availability.
+- monitor_uptime: Spawns persistent analytical tracking threads designed to monitor target availability profiles using interval-bound probes.
+- create_ssh_tunnel: Builds secure multi-threaded local-to-remote local port forwarding circuits across automated SSH pipelines.
+
+How to use Tool Methods:-
+
+1. ping:
+   - Purpose: Measures the reachability and round-trip performance metrics of a specified remote node using ICMP echo chains.
+   - Arguments:
+     a) host: str - Target domain address or numeric IP sequence under verification.
+     b) count: int (default: 4) - Number of sequential packet echo iterations dispatched during tests.
+     c) timeout: int (default: 5) - Maximum lifespan parameters allocated to individual request drops.
+   - Returns: ToolResult holding structural boolean connectivity status flags and a detailed execution block.
+   - How to call: NetworkAdvancedTool.ping(host="8.8.8.8", count=4)
+
+2. traceroute:
+   - Purpose: Maps the explicit intermediate pathway taken by packets traveling across network routers to reach a destination.
+   - Arguments:
+     a) host: str - Destination destination routing endpoint node to investigate.
+     b) max_hops: int (default: 30) - Safe terminal boundary checking ceiling limiting the path traversal loops.
+     c) timeout: int (default: 5) - System response timeout threshold parameters.
+   - Returns: ToolResult tracking routing path validation blocks and sequential hop-by-hop node matrices.
+   - How to call: NetworkAdvancedTool.traceroute(host="example.com")
+
+3. port_scan:
+   - Purpose: Evaluates target system vulnerabilities or active services by attempting TCP connection routines across list vectors.
+   - Arguments:
+     a) host: str - System address targeted for service detection routines.
+     b) ports: list (default: None) - Array of destination port digits to check. Falls back to scanning ports 1 to 1024 if unassigned.
+     c) timeout: float (default: 1.0) - Handshake processing limit constraint applied per connection attempt.
+     d) method: str (default: "connect") - Explicit operational state handling mechanism selection parameter.
+   - Returns: ToolResult displaying scan status summaries alongside map dictionaries matching exposed ports with known protocols.
+   - How to call: NetworkAdvancedTool.port_scan(host="192.168.1.1", ports=[22, 80, 443])
+
+4. check_port_open:
+   - Purpose: Performs a fast connection handshake check against a specific target port to see if it is actively accepting connections.
+   - Arguments:
+     a) host: str - The host network node under configuration audit.
+     b) port: int - Exact port number targeted for connection verification.
+     c) timeout: float (default: 3.0) - Time budget limits applied to socket connection states.
+   - Returns: ToolResult storing open/closed validation states.
+   - How to call: NetworkAdvancedTool.check_port_open(host="127.0.0.1", port=3306)
+
+5. dns_lookup:
+   - Purpose: Interrogates domain databases via system sub-layer structures to fetch requested zone records.
+   - Arguments:
+     a) domain: str - Textual destination identifier to look up.
+     b) record_type: str (default: "A") - Explicit lookup target filter (e.g., "A", "AAAA", "MX", "TXT", "CNAME").
+   - Returns: ToolResult containing processing flags alongside raw nslookup output records.
+   - How to call: NetworkAdvancedTool.dns_lookup(domain="google.com", record_type="MX")
+
+6. reverse_dns:
+   - Purpose: Resolves an IP address back to its associated hostname via Pointer (PTR) record extraction routines.
+   - Arguments:
+     a) ip: str - Target IP routing location sequence under examination.
+   - Returns: ToolResult tracking mapping updates and resolved text markers.
+   - How to call: NetworkAdvancedTool.reverse_dns(ip="8.8.8.8")
+
+7. whois_lookup:
+   - Purpose: Queries domain WHOIS registries to extract structural assignment details, creation dates, and organization metadata.
+   - Arguments:
+     a) domain: str - Core domain name targeted for registry examination.
+   - Returns: ToolResult packing validation flags alongside a dictionary filled with domain registration information.
+   - How to call: NetworkAdvancedTool.whois_lookup(domain="github.com")
+
+8. get_local_ip:
+   - Purpose: Safely computes the machine's primary internal LAN routing address by opening an inactive socket channel toward external addresses.
+   - Arguments: None.
+   - Returns: ToolResult formatting operational flags and local network IP fields.
+   - How to call: NetworkAdvancedTool.get_local_ip()
+
+9. get_public_ip:
+   - Purpose: Identifies the local environment's external WAN IP address as seen by the public internet.
+   - Arguments: None.
+   - Returns: ToolResult logging connectivity status along with external network IP metrics.
+   - How to call: NetworkAdvancedTool.get_public_ip()
+
+10. get_network_interfaces:
+    - Purpose: Aggregates hardware interface lists to verify configuration statuses, packet speeds, and assigned address pools.
+    - Arguments: None.
+    - Returns: ToolResult mapping active adapter setups alongside structural network properties.
+    - How to call: NetworkAdvancedTool.get_network_interfaces()
+
+11. check_ssl_certificate:
+    - Purpose: Validates peer certificate authentication layers during connection tests to detect potential trust failures.
+    - Arguments:
+      a) domain: str - Destination secure endpoint web address.
+      b) port: int (default: 443) - Target security socket link identifier.
+    - Returns: ToolResult describing certificate validation results and properties.
+    - How to call: NetworkAdvancedTool.check_ssl_certificate(domain="cloudflare.com")
+
+12. get_ssl_expiry:
+    - Purpose: Analyzes x509 validation fields to compute the exact number of days remaining before an SSL/TLS certificate expires.
+    - Arguments:
+      a) domain: str - Web host target path intended for evaluation.
+      b) port: int (default: 443) - The specific port number used to initiate the secure handshake.
+    - Returns: ToolResult holding tracking metrics and expiration timelines.
+    - How to call: NetworkAdvancedTool.get_ssl_expiry(domain="microsoft.com")
+
+13. http_test:
+    - Purpose: Dispatches custom HTTP request configurations to audit server endpoint availability, response headers, and performance latency.
+    - Arguments:
+      a) url: str - Absolute destination link schema targeted for verification.
+      b) method: str (default: "GET") - HTTP transmission verb identifier (e.g., "GET", "POST", "PUT", "DELETE").
+      c) headers: dict (default: None) - Key-value pair configurations mapping custom HTTP request headers.
+      d) data: dict (default: None) - JSON-formatted payload structures appended to the request body.
+      e) timeout: int (default: 15) - Maximum duration bounds allocated to response streaming windows.
+      f) follow_redirects: bool (default: True) - Determines whether the client follows HTTP redirect chains.
+      g) verify_ssl: bool (default: True) - Enables or disables enforcement of strict peer security checks.
+    - Returns: ToolResult packing status codes, header configurations, and timing details.
+    - How to call: NetworkAdvancedTool.http_test(url="https://httpbin.org/post", method="POST", data={"test": True})
+
+14. bandwidth_test:
+    - Purpose: Estimates connection performance limits by continuously downloading chunked streams over a fixed timeframe.
+    - Arguments:
+      a) server_url: str (default: high-capacity byte node) - Secure endpoint link supplying download test streams.
+      b) duration: int (default: 5) - Target time duration bounds limiting speed tracking metrics loops.
+    - Returns: ToolResult declaring evaluation metrics and average connection speeds in Mbps.
+    - How to call: NetworkAdvancedTool.bandwidth_test(duration=3)
+
+15. capture_packets:
+    - Purpose: Sniffs low-level hardware or virtual interface frames, filtering capture data into formatted analysis records.
+    - Arguments:
+      a) interface: str (default: "eth0") - Specific interface adapter channel target assigned for packet capture.
+      b) count: int (default: 10) - Target ceiling limiting packet counts captured during testing runs.
+      c) filter: str (default: "") - Standard BPF packet filtering syntax queries (e.g., "tcp port 80").
+      d) output_pcap: str (default: "capture.pcap") - Path location where captured file traces are saved.
+    - Returns: ToolResult tracking saved output confirmation markers.
+    - How to call: NetworkAdvancedTool.capture_packets(interface="wlan0", count=5, filter="icmp")
+
+16. get_arp_table:
+    - Purpose: Dumps the system Address Resolution Protocol table to check current IP-to-MAC address mappings.
+    - Arguments: None.
+    - Returns: ToolResult collecting network configuration arrays detailing known hardware address targets.
+    - How to call: NetworkAdvancedTool.get_arp_table()
+
+17. get_routing_table:
+    - Purpose: Exposes internal packet path selections by extracting the operating system's active IP routing matrices.
+    - Arguments: None.
+    - Returns: ToolResult logging execution success metrics and raw system routing tracks.
+    - How to call: NetworkAdvancedTool.get_routing_table()
+
+18. set_dns_servers:
+    - Purpose: Overwrites system resolver targets to re-route domain lookups through specific external name servers.
+    - Arguments:
+      a) servers: list - Array sequence mapping string formatting destination server IP records (e.g., ["8.8.8.8", "1.1.1.1"]).
+      b) interface: str (default: "") - Targeted link adapter descriptor targeted for structural configuration.
+    - Returns: ToolResult providing validation updates.
+    - How to call: NetworkAdvancedTool.set_dns_servers(servers=["1.1.1.1", "1.0.0.1"])
+
+19. check_domain_health:
+    - Purpose: Aggregates multiple network testing utilities to build a unified profile evaluating domain availability and security posture.
+    - Arguments:
+      a) domain: str - Target name string intended for architectural health checks.
+    - Returns: ToolResult packaging validation flags and sub-layer service evaluation parameters.
+    - How to call: NetworkAdvancedTool.check_domain_health(domain="apple.com")
+
+20. monitor_uptime:
+    - Purpose: Spawns independent background monitoring tasks that check web server availability and trigger alerts if failure rates exceed thresholds.
+    - Arguments:
+      a) url: str - Destination link under analytical surveillance.
+      b) interval: int (default: 60) - Testing delay cycles measured in seconds separating individual check sweeps.
+      c) alert_threshold: int (default: 3) - Maximum allowable consecutive drops before triggering alert routines.
+      d) callback: function (default: None) - Custom execution reference called when failure conditions are reached.
+    - Returns: ToolResult validating successful initiation of the tracking background loop.
+    - How to call: NetworkAdvancedTool.monitor_uptime(url="https://mywebsite.com", interval=30)
+
+21. create_ssh_tunnel:
+    - Purpose: Leverages paramiko SSH channels to forward local traffic securely across encrypted pipelines toward remote targets.
+    - Arguments:
+      a) local_port: int - Local connection target port listening for traffic on the host machine.
+      b) remote_host: str - Final internal network destination address situated beyond the jump box.
+      c) remote_port: int - Final system network application target port under configuration.
+      d) ssh_host: str - Gateway intermediary server hosting active shell connections.
+      e) ssh_user: str - Identity label used for secure shell server authentication.
+      f) ssh_key: str (default: None) - Storage target file path referencing the user's private authentication key.
+      g) cred_key: str (default: "ssh") - Index key mapping default verification metrics out of storage systems.
+    - Returns: ToolResult mapping active circuit connection confirmations.
+    - How to call: NetworkAdvancedTool.create_ssh_tunnel(local_port=8080, remote_host="10.0.0.5", remote_port=80, ssh_host="jump.mycompany.com", ssh_user="admin")
+""")
 
     @staticmethod
     def ping(host: str, count: int = 4, timeout: int = 5) -> ToolResult:
@@ -994,6 +1408,195 @@ class FileSystemAdvancedTool:
         "Advanced file operations: folder watch/sync, duplicate detection/removal, "
         "encryption, secure delete, split/join, compression, malware scan, permissions."
     )
+    use = ("""
+Name of Tool:- FileSystemAdvancedTool
+
+Purpose of Tool:- 
+The FileSystemAdvancedTool provides an advanced and secure interface for complex filesystem management, structural audits, data sanitation, 
+and integrity enforcement. It wraps system-level and library-driven operations into a clean API covering directory event monitoring, automated 
+one-way or bidirectional directory synchronization, cryptographically sound deduplication via hashes, authenticated encryption primitives (AES-GCM), 
+unrecoverable file shredding, chunked file splitting/joining, custom malware pattern filtering, recursive Unix access control modification (chmod/chown), 
+virtual SFTP volume mounting, and massive manifest creation using verifiable checksum fingerprints.
+
+Methods:-
+- watch_folder: Sets up a background monitoring event loop to capture structural modifications under specified directory trees.
+- sync_folders: Performs multi-tier file replication or bidirectional path mirrors across distinct system directory paths.
+- find_duplicates: Sweeps selected directory locations to spot and pool redundant data objects based on hash uniqueness keys.
+- remove_duplicates: Automatically purges duplicate files found inside target structures based on relative indexing order selections.
+- encrypt_file: Derives high-entropy security keys via Scrypt to secure target payloads with robust AES-GCM envelope protections.
+- decrypt_file: Extracts salt and nonce parameters from encrypted blobs to fully reconstruct original unencrypted plaintext contents.
+- secure_delete: Obliterates local file records by executing continuous cryptographically random byte overwrite runs before block unlinking.
+- split_file: Slices large targeted objects into sequentially numbered byte fragments for easy transport.
+- join_files: Combines split part components back into a single operational structural data assembly.
+- compress_folder: Archives complex structured folder nodes into portable, custom-leveled compressed archives like .zip or .tar.gz format packages.
+- scan_for_malware: Runs quick regex matches across local file contents to uncover suspicious strings, shell scripts, or unsafe system commands.
+- find_large_files: Filters file elements by file size boundaries to create sorted breakdowns of massive space-consuming files.
+- change_permissions_recursive: Performs recursive bitwise access control mode alterations across targeted folder structures.
+- change_owner_recursive: Modifies systemic ownership boundaries by calling platform processes recursively on targeted assets.
+- mount_remote_folder: Validates structural connectivity and directory availability metrics against external SFTP nodes over Paramiko transport links.
+- verify_checksum: Recomputes absolute hex digests on files to confirm payload alignment with expected hash profiles.
+- generate_checksum_file: Dispatches validation routines down directory paths to generate comprehensive signature catalogs for mass file verification.
+
+How to use Tool Methods:-
+
+1. watch_folder:
+   - Purpose: Tracks real-time folder mutations (creations, deletions, updates) by spawning a background Watchdog monitoring worker thread.
+   - Arguments:
+     a) path: str - Base folder target path under monitoring surveillance.
+     b) callback: function - Callable execution target triggered upon catching systemic filesystem event types.
+     c) patterns: list (default: None) - Filter matching formats used to flag specific file extensions.
+     d) recursive: bool (default: True) - Controls whether the engine monitors all nested subdirectories.
+     e) ignore_patterns: list (default: None) - File format patterns excluded from monitoring sweeps.
+   - Returns: ToolResult holding background observer validation confirmations.
+   - How to call: FileSystemAdvancedTool.watch_folder(path="/var/www", callback=print, patterns=["*.py"])
+
+2. sync_folders:
+   - Purpose: Replicates data assets between directory nodes with handling options for extra files, mirrors, and dry runs.
+   - Arguments:
+     a) source: str - Root source folder address feeding file states.
+     b) destination: str - Destination tracking workspace targeted for alignment.
+     c) bidirectional: bool (default: False) - Enables concurrent reverse updates back into the source path.
+     d) delete_extra: bool (default: False) - Purges elements within the destination folder that do not exist at the source.
+     e) dry_run: bool (default: False) - Simulates operations to log target changes without writing any changes to disk.
+   - Returns: ToolResult packing final synced transaction statistics.
+   - How to call: FileSystemAdvancedTool.sync_folders(source="./src", destination="./backup", delete_extra=True)
+
+3. find_duplicates:
+   - Purpose: Builds unique hash maps across files to precisely group and expose completely identical data blobs.
+   - Arguments:
+     a) paths: list - Target search folder addresses to look through.
+     b) method: str (default: "md5") - Selection parameter specifying the crypto hashing routine (e.g., "md5", "sha256").
+     c) output: str (default: None) - Optional target output path to dump the duplicate mappings as a JSON file.
+   - Returns: ToolResult detailing duplicate group counts alongside data matrices matching hashes to file path locations.
+   - How to call: FileSystemAdvancedTool.find_duplicates(paths=["/data/docs"], method="sha256")
+
+4. remove_duplicates:
+   - Purpose: Cleans up storage locations by safely deleting identical files uncovered during folder sweeps.
+   - Arguments:
+     a) paths: list - Target target system paths targeted for duplicate removal loops.
+     b) keep: str (default: "first") - Selects which unique variant index to preserve ("first" or "last").
+     c) method: str (default: "md5") - Crypto algorithm choice used to confirm identity match states.
+   - Returns: ToolResult summarizing total file units removed from disk.
+   - How to call: FileSystemAdvancedTool.remove_duplicates(paths=["/home/user/downloads"], keep="first")
+
+5. encrypt_file:
+   - Purpose: Uses strong Scrypt key derivation and AES-GCM authenticated encryption to convert raw files into protected data blobs.
+   - Arguments:
+     a) input: str - Plaintext file source target slated for protection.
+     b) output: str - Destination tracking path where the encrypted file will be saved.
+     c) password: str - Base passphrase text string feeding the key derivation functions.
+     b) algorithm: str (default: "AES") - Underlying security symmetric encryption type framework.
+   - Returns: ToolResult tracking successfully processed secure output states.
+   - How to call: FileSystemAdvancedTool.encrypt_file(input="secret.txt", output="secret.enc", password="SuperSecurePassword123")
+
+6. decrypt_file:
+   - Purpose: Validates envelope headers and decrypts AES-GCM data payloads back into true plaintext.
+   - Arguments:
+     a) input: str - Target path pointing to the valid encrypted file source.
+     b) output: str - Target system destination path where decrypted contents will be written.
+     c) password: str - Passphrase matching the exact key derivation settings used to encrypt the file.
+   - Returns: ToolResult indicating confirmation of safe payload decryption.
+   - How to call: FileSystemAdvancedTool.decrypt_file(input="secret.enc", output="restored.txt", password="SuperSecurePassword123")
+
+7. secure_delete:
+   - Purpose: Shreds data sectors using continuous random byte write buffers to stop file recovery before unlinking records from the OS.
+   - Arguments:
+     a) path: str - Target target file item marked for permanent secure destruction.
+     b) passes: int (default: 3) - The number of random byte overwrite cycles applied across target blocks.
+   - Returns: ToolResult charting deletion confirmations.
+   - How to call: FileSystemAdvancedTool.secure_delete(path="sensitive_data.csv", passes=5)
+
+8. split_file:
+   - Purpose: Slices large structural objects into smaller byte chunks to fit transport size limits.
+   - Arguments:
+     a) path: str - Main file asset scheduled for division.
+     b) chunk_size: int (default: 10485760) - Target byte volume parameter limiting maximum individual chunk splits (defaults to 10 MB).
+     c) output_folder: str (default: None) - Output path destination designated to store the generated partial split fragments.
+   - Returns: ToolResult detailing piece metrics and tracking output destinations.
+   - How to call: FileSystemAdvancedTool.split_file(path="archive.tar", chunk_size=5242880)
+
+9. join_files:
+   - Purpose: Assembles sequenced partial files back into a single unified binary file structure.
+   - Arguments:
+     a) parts_folder: str - Source folder containing the split data chunks.
+     b) output: str - Reconstructed path location mapping where the combined file will be saved.
+     c) extension: str (default: ".part") - Tracking suffix selector used to identify and sort split parts.
+   - Returns: ToolResult providing reconstruction progress statuses.
+   - How to call: FileSystemAdvancedTool.join_files(parts_folder="./archive_parts", output="restored_archive.tar")
+
+10. compress_folder:
+    - Purpose: Bundles entire nested folder tree structures into space-saving compressed archives using custom algorithms.
+    - Arguments:
+      a) path: str - Target folder directory root slated for archiving.
+      b) output: str (default: None) - Desired output archive path name (autocompletes file extensions if blank).
+      c) algorithm: str (default: "zip") - Compression scheme selector flag (options include "zip" or "tar.gz").
+      d) level: int (default: 6) - Numeric scale balancing compression time against final output file size (scale from 1 to 9).
+    - Returns: ToolResult logging the saved output location of the archive.
+    - How to call: FileSystemAdvancedTool.compress_folder(path="./projects", algorithm="tar.gz", level=9)
+
+11. scan_for_malware:
+    - Purpose: Checks file bodies against high-risk regex string signatures to spot potential web shells, injection paths, or backdoors.
+    - Arguments:
+      a) path: str - Target file path or root folder location selected for pattern filtering scans.
+      b) patterns: list (default: None) - Optional array tracking custom suspicious evaluation strings.
+    - Returns: ToolResult charting structural match positions and total high-risk flags identified.
+    - How to call: FileSystemAdvancedTool.scan_for_malware(path="/var/www/html")
+
+12. find_large_files:
+    - Purpose: Crawls file systems to find and catalog space-heavy files that exceed specified size limits.
+    - Arguments:
+      a) path: str - Root location where the size tracking sweep begins.
+      b) min_size_mb: float (default: 100) - Minimum file size ceiling filter value in Megabytes.
+      c) recursive: bool (default: True) - Dictates whether the tool crawls down nested folders.
+    - Returns: ToolResult packing sorted details mapping large file nodes to their respective sizes.
+    - How to call: FileSystemAdvancedTool.find_large_files(path="/var/log", min_size_mb=50.0)
+
+13. change_permissions_recursive:
+    - Purpose: Changes system file access codes recursively across entire directory trees using Unix octal permissions mode formatting.
+    - Arguments:
+      a) path: str - Root folder location targeted for permissions changes.
+      b) mode: int (default: 0o755) - Bitwise permissions mask value passed using standard octal representations.
+    - Returns: ToolResult counting total items adjusted across system tracks.
+    - How to call: FileSystemAdvancedTool.change_permissions_recursive(path="./scripts", mode=0o744)
+
+14. change_owner_recursive:
+    - Purpose: Changes user and group ownership boundaries recursively across target items using platform tools.
+    - Arguments:
+      a) path: str - System file location marked for ownership updates.
+      b) user: str - Account user name mapping the new target owner.
+      c) group: str (default: None) - Intended platform group name string to attach alongside user parameters.
+    - Returns: ToolResult capturing operational return logs from sub-process tasks.
+    - How to call: FileSystemAdvancedTool.change_owner_recursive(path="/var/www", user="www-data", group="www-data")
+
+15. mount_remote_folder:
+    - Purpose: Opens a secure transport connection to check and read from folders on remote SFTP hosts.
+    - Arguments:
+      a) host: str - Intermediary system hostname network target.
+      b) remote_path: str - Folder layout path residing on the target remote server environment.
+      c) local_path: str - Local folder path used as a placeholder target during validation tests.
+      d) credentials: dict (default: None) - Custom authentication login configurations.
+      e) cred_key: str (default: "ssh") - Index key mapping default verification parameters from credential databases.
+    - Returns: ToolResult packing lists tracking files present inside the remote folder target.
+    - How to call: FileSystemAdvancedTool.mount_remote_folder(host="sftp.partner.com", remote_path="/uploads", local_path="./remote_preview")
+
+16. verify_checksum:
+    - Purpose: Compares the computed runtime hash value of a target file directly against an expected hash string to verify file integrity.
+    - Arguments:
+      a) file: str - Target file path targeted for tracking calculations.
+      b) expected: str - Pre-computed verification hash string used to confirm authenticity.
+      c) algorithm: str (default: "sha256") - Selection parameter defining the algorithm used (e.g., "md5", "sha1", "sha256").
+    - Returns: ToolResult storing verification matches along with actual string tracking markers.
+    - How to call: FileSystemAdvancedTool.verify_checksum(file="ubuntu.iso", expected="a3c2...ef45")
+
+17. generate_checksum_file:
+    - Purpose: Crawls directories to map files and write their corresponding cryptographic signatures out into unified manifest index files.
+    - Arguments:
+      a) folder: str - Base folder directory path selected for verification checks.
+      b) algorithm: str (default: "sha256") - Underlying hash algorithm scheme used to generate individual checksums.
+      c) output: str (default: "checksums.txt") - Destination file tracking path where the generated manifest text will be saved.
+    - Returns: ToolResult tracking output confirmations and listing total file counts cataloged.
+    - How to call: FileSystemAdvancedTool.generate_checksum_file(folder="./release_pkg", algorithm="sha256")
+""")
 
     @staticmethod
     def watch_folder(
@@ -1382,6 +1985,204 @@ class ProcessAutomationTool:
         "Windows/Mac GUI automation: window management, mouse/keyboard control, "
         "screen image finding, application control, macro record/play."
     )
+    use = ("""
+Name of Tool:- ProcessAutomationTool
+
+Purpose of Tool:- 
+The ProcessAutomationTool provides a versatile interface for cross-platform cross-application Graphical User Interface (GUI) 
+automation, application lifestyle control, and macro interaction capture. It utilizes lower-level library drivers to find, 
+manipulate, resize, and prioritize desktop windows, dispatch targeted mouse button actions, text strings, keyboard strokes, 
+and drag-and-drop sequences. It also features spatial image matching routines to anchor executions visually on desktop elements, 
+manages execution run cycles via process identification frameworks, and records or executes structured peripheral event histories (macros).
+
+Methods:-
+- find_window: Queries active operating system layout nodes to locate window states matching titles or process elements.
+- focus_window: Brings a designated target window front and center into operational foreground focus.
+- minimize_window: Visually collapses the targeted active GUI application window.
+- maximize_window: Restores or maximizes targeted system interface panels to fit the full screen area.
+- click_at: Fires precise hardware-level mouse click events at explicit Cartesian pixel coordinates on the active screen workspace.
+- type_text: Emulates user keyboard inputs by transmitting explicit text characters into active input boxes at specific timing intervals.
+- press_key: Simulates explicit single keystrokes or complex compound hotkey modifier variations.
+- drag_and_drop: Automatically handles drag-and-drop pathways by tracking mouse paths from a start point to an end point.
+- scroll: Triggers vertical mouse wheel increments at explicit anchor coordinates.
+- take_screenshot_region: Snippets localized pixel blocks out of the live display surface layout and writes them into image records.
+- find_image_on_screen: Runs spatial template matching passes to locate visual elements matching target asset snapshots.
+- click_image: Coordinates automatic visual targeting routines to spot an image element and center a mouse click right on it.
+- wait_for_image: Sets up a polling validation loop that waits for a specific visual state asset to show up on screen.
+- run_application: Dispatches native background shell creation executions to run third-party software bundles.
+- close_application: Runs system-level process terminations using process IDs or text name lookups to force-close applications.
+- get_active_window: Pulls positioning telemetry details directly from whichever window currently holds active system focus.
+- get_all_windows: Extracts information from all valid workspace application titles open in the operating system architecture.
+- send_hotkey: Interprets localized string formats to execute multi-key combinations quickly.
+- record_macro: Intercepts and logs mouse coordinates and keyboard strokes to record automated macro sequences.
+- play_macro: Replays recorded macro logs to reconstruct original peripheral movements and clicks at chosen speeds.
+
+How to use Tool Methods:-
+
+1. find_window:
+   - Purpose: Searches through active system windows using text matching strings to find specific application layouts.
+   - Arguments:
+     a) title: str (default: "") - Target text string value to search for inside window titles.
+     b) process_name: str (default: "") - Filter parameter string targeting process names.
+   - Returns: ToolResult holding lists filled with window layout data dictionaries.
+   - How to call: ProcessAutomationTool.find_window(title="Notepad")
+
+2. focus_window:
+   - Purpose: Highlights and focuses a chosen application window to prepare it for user input.
+   - Arguments:
+     a) title: str - Exact or partial title string of the window you want to focus.
+   - Returns: ToolResult tracking focus completion states.
+   - How to call: ProcessAutomationTool.focus_window(title="Calculator")
+
+3. minimize_window:
+   - Purpose: Minimizes chosen desktop interface layouts down into the system taskbar.
+   - Arguments:
+     a) title: str - Target title matching strings of the layout window to collapse.
+   - Returns: ToolResult providing verification update logs.
+   - How to call: ProcessAutomationTool.minimize_window(title="Terminal")
+
+4. maximize_window:
+   - Purpose: Expands the dimensions of a targeted window to fill the entire monitor workspace.
+   - Arguments:
+     a) title: str - The window title tracking criteria of the app being targeted.
+   - Returns: ToolResult validating layout alterations.
+   - How to call: ProcessAutomationTool.maximize_window(title="Browser")
+
+5. click_at:
+   - Purpose: Sends native click actions to any coordinate on the screen.
+   - Arguments:
+     a) x: int - Target horizontal pixel coordinate position.
+     b) y: int - Target vertical pixel coordinate position.
+     c) button: str (default: "left") - Button identifier mapping ("left", "right", "middle").
+     d) clicks: int (default: 1) - Frequency count representing how many clicks to execute.
+   - Returns: ToolResult confirming structural interaction metrics.
+   - How to call: ProcessAutomationTool.click_at(x=500, y=400, button="right", clicks=1)
+
+6. type_text:
+   - Purpose: Automates text entry by simulating quick keyboard strokes with adjustable gaps between characters.
+   - Arguments:
+     a) text: str - Payloads containing the text block sequence slated for transmission.
+     b) interval: float (default: 0.05) - Delays measured in seconds inserted between character executions.
+   - Returns: ToolResult capturing character metrics processed.
+   - How to call: ProcessAutomationTool.type_text(text="Hello, World!", interval=0.1)
+
+7. press_key:
+   - Purpose: Automates single key strikes or button shortcuts with attached modifier keys like Shift or Control.
+   - Arguments:
+     a) key: str - Target key value targeted for execution (e.g., "enter", "f5").
+     b) modifiers: list (default: None) - Array tracking wrapping key states (e.g., ["ctrl", "alt"]).
+   - Returns: ToolResult tracking execution state confirmations.
+   - How to call: ProcessAutomationTool.press_key(key="s", modifiers=["ctrl"])
+
+8. drag_and_drop:
+   - Purpose: Moves the cursor to a start position, holds the left click down, and drags over to an end coordinate.
+   - Arguments:
+     a) from_x: int - Original coordinate position horizontal axis location.
+     b) from_y: int - Original coordinate position vertical axis location.
+     c) to_x: int - Terminal point coordinate destination horizontal location.
+     d) to_y: int - Terminal point coordinate destination vertical location.
+     d) duration: float (default: 0.5) - Time span in seconds allocated for cursor movement.
+   - Returns: ToolResult registering successful translation states.
+   - How to call: ProcessAutomationTool.drag_and_drop(from_x=100, from_y=100, to_x=600, to_y=600)
+
+9. scroll:
+   - Purpose: Moves the cursor to selected screen positions and executes vertical wheel scrolling movements.
+   - Arguments:
+     a) x: int - Target coordinate alignment horizontal anchor location.
+     b) y: int - Target coordinate alignment vertical anchor location.
+     c) clicks: int (default: 3) - Volume strength configuration denoting rotational scroll adjustments.
+     d) direction: str (default: "down") - Text flag assigning rotational directional orientation ("up" or "down").
+   - Returns: ToolResult outlining transactional execution summaries.
+   - How to call: ProcessAutomationTool.scroll(x=300, y=300, clicks=10, direction="up")
+
+10. take_screenshot_region:
+    - Purpose: Captures a specific portion of the display bounding box and outputs the slice as a static image file.
+    - Arguments:
+      a) x: int - Top-left bounding box starting horizontal coordinate.
+      b) y: int - Top-left bounding box starting vertical coordinate.
+      c) width: int - Bounding box dimension width across the horizontal plane.
+      d) height: int - Bounding box dimension height down the vertical plane.
+      e) output: str (default: "region.png") - Storage asset path tracking where the PNG file will save.
+    - Returns: ToolResult confirming file generation details on disk.
+    - How to call: ProcessAutomationTool.take_screenshot_region(x=0, y=0, width=1920, height=1080, output="desktop.png")
+
+11. find_image_on_screen:
+    - Purpose: Crawls the display screen interface layout looking for match instances that replicate target image patches.
+    - Arguments:
+      a) image_path: str - Reference image patch asset path targeted for pattern comparison.
+      b) confidence: float (default: 0.8) - Pixel matching tolerance factor required to trigger matching states (scale from 0.0 to 1.0).
+    - Returns: ToolResult identifying coordinate centers and framing boundary rectangles if found.
+    - How to call: ProcessAutomationTool.find_image_on_screen(image_path="submit_btn.png", confidence=0.9)
+
+12. click_image:
+    - Purpose: Combines computer vision matching with hardware interaction by locating a graphic on screen and clicking its center point.
+    - Arguments:
+      a) image_path: str - Local reference asset image file used for structural template searches.
+      b) confidence: float (default: 0.8) - Matching metric thresholds required to validate true matches.
+      c) button: str (default: "left") - Target mouse button chosen for execution once target location is verified.
+    - Returns: ToolResult showing targeted positioning data coordinates.
+    - How to call: ProcessAutomationTool.click_image(image_path="login_icon.png", button="left")
+
+13. wait_for_image:
+    - Purpose: Blocks active execution runs until a target visual element shows up on screen or a timeout limit is reached.
+    - Arguments:
+      a) image_path: str - Asset pattern file checked across the display workspace during polling loops.
+      b) timeout: int (default: 30) - Maximum time allowed in seconds before throwing failure errors.
+      c) confidence: float (default: 0.8) - Precision threshold used to identify valid image matches.
+    - Returns: ToolResult storing center position coordinates once items appear.
+    - How to call: ProcessAutomationTool.wait_for_image(image_path="dashboard_load.png", timeout=15)
+
+14. run_application:
+    - Purpose: Spawns application binaries in the background using optional configuration parameters.
+    - Arguments:
+      a) path_or_name: str - Execution system name or full file path string mapping the app target.
+      b) args: list (default: None) - Appended operational flags passed alongside initialization calls.
+      c) wait: bool (default: False) - Dictates whether execution halts until the application exits.
+    - Returns: ToolResult packing launch confirmations or detailed terminal runtime capture metrics.
+    - How to call: ProcessAutomationTool.run_application(path_or_name="notepad.exe", args=["notes.txt"])
+
+15. close_application:
+    - Purpose: Shuts down active background processes by matching against their process identifier numbers or name strings.
+    - Arguments:
+      a) name_or_pid: Union[int, str] - Target criteria used to search out processes (e.g., "chrome.exe" or 4312).
+    - Returns: ToolResult listing total terminated process instances.
+    - How to call: ProcessAutomationTool.close_application(name_or_pid="excel")
+
+16. get_active_window:
+    - Purpose: Retrieves positional coordinates and title tracking data from whichever window currently holds active desktop focus.
+    - Arguments: None
+    - Returns: ToolResult tracking titles alongside positional geometry specifications.
+    - How to call: ProcessAutomationTool.get_active_window()
+
+17. get_all_windows:
+    - Purpose: Collects a comprehensive list of all active windows with valid titles open across the operating system environment.
+    - Arguments: None
+    - Returns: ToolResult containing arrays populated with spatial positioning dictionaries.
+    - How to call: ProcessAutomationTool.get_all_windows()
+
+18. send_hotkey:
+    - Purpose: Parses simple string syntax expressions to send complex keyboard shortcuts to the system.
+    - Arguments:
+      a) hotkey_string: str - Combination text format linking shortcut strings with plus operators (e.g., "ctrl+alt+delete").
+    - Returns: ToolResult verifying validation deliveries.
+    - How to call: ProcessAutomationTool.send_hotkey(hotkey_string="ctrl+shift+esc")
+
+19. record_macro:
+    - Purpose: Listens to mouse and keyboard events to capture user actions and save them into structured macro files.
+    - Arguments:
+      a) output_file: str - Local JSON target file tracking where the recorded event array will save.
+      b) duration: int (default: 10) - The time limit in seconds that the tool records system peripheral inputs.
+    - Returns: ToolResult summarizing total data events captured.
+    - How to call: ProcessAutomationTool.record_macro(output_file="macro1.json", duration=5)
+
+20. play_macro:
+    - Purpose: Reads structured macro files to replay recorded cursor pathways and inputs at adjustable speeds.
+    - Arguments:
+      a) macro_file: str - Local JSON macro file tracking historical automation operations.
+      b) speed: float (default: 1.0) - Playback speed multiplier (e.g., 2.0 doubles the speed, 0.5 slows it down by half).
+    - Returns: ToolResult mapping validation results and providing execution statistics.
+    - How to call: ProcessAutomationTool.play_macro(macro_file="macro1.json", speed=1.5)
+""")
 
     @staticmethod
     def find_window(title: str = "", process_name: str = "") -> ToolResult:
@@ -1674,6 +2475,123 @@ class PrinterTool:
         "Print management: list printers, print files/PDFs/images, manage print queue, "
         "cancel jobs, get printer status, install printers, export to PDF."
     )
+    use = ("""
+Name of Tool:- PrinterTool
+
+Purpose of Tool:- 
+The PrinterTool provides a robust cross-platform interface for local and network print subsystem management, 
+document spooling, queue parsing, device provisioning, and file-to-PDF conversion pipelines. It bridges systemic differences 
+by abstraction layers over the Windows Print Spooler APIs (`win32print`, `win32api`) and POSIX Common Unix Printing Systems 
+(CUPS command utilities like `lp`, `lpstat`, `lpq`, `cancel`, and `lpadmin`). This allows applications to uniformly programmatically 
+discover devices, audit real-time diagnostic status metrics, enqueue file variations (raw text, structured PDFs, binary images), 
+purge stalled spool jobs, provision fresh drivers, or render headless documents into fixed-layout PDF variants.
+
+Methods:-
+- list_printers: Queries the active platform sub-layer to discover all locally or networks attached printable hardware destinations.
+- get_default_printer: Evaluates fallback routing states to output the hardware device currently designated as the primary target.
+- set_default_printer: Overrides global system preferences to lock down a target printing node for headless dispatch queues.
+- print_file: Routes raw text or structured document objects through the system printing stack using optional parameters.
+- print_pdf: dispatches precise multipage PDF streams into target spoolers while respecting pagination limits and layout constraints.
+- print_image: Transmits graphic binaries (PNG, JPEG, etc.) directly into local imaging targets, supporting aspect scaling configurations.
+- get_print_queue: Audits hardware device backlogs to parse, snapshot, and structure data blocks representing waiting jobs.
+- cancel_job: Issues immediate abort commands down targeted system rails to pull stalled data streams from device queues.
+- get_printer_status: Connects directly with device configurations to parse current operational states and active workloads.
+- install_printer: Deploys virtual or physical endpoint print pathways into device trees using hardware address ports and drivers.
+- export_to_pdf: Leverages headless sub-processes (Word COM blocks, cupsfilters, or LibreOffice engines) to render layout assets into PDFs.
+
+How to use Tool Methods:-
+
+1. list_printers:
+   - Purpose: Crawls system registry pathways or local daemon services to discover all operational printer layouts.
+   - Arguments: None
+   - Returns: ToolResult holding lists filled with discovered printer string name targets.
+   - How to call: PrinterTool.list_printers()
+
+2. get_default_printer:
+   - Purpose: Checks system environment defaults to identify which printer acts as the automatic target when none is specified.
+   - Arguments: None
+   - Returns: ToolResult containing data matrices detailing the default printer name.
+   - How to call: PrinterTool.get_default_printer()
+
+3. set_default_printer:
+   - Purpose: Changes system-wide preferences to assign a chosen printer as the automatic primary target.
+   - Arguments:
+     a) name: str - Target printer identifier name string slated for focus allocation.
+   - Returns: ToolResult tracking routing completion states.
+   - How to call: PrinterTool.set_default_printer(name="Office_Laser_Jet")
+
+4. print_file:
+   - Purpose: Dispatches native text or documents to chosen hardware destinations with optional formatting controls.
+   - Arguments:
+     a) file_path: str - Target document or text file asset path slated for hardware translation.
+     b) printer: str (default: None) - Name of the device target (falls back to system default if empty).
+     c) copies: int (default: 1) - Quantitative volume metric specifying total printouts to produce.
+     d) orientation: str (default: "portrait") - Layout design routing parameter selection ("portrait" or "landscape").
+     e) paper_size: str (default: "A4") - Target size constraint formatting (e.g., "A4", "Letter").
+     f) duplex: bool (default: False) - Enables double-sided printing modes on supporting hardware.
+   - Returns: ToolResult validating spool transmission confirmations.
+   - How to call: PrinterTool.print_file(file_path="invoice.txt", printer="DeskJet_110", copies=2)
+
+5. print_pdf:
+   - Purpose: Processes PDF files through system print stacks with specialized page selection and fit parameters.
+   - Arguments:
+     a) pdf_path: str - Local target PDF file path scheduled for physical printing.
+     b) printer: str (default: None) - System identifier mapping the targeted printer destination.
+     c) pages: str (default: None) - Explicit layout range boundaries targeted for rendering (e.g., "1-3, 5").
+     d) copies: int (default: 1) - Frequency count representing how many duplicates to print.
+     b) fit_to_page: bool (default: True) - Automatically resizes document bounds to match media dimensions.
+   - Returns: ToolResult tracking successful job submission events.
+   - How to call: PrinterTool.print_pdf(pdf_path="report.pdf", pages="1, 3-5", fit_to_page=True)
+
+6. print_image:
+   - Purpose: Passes raw binary graphic files directly to printing layout arrays.
+   - Arguments:
+     a) image_path: str - Path directing the engine to the target graphics file asset (e.g., "photo.jpg").
+     b) printer: str (default: None) - Hardware address label mapping the target print station.
+     c) copies: int (default: 1) - Total number of physical print executions requested.
+     d) fit: bool (default: True) - Forces image boundaries to conform smoothly to printable area footprints.
+   - Returns: ToolResult indicating confirmation of safe transaction handoffs.
+   - How to call: PrinterTool.print_image(image_path="schematic.png", printer="Plotter_01", fit=True)
+
+7. get_print_queue:
+   - Purpose: Inspects active hardware print buffers to pull a detailed log of all queued or stuck print jobs.
+   - Arguments:
+     a) printer: str (default: None) - Target printer name string chosen for verification checks (defaults to primary if blank).
+   - Returns: ToolResult packing lists tracking queued task structures, IDs, and ownership properties.
+   - How to call: PrinterTool.get_print_queue(printer="Office_Laser_Jet")
+
+8. cancel_job:
+   - Purpose: Purges stalled, corrupted, or unwanted print tasks using explicit task tracking codes.
+   - Arguments:
+     a) job_id: str - Explicit operational task sequence number targeted for deletion.
+     b) printer: str (default: None) - Host printer device label where the job is currently queued.
+   - Returns: ToolResult confirming queue eviction results.
+   - How to call: PrinterTool.cancel_job(job_id="104", printer="Office_Laser_Jet")
+
+9. get_printer_status:
+   - Purpose: Connects with active peripheral devices to report status details and current task load metrics.
+   - Arguments:
+     a) printer: str - The specific target printer name string selected for diagnostic screening.
+   - Returns: ToolResult detailing systemic status codes alongside current task backlogs.
+   - How to call: PrinterTool.get_printer_status(printer="HP_PageWide")
+
+10. install_printer:
+    - Purpose: Registers a new printer connection with the operating system using selected communication ports and drivers.
+    - Arguments:
+      a) name: str - Appointed friendly tracking label assigned to define the new printer.
+      b) driver: str (default: "") - Specific system architecture driver string model registration.
+      c) port: str (default: "USB001") - Virtual or physical connector channel map matching the hardware link (e.g., "LPT1", "192.168.1.50").
+    - Returns: ToolResult providing hardware initialization status profiles.
+    - How to call: PrinterTool.install_printer(name="Label_Printer", driver="Zebra Generic", port="USB002")
+
+11. export_to_pdf:
+    - Purpose: Triggers background document conversion pipelines to transform files like .docx or .txt into standardized PDF format packages.
+    - Arguments:
+      a) file_path: str - Target source file path chosen for fixed-layout PDF rebuilding.
+      b) output: str (default: None) - Explicit destination save path (autocompletes a matching name with a .pdf extension if blank).
+    - Returns: ToolResult logging the saved output location of the generated PDF file.
+    - How to call: PrinterTool.export_to_pdf(file_path="draft.docx", output="final_release.pdf")
+""")
 
     @staticmethod
     def list_printers() -> ToolResult:
@@ -1881,6 +2799,148 @@ class ClipboardAdvancedTool:
         "Advanced clipboard: text, image, files, HTML, history, monitoring, "
         "formatted tables, rich text, and clipboard transforms."
     )
+    use = ("""
+Name of Tool:- ClipboardAdvancedTool
+
+Purpose of Tool:- 
+The ClipboardAdvancedTool offers a cross-platform programmatic interface for manipulating, monitoring, and converting 
+operating system clipboard data. Beyond managing standard plain text transfers via `pyperclip`, it handles multimedia payloads 
+(extracting and injecting images across Windows, macOS, and Linux formats), parses system-level file-drop streams, and reads raw 
+HTML clipboard segments. Additionally, the tool provides real-time active clipboard monitoring via background threads, tracks 
+transaction histories, formats tabular arrays into spreadsheet-compatible tab-separated values, and performs structural text string 
+transformations (such as line deduplication, regex stripping, and structural statistical mapping) directly within the clipboard buffer.
+
+Methods:-
+- get_text: Extracts the current plain text string payload sitting in the system clipboard buffer.
+- set_text: Commits a designated text string directly into the primary system clipboard and logs it to local history.
+- get_image: Pulls rasterized graphic objects out of the current clipboard and commits the snapshot data to disk as a file.
+- set_image: Registers a local graphic asset directly into the system clipboard via operating system-specific binary streams.
+- get_files: Evaluates Windows drop-file storage arrays to recover absolute file paths currently staged for copy/paste actions.
+- set_files: Concatenates an array of absolute file pathways into a newline-delimited text block and writes it to the clipboard.
+- get_html: Reads raw structural HTML data blocks from the active system clipboard data exchange channels.
+- set_html: Places raw HTML code text arrays onto the standard plain-text clipboard buffer interface.
+- monitor: Spawns an asynchronous tracking daemon thread to actively log changes to the system clipboard plain text data.
+- get_history: Returns a localized, chronological collection of text elements modified or intercepted by the tool framework.
+- clear_history: Completely flushes the localized internal memory tracking collection array.
+- copy_formatted_table: Transforms matrix tables or dictionaries into tab-separated spreadsheets and copies the string layout.
+- copy_rich_text: Places strings onto the system clipboard buffer to serve as targets for generic formatting transfers.
+- paste_as_plain_text: Uses regular expressions to clean HTML or markup tags from clipboard content and saves the text back.
+- transform_clipboard: Executes text mutations (e.g., casing, sorting, analytics) on the text payload inside the clipboard.
+
+How to use Tool Methods:-
+
+1. get_text:
+   - Purpose: Grabs whatever plain text string is currently held inside the shared system clipboard space.
+   - Arguments: None
+   - Returns: ToolResult holding the complete extracted text data.
+   - How to call: ClipboardAdvancedTool.get_text()
+
+2. set_text:
+   - Purpose: Copies a new plain text string into the system clipboard and appends it to the session history array.
+   - Arguments:
+     a) text: str - The specific text string payload to be copied into active clipboard memory.
+   - Returns: ToolResult reflecting successful text injection metrics.
+   - How to call: ClipboardAdvancedTool.set_text(text="Staged configuration data string.")
+
+3. get_image:
+   - Purpose: Captures image binaries residing on the clipboard and saves the matrix output to a local image file.
+   - Arguments:
+     a) output: str (default: "clipboard_image.png") - The file path location where the PNG image will be saved.
+   - Returns: ToolResult showing destination file paths upon validation.
+   - How to call: ClipboardAdvancedTool.get_image(output="assets/extracted_blueprint.png")
+
+4. set_image:
+   - Purpose: Lowers local graphic assets directly into OS clipboard interfaces (`CF_DIB`, `osascript`, or `xclip`).
+   - Arguments:
+     a) path: str - Target local image asset file path slated for injection into clipboard memory.
+   - Returns: ToolResult indicating completion of platform-specific binary writing workflows.
+   - How to call: ClipboardAdvancedTool.set_image(path="branding/logo.png")
+
+5. get_files:
+   - Purpose: Decodes file object paths currently marked for transfer in the active Windows copy buffer.
+   - Arguments: None
+   - Returns: ToolResult enclosing lists of verified target absolute file paths (Supported on Windows).
+   - How to call: ClipboardAdvancedTool.get_files()
+
+6. set_files:
+   - Purpose: Links collections of file paths together into a unified text block and writes it to the clipboard.
+   - Arguments:
+     a) paths: list - An array containing target system file paths meant for string copy procedures.
+   - Returns: ToolResult validating array compilation parameters.
+   - How to call: ClipboardAdvancedTool.set_files(paths=["/var/log/sys.log", "/var/log/auth.log"])
+
+7. get_html:
+   - Purpose: Accesses rich structural HTML source blocks straight out of active system transfer registers.
+   - Arguments: None
+   - Returns: ToolResult embedding raw markup string payload results (Supported on Windows).
+   - How to call: ClipboardAdvancedTool.get_html()
+
+8. set_html:
+   - Purpose: Passes target HTML strings out onto standard text targets as plain code scripts.
+   - Arguments:
+     a) html: str - The raw code or markup source blocks targeted for plain text copy execution.
+   - Returns: ToolResult tracking buffer operational status alerts.
+   - How to call: ClipboardAdvancedTool.set_html(html="<div><p>Formatted Export</p></div>")
+
+9. monitor:
+   - Purpose: Spawns a polling daemon thread that monitors the clipboard and fires a callback whenever changes are found.
+   - Arguments:
+     a) callback: function - An executable function tracking parameters triggered on found string alterations.
+     b) interval: float (default: 1.0) - The pause span in seconds executed between active clipboard state queries.
+   - Returns: ToolResult tracking successful initialization profiles.
+   - How to call: ClipboardAdvancedTool.monitor(callback=print, interval=0.5)
+
+10. get_history:
+    - Purpose: Extracts a subset array tracking structural clipboard logs collected during active tool operation.
+    - Arguments:
+      a) limit: int (default: 20) - Max array slice limit boundary count tracking requested historical logs.
+    - Returns: ToolResult containing arrays populated with transaction record dictionaries.
+    - How to call: ClipboardAdvancedTool.get_history(limit=5)
+
+11. clear_history:
+    - Purpose: Empties out historical cache records saved inside memory tracking arrays during active runtime operations.
+    - Arguments: None
+    - Returns: ToolResult confirming data array erasure transformations.
+    - How to call: ClipboardAdvancedTool.clear_history()
+
+12. copy_formatted_table:
+    - Purpose: Formats multi-dimensional matrix entries or dictionaries into tab-delimited text blocks for spreadsheet apps.
+    - Arguments:
+      a) data: list - Multi-dimensional array tracking database rows targeted for string serialization.
+      b) headers: list (default: None) - String array tracking column descriptors added to row layouts.
+    - Returns: ToolResult summarizing dimension properties processed.
+    - How to call: ClipboardAdvancedTool.copy_formatted_table(data=[[1, "Alice"], [2, "Bob"]], headers=["ID", "Name"])
+
+13. copy_rich_text:
+    - Purpose: Simulates plain data copy protocols across clipboard targets using standard string variables.
+    - Arguments:
+      a) text: str - The text payload slated for basic system clip registration.
+      b) formatting: dict (default: None) - Placeholder mapping parameters reserved for expanded style profiles.
+    - Returns: ToolResult detailing simple data transmission sizes.
+    - How to call: ClipboardAdvancedTool.copy_rich_text(text="Target payload information text.")
+
+14. paste_as_plain_text:
+    - Purpose: Extracts clipboard content, strips out markup tags using regex, and copies the clean plain text back.
+    - Arguments: None
+    - Returns: ToolResult enclosing structural plain text strings devoid of code fragments.
+    - How to call: ClipboardAdvancedTool.paste_as_plain_text()
+
+15. transform_clipboard:
+    - Purpose: Performs immediate structural text string modifications directly on the current clipboard payload.
+    - Arguments:
+      a) operation: str - Type of change requested. Options include:
+         * "upper": Forces all alphabet letters into matching uppercase structures.
+         * "lower": Shrinks strings down entirely to generic lowercase configurations.
+         * "title": Shifts word capitalization alignments to match title rules.
+         * "strip": Trims leading or trailing whitespace chunks.
+         * "reverse": Reverses the direction of the string characters.
+         * "word_count": Computes the total number of individual words found.
+         * "char_count": Counts the total number of characters in the string.
+         * "lines": Returns the total line count metric.
+         * "dedup_lines": Deletes repeating lines while keeping the original order.
+    - Returns: ToolResult capturing operational tracking results or analytical counters.
+    - How to call: ClipboardAdvancedTool.transform_clipboard(operation="dedup_lines")
+""")
 
     _history: list = []
 
@@ -2107,6 +3167,122 @@ class HardwareMonitorTool:
         "Deep hardware monitoring: CPU/GPU/disk temperatures, fans, voltages, power, "
         "memory slots, SMART data, benchmarks, event log, threshold monitoring."
     )
+    use = ("""
+Name of Tool:- HardwareMonitorTool
+
+Purpose of Tool:- 
+The HardwareMonitorTool provides a comprehensive, cross-platform interface for auditing system hardware sensors,
+measuring component performance, and monitoring real-time system stability thresholds. By bridging python libraries (`psutil`, `GPUtil`) 
+with low-level operating system diagnostic binaries (`smartctl`, `dmidecode`, `lm-sensors`, PowerShell WMI interfaces, and `journalctl`), 
+it abstracts telemetry parsing across varying architectures. The tool empowers applications to query thermal metrics (CPU, GPU, and storage arrays), 
+track mechanical fan tachometers, extract input voltages or power states, map physical memory slot allocations, run targeted internal component 
+benchmarks (processing, memory bandwidth, and disk I/O), filter system error event logs, and configure asynchronous threshold alert loops.
+
+Methods:-
+- get_cpu_temperature: Parses thermal sensors to collect individual processor or core temperatures.
+- get_gpu_temperature: Communicates with graphics interfaces to aggregate telemetry on GPU load, thermals, and memory allocations.
+- get_disk_temperature: Extracts physical non-volatile storage temperature readings via direct hardware sensors or SMART utilities.
+- get_fan_speeds: Queries cooling fan subsystems to measure rotational speeds in RPM.
+- get_voltages: Interfaces with motherboard hardware controllers to evaluate active component voltage feeds.
+- get_power_consumption: Pulls diagnostic metrics relative to battery charge profiles and active watt consumption properties.
+- get_memory_slots: Inspects physical memory configurations to generate detailed profiles of installed RAM sticks and empty slots.
+- get_storage_devices_smart: Calls low-level disk diagnostic subsystems to pull full S.M.A.R.T. self-monitoring data grids.
+- benchmark_cpu: Runs localized arithmetic loops over a timed interval to gauge mathematical compute rates.
+- benchmark_memory: Executes direct bytearray reads and writes to measure active RAM throughput performance.
+- benchmark_disk: Generates and reads temporary garbage data chunks to gauge storage drive read/write bandwidth velocities.
+- get_system_events_log: Examines operating system log aggregators to pull back recent system crashes or critical device failures.
+- monitor_thresholds: Initializes an asynchronous tracking thread that alerts a callback routine if resource limits are exceeded.
+
+How to use Tool Methods:-
+
+1. get_cpu_temperature:
+   - Purpose: Discovers and reports current operational temperature statistics across available central processor cores.
+   - Arguments: None
+   - Returns: ToolResult enclosing data matrices populated with dictionary thermal profiles.
+   - How to call: HardwareMonitorTool.get_cpu_temperature()
+
+2. get_gpu_temperature:
+   - Purpose: Connects with graphics adapters to inventory processing load, active temps, and memory constraints.
+   - Arguments: None
+   - Returns: ToolResult tracking lists populated with discrete graphic processing unit information sets.
+   - How to call: HardwareMonitorTool.get_gpu_temperature()
+
+3. get_disk_temperature:
+   - Purpose: Probes active NVMe or SATA controllers to evaluate physical storage medium thermals.
+   - Arguments: None
+   - Returns: ToolResult holding extracted drive array temperatures.
+   - How to call: HardwareMonitorTool.get_disk_temperature()
+
+4. get_fan_speeds:
+   - Purpose: Checks hardware monitoring arrays to extract cooling fan activity metrics.
+   - Arguments: None
+   - Returns: ToolResult encapsulating tachometer speed maps (measured in RPM).
+   - How to call: HardwareMonitorTool.get_fan_speeds()
+
+5. get_voltages:
+   - Purpose: Returns motherboard voltage lines to track power distribution health.
+   - Arguments: None
+   - Returns: ToolResult housing string lists of mapped voltage readings (Supported on Linux).
+   - How to call: HardwareMonitorTool.get_voltages()
+
+6. get_power_consumption:
+   - Purpose: Aggregates battery life remaining alongside systemic physical wattage draws.
+   - Arguments: None
+   - Returns: ToolResult packing a dictionary containing localized power line parameters.
+   - How to call: HardwareMonitorTool.get_power_consumption()
+
+7. get_memory_slots:
+   - Purpose: Queries system hardware databases to outline the speed, size, and manufacturing info of installed RAM.
+   - Arguments: None
+   - Returns: ToolResult exposing structural JSON or array list items breaking down active storage lanes.
+   - How to call: HardwareMonitorTool.get_memory_slots()
+
+8. get_storage_devices_smart:
+   - Purpose: Extracts historical reliability indices and self-test failure reports from physical hard disks.
+   - Arguments:
+     a) drive: str (default: "/dev/sda") - Target physical storage node string tracking requested diagnostic scopes.
+   - Returns: ToolResult enclosing structural string line feedback grids from the smartctl subsystem.
+   - How to call: HardwareMonitorTool.get_storage_devices_smart(drive="/dev/nvme0n1")
+
+9. benchmark_cpu:
+   - Purpose: Quantifies mathematical execution capabilities by counting raw square-root loops completed per second.
+   - Arguments:
+     a) duration: int (default: 5) - Target execution monitoring ceiling window specified in seconds.
+   - Returns: ToolResult charting measured computational execution loops per second (in millions).
+   - How to call: HardwareMonitorTool.benchmark_cpu(duration=3)
+
+10. benchmark_memory:
+    - Purpose: Profiles memory communication limits by tracking sequential data allocations.
+    - Arguments: None
+    - Returns: ToolResult tracking throughput metrics written out in megabytes per second (MB/s).
+    - How to call: HardwareMonitorTool.benchmark_memory()
+
+11. benchmark_disk:
+    - Purpose: Performs sequential raw read/write processes against designated directories to verify I/O bounds.
+    - Arguments:
+      a) path: str (default: "/tmp") - Target folder path designated to host temporary benchmarking operations.
+    - Returns: ToolResult tracking disk bandwidth velocity limits.
+    - How to call: HardwareMonitorTool.benchmark_disk(path="./test_vault")
+
+12. get_system_events_log:
+    - Purpose: Inspects core OS event frameworks to find structural hardware faults or driver initialization failures.
+    - Arguments:
+      a) level: str (default: "ERROR") - Severity target criterion classification filters (e.g., "CRITICAL", "ERROR").
+      b) count: int (default: 50) - Maximum historical event line items returned during structural filtering.
+      c) source: str (default: "") - Specific driver system hardware component tracking filter tag string.
+      d) hours_back: int (default: 24) - Time tracking window boundaries applied on Linux journal logs.
+    - Returns: ToolResult encapsulating aggregated system fault alerts.
+    - How to call: HardwareMonitorTool.get_system_events_log(level="WARNING", count=10)
+
+13. monitor_thresholds:
+    - Purpose: Sets up a continuous background tracking thread to monitor utilization bounds across core resources.
+    - Arguments:
+      a) thresholds: dict - Mapping configuration dictionary indicating alert ceilings (e.g., `{"cpu_percent": 85.0}`).
+      b) interval: int (default: 30) - Sleep delay time sequence parameters executed between validation checks.
+      c) alert_callback: function (default: None) - Trigger routine fired when a resource breaches specified limits.
+    - Returns: ToolResult tracking registration setup operations.
+    - How to call: HardwareMonitorTool.monitor_thresholds(thresholds={"cpu_percent": 90, "memory_percent": 95}, interval=10, alert_callback=print)
+""")
 
     @staticmethod
     def get_cpu_temperature() -> ToolResult:
@@ -2353,6 +3529,122 @@ class RaspberryPiTool:
         "Full RPi GPIO and hardware: pin setup/read/write, PWM, I2C, SPI, "
         "sensors, servo, stepper, ultrasonic, LCD, buttons, camera."
     )
+    use = ("""
+Name of Tool:- HardwareMonitorTool
+
+Purpose of Tool:- 
+The HardwareMonitorTool provides a comprehensive, cross-platform interface for auditing system hardware sensors,
+measuring component performance, and monitoring real-time system stability thresholds. By bridging python libraries (`psutil`, `GPUtil`) 
+with low-level operating system diagnostic binaries (`smartctl`, `dmidecode`, `lm-sensors`, PowerShell WMI interfaces, and `journalctl`), 
+it abstracts telemetry parsing across varying architectures. The tool empowers applications to query thermal metrics (CPU, GPU, and storage arrays), 
+track mechanical fan tachometers, extract input voltages or power states, map physical memory slot allocations, run targeted internal component 
+benchmarks (processing, memory bandwidth, and disk I/O), filter system error event logs, and configure asynchronous threshold alert loops.
+
+Methods:-
+- get_cpu_temperature: Parses thermal sensors to collect individual processor or core temperatures.
+- get_gpu_temperature: Communicates with graphics interfaces to aggregate telemetry on GPU load, thermals, and memory allocations.
+- get_disk_temperature: Extracts physical non-volatile storage temperature readings via direct hardware sensors or SMART utilities.
+- get_fan_speeds: Queries cooling fan subsystems to measure rotational speeds in RPM.
+- get_voltages: Interfaces with motherboard hardware controllers to evaluate active component voltage feeds.
+- get_power_consumption: Pulls diagnostic metrics relative to battery charge profiles and active watt consumption properties.
+- get_memory_slots: Inspects physical memory configurations to generate detailed profiles of installed RAM sticks and empty slots.
+- get_storage_devices_smart: Calls low-level disk diagnostic subsystems to pull full S.M.A.R.T. self-monitoring data grids.
+- benchmark_cpu: Runs localized arithmetic loops over a timed interval to gauge mathematical compute rates.
+- benchmark_memory: Executes direct bytearray reads and writes to measure active RAM throughput performance.
+- benchmark_disk: Generates and reads temporary garbage data chunks to gauge storage drive read/write bandwidth velocities.
+- get_system_events_log: Examines operating system log aggregators to pull back recent system crashes or critical device failures.
+- monitor_thresholds: Initializes an asynchronous tracking thread that alerts a callback routine if resource limits are exceeded.
+
+How to use Tool Methods:-
+
+1. get_cpu_temperature:
+   - Purpose: Discovers and reports current operational temperature statistics across available central processor cores.
+   - Arguments: None
+   - Returns: ToolResult enclosing data matrices populated with dictionary thermal profiles.
+   - How to call: HardwareMonitorTool.get_cpu_temperature()
+
+2. get_gpu_temperature:
+   - Purpose: Connects with graphics adapters to inventory processing load, active temps, and memory constraints.
+   - Arguments: None
+   - Returns: ToolResult tracking lists populated with discrete graphic processing unit information sets.
+   - How to call: HardwareMonitorTool.get_gpu_temperature()
+
+3. get_disk_temperature:
+   - Purpose: Probes active NVMe or SATA controllers to evaluate physical storage medium thermals.
+   - Arguments: None
+   - Returns: ToolResult holding extracted drive array temperatures.
+   - How to call: HardwareMonitorTool.get_disk_temperature()
+
+4. get_fan_speeds:
+   - Purpose: Checks hardware monitoring arrays to extract cooling fan activity metrics.
+   - Arguments: None
+   - Returns: ToolResult encapsulating tachometer speed maps (measured in RPM).
+   - How to call: HardwareMonitorTool.get_fan_speeds()
+
+5. get_voltages:
+   - Purpose: Returns motherboard voltage lines to track power distribution health.
+   - Arguments: None
+   - Returns: ToolResult housing string lists of mapped voltage readings (Supported on Linux).
+   - How to call: HardwareMonitorTool.get_voltages()
+
+6. get_power_consumption:
+   - Purpose: Aggregates battery life remaining alongside systemic physical wattage draws.
+   - Arguments: None
+   - Returns: ToolResult packing a dictionary containing localized power line parameters.
+   - How to call: HardwareMonitorTool.get_power_consumption()
+
+7. get_memory_slots:
+   - Purpose: Queries system hardware databases to outline the speed, size, and manufacturing info of installed RAM.
+   - Arguments: None
+   - Returns: ToolResult exposing structural JSON or array list items breaking down active storage lanes.
+   - How to call: HardwareMonitorTool.get_memory_slots()
+
+8. get_storage_devices_smart:
+   - Purpose: Extracts historical reliability indices and self-test failure reports from physical hard disks.
+   - Arguments:
+     a) drive: str (default: "/dev/sda") - Target physical storage node string tracking requested diagnostic scopes.
+   - Returns: ToolResult enclosing structural string line feedback grids from the smartctl subsystem.
+   - How to call: HardwareMonitorTool.get_storage_devices_smart(drive="/dev/nvme0n1")
+
+9. benchmark_cpu:
+   - Purpose: Quantifies mathematical execution capabilities by counting raw square-root loops completed per second.
+   - Arguments:
+     a) duration: int (default: 5) - Target execution monitoring ceiling window specified in seconds.
+   - Returns: ToolResult charting measured computational execution loops per second (in millions).
+   - How to call: HardwareMonitorTool.benchmark_cpu(duration=3)
+
+10. benchmark_memory:
+    - Purpose: Profiles memory communication limits by tracking sequential data allocations.
+    - Arguments: None
+    - Returns: ToolResult tracking throughput metrics written out in megabytes per second (MB/s).
+    - How to call: HardwareMonitorTool.benchmark_memory()
+
+11. benchmark_disk:
+    - Purpose: Performs sequential raw read/write processes against designated directories to verify I/O bounds.
+    - Arguments:
+      a) path: str (default: "/tmp") - Target folder path designated to host temporary benchmarking operations.
+    - Returns: ToolResult tracking disk bandwidth velocity limits.
+    - How to call: HardwareMonitorTool.benchmark_disk(path="./test_vault")
+
+12. get_system_events_log:
+    - Purpose: Inspects core OS event frameworks to find structural hardware faults or driver initialization failures.
+    - Arguments:
+      a) level: str (default: "ERROR") - Severity target criterion classification filters (e.g., "CRITICAL", "ERROR").
+      b) count: int (default: 50) - Maximum historical event line items returned during structural filtering.
+      c) source: str (default: "") - Specific driver system hardware component tracking filter tag string.
+      d) hours_back: int (default: 24) - Time tracking window boundaries applied on Linux journal logs.
+    - Returns: ToolResult encapsulating aggregated system fault alerts.
+    - How to call: HardwareMonitorTool.get_system_events_log(level="WARNING", count=10)
+
+13. monitor_thresholds:
+    - Purpose: Sets up a continuous background tracking thread to monitor utilization bounds across core resources.
+    - Arguments:
+      a) thresholds: dict - Mapping configuration dictionary indicating alert ceilings (e.g., `{"cpu_percent": 85.0}`).
+      b) interval: int (default: 30) - Sleep delay time sequence parameters executed between validation checks.
+      c) alert_callback: function (default: None) - Trigger routine fired when a resource breaches specified limits.
+    - Returns: ToolResult tracking registration setup operations.
+    - How to call: HardwareMonitorTool.monitor_thresholds(thresholds={"cpu_percent": 90, "memory_percent": 95}, interval=10, alert_callback=print)
+""")
 
     _pwm_channels: dict = {}
 
@@ -2634,6 +3926,159 @@ class MQTTIoTTool:
         "IoT communication via MQTT: connect, publish/subscribe, JSON payloads, "
         "sensor data, device commands, Home Assistant, automations, log replay."
     )
+    use = ("""
+Name of Tool:- MQTTIoTTool
+
+Purpose of Tool:- 
+The MQTTIoTTool provides a centralized abstraction layer for orchestrating Internet of Things (IoT) hardware over the MQTT 
+(Message Queuing Telemetry Transport) protocol. By wrapping the `paho-mqtt` ecosystem alongside underlying REST adapters, this tool 
+simplifies machine-to-machine telemetry streams. It allows developers to register long-lived network client connections, issue real-time 
+sensor publications, manage state tracking pipelines, establish persistent event-driven message loops, map dynamic raw JSON values to 
+external brokers, listen on specific message threads with timeouts, write structured diagnostic telemetry scripts, send custom device 
+commands, route integration commands to Home Assistant smart home engines, build automated conditional response flows, and capture or 
+replay hardware log events.
+
+Methods:-
+- connect: Establishes a long-running client thread to a targeted central MQTT broker with secure credential mappings.
+- publish: Dispatches a raw text string payload out to a designated topic network vector channel.
+- subscribe: Registers a listener on designated message streams and sets an optional callback routine to parse incoming packets.
+- publish_json: Converts structured Python data configurations into serialized strings before publishing them over a topic vector.
+- listen_once: Monopolizes a single routing path until a packet matches the topic or a timeout ceiling triggers.
+- publish_sensor_data: Structures real-time environment metrics with device IDs and timestamps into standard telemetry schemas.
+- send_command: Issues control instructions or JSON parameter blocks directly down target execution channels.
+- get_device_state: Publishes a query request to a device topic, then waits to intercept its structural status payload.
+- control_home_assistant_entity: Targets Home Assistant platform domains via REST API backends to toggle smart appliances or automations.
+- create_automation: Links a conditional sub-routine that publishes a specific response when a target keyword is read on a monitored topic.
+- monitor_topics: Starts a background logger that appends incoming bus events to a local JSON Lines (JSONL) storage file.
+- replay_messages: Reads captured telemetry history logs and sequentially republishes them to reconstruct specific system scenarios.
+
+How to use Tool Methods:-
+
+1. connect:
+   - Purpose: Establishes an active network session with a local or cloud-hosted MQTT broker server.
+   - Arguments:
+     a) broker: str - The network hostname or IP address pointing to the active message broker node.
+     b) port: int (default: 1883) - The target TCP network port used to route data traffic.
+     c) username: str (default: None) - Authentication user identifier token (overrides CredStore settings).
+     d) password: str (default: None) - Verification passkey token tied to the user profile string.
+     e) client_id: str (default: "npm_agent") - The unique client identifier string registered on the broker.
+     f) tls: bool (default: False) - Configures SSL/TLS cryptographic connection parameters when set to True.
+     g) cred_key: str (default: "mqtt") - Storage lookup key used to pull credentials from an internal vault.
+   - Returns: ToolResult tracking successful connection parameters.
+   - How to call: MQTTIoTTool.connect(broker="192.168.1.50", port=1883, client_id="living_room_agent")
+
+2. publish:
+   - Purpose: Publishes text messages across specified network channels to alert listening nodes.
+   - Arguments:
+     a) topic: str - The hierarchical message routing channel path string (e.g., "home/living_room/temp").
+     b) payload: str - The core raw text message body being transmitted to subscribers.
+     c) qos: int (default: 0) - Quality of Service delivery guarantee metric flags (0, 1, or 2).
+     d) retain: bool (default: False) - Instructs the broker to save this message as the valid reference for future subscribers.
+     e) client_id: str (default: "npm_agent") - The identifier matching the specific active connection instance to use.
+   - Returns: ToolResult verifying successful socket delivery.
+   - How to call: MQTTIoTTool.publish(topic="home/garden/valve", payload="ON", qos=1, retain=True)
+
+3. subscribe:
+   - Purpose: Instructs the broker to route real-time message streams from chosen paths into the client message loop.
+   - Arguments:
+     a) topics: list - An array of routing filter path strings (supports wildcards like `+` or `#`).
+     b) callback: function (default: None) - The processing routine triggered when a new message is intercepted.
+     c) qos: int (default: 0) - The requested maximum Quality of Service protocol delivery constraint flag.
+     d) client_id: str (default: "npm_agent") - Target client tracker registry identifier mapping.
+   - Returns: ToolResult logging subscription validation tokens.
+   - How to call: MQTTIoTTool.subscribe(topics=["home/kitchen/#", "home/status"], callback=print)
+
+4. publish_json:
+   - Purpose: Serializes dictionary data into a clean JSON string format before publishing it to the broker.
+   - Arguments:
+     a) topic: str - Hierarchical destination communication channel pathway string.
+     b) data: dict - Structural key-value configuration payload data slated for serialization.
+     c) qos: int (default: 0) - Transmission quality profile reliability level indicator.
+     d) client_id: str (default: "npm_agent") - Active connection client map index string.
+   - Returns: ToolResult tracking communication status metrics.
+   - How to call: MQTTIoTTool.publish_json(topic="home/hvac/config", data={"target_temp": 22.5, "mode": "cool"})
+
+5. listen_once:
+   - Purpose: Blocks or monitors a target channel path to intercept a single incoming message payload before a timeout clears.
+   - Arguments:
+     a) topic: str - The specific structural data topic string tracked during listening cycles.
+     b) timeout: int (default: 10) - Maximum window threshold in seconds allocated to wait for incoming bytes.
+     c) client_id: str (default: "npm_agent") - Specific active broker connector instance target key.
+   - Returns: ToolResult containing dictionary logs detailing the intercepted message topic and payload.
+   - How to call: MQTTIoTTool.listen_once(topic="home/garage/door/feedback", timeout=5)
+
+6. publish_sensor_data:
+   - Purpose: Packages numerical telemetry readings into a standard ISO timestamped format for tracking dashboards.
+   - Arguments:
+     a) topic: str - Telemetry ingestion pathway target string.
+     b) sensor_type: str - Classification token defining the physical metric (e.g., "humidity", "lux").
+     b) value: float - Numerical engineering unit value reflecting physical environment sensor telemetry.
+     c) unit: str - Suffix mapping indicating unit frameworks (e.g., "%", "lx", "C").
+     d) device_id: str - Hardware MAC or custom identifier tracking the physical transmitter.
+     e) client_id: str (default: "npm_agent") - Connection routing tag key map identifier.
+   - Returns: ToolResult verifying transmission status logs.
+   - How to call: MQTTIoTTool.publish_sensor_data(topic="sensors/weather", sensor_type="temperature", value=24.7, unit="C", device_id="esp32_north")
+
+7. send_command:
+   - Purpose: Forces downstream hardware systems to execute instructions by appending parameters to command sub-channels.
+   - Arguments:
+     a) device_topic: str - Core root directory location referencing target physical hardware arrays.
+     b) command: str - Target operation label string directing actions (e.g., "reboot", "toggle_lock").
+     c) params: dict (default: None) - Configuration properties containing variable instruction bounds.
+     d) client_id: str (default: "npm_agent") - Client target locator tracking network routing options.
+   - Returns: ToolResult logging transaction confirmations.
+   - How to call: MQTTIoTTool.send_command(device_topic="devices/blinds", command="set_position", params={"open_percent": 45})
+
+8. get_device_state:
+   - Purpose: Triggers a state update request on a remote device, then catches and returns its quick status response.
+   - Arguments:
+     a) device_topic: str - Root identifier topic pathway corresponding to the targeted remote hardware device.
+     b) timeout: int (default: 5) - Processing wait window limit in seconds allocated to hook returned results.
+     c) client_id: str (default: "npm_agent") - Specific communication interface key registration map tag.
+   - Returns: ToolResult tracking the returned status message values.
+   - How to call: MQTTIoTTool.get_device_state(device_topic="devices/power_meter", timeout=3)
+
+9. control_home_assistant_entity:
+   - Purpose: Bypasses direct broker topics to interact with standard smart home systems using native API bearer tokens.
+   - Arguments:
+     a) entity_id: str - Unique target home assistant entity lookup string identifier (e.g., "light.backyard_flood").
+     b) action: str - Operation tracking identifier routing request methods (e.g., "turn_on", "toggle").
+     c) attributes: dict (default: None) - Variable parameter maps matching target setup demands (e.g., brightness levels).
+     d) cred_key: str (default: "home_assistant") - Core configuration key matching stored platform addresses and secrets.
+   - Returns: ToolResult enclosing structural tracking data returned by target systems.
+   - How to call: MQTTIoTTool.control_home_assistant_entity(entity_id="climate.main_floor", action="set_temperature", attributes={"temperature": 21})
+
+10. create_automation:
+    - Purpose: Sets up a simple on-device automation that checks incoming traffic and triggers a secondary message response when matched.
+    - Arguments:
+      a) trigger_topic: str - Monitored interface stream route channel targeted for verification checks.
+      b) trigger_value: str - Target keyword or parameter flag scanned within the message string payload.
+      c) action_topic: str - Destination response channel routed to receive automated outbound notifications.
+      d) action_payload: str - Core text block dispatched down the secondary lane when criteria are successfully met.
+      e) client_id: str (default: "npm_agent") - Local network route mapping index tracker.
+    - Returns: ToolResult confirming operational subscription handler registrations.
+    - How to call: MQTTIoTTool.create_automation(trigger_topic="home/leak_sensor", trigger_value="leak_detected", action_topic="home/main_valve", action_payload="CLOSE")
+
+11. monitor_topics:
+    - Purpose: Logs background bus traffic for a set duration, writing the telemetry data out to structured log files.
+    - Arguments:
+      a) topics: list - Array tracking requested target path patterns slated for log parsing.
+      b) log_file: str (default: "mqtt_log.jsonl") - File path location designated to receive log entries.
+      c) duration: int (default: 60) - Logging window timeframe constraints specified in seconds.
+      d) client_id: str (default: "npm_agent") - Core infrastructure network reference connection link index.
+    - Returns: ToolResult indicating the background logging thread has initialized.
+    - How to call: MQTTIoTTool.monitor_topics(topics=["tele/#"], log_file="debug_dump.jsonl", duration=120)
+
+12. replay_messages:
+    - Purpose: Reads captured system log lines and publishes them step-by-step to test system configurations or replay events.
+    - Arguments:
+      a) log_file: str - Target data log file reference tracking source playback strings.
+      b) broker: str - Network host domain address hosting diagnostic routing target runs.
+      c) port: int (default: 1883) - Connection configuration routing access door interface numbers.
+      d) client_id: str (default: "replayer") - Isolated identity profile tracking player operation frameworks.
+    - Returns: ToolResult confirming the total number of replayed message payloads processed.
+    - How to call: MQTTIoTTool.replay_messages(log_file="debug_dump.jsonl", broker="localhost")
+""")
 
     _clients: dict = {}
     _messages: list = []
@@ -2902,6 +4347,188 @@ class VirtualizationTool:
         "info, resources, clone, export, run commands in VM, copy files to VM. "
         "Supports VirtualBox, libvirt/KVM, and VMware."
     )
+    use = ("""
+Name of Tool:- VirtualizationTool
+
+Purpose of Tool:- 
+The VirtualizationTool provides a generalized programmatic interface to automate and orchestrate Virtual Machines (VMs) 
+across multiple hypervisors including Oracle VirtualBox, libvirt/KVM, and VMware. By executing lower-level binary wrapper commands 
+(`VBoxManage`, `vmrun`, `virt-install`, `virt-clone`, `virsh`) and leveraging target platform bindings (`libvirt`), it allows developers 
+to perform automated infrastructure tasks. These include querying running VM inventories, provisioning new guest operating systems with custom hardware resource limits, adjusting hardware envelopes on the fly, toggling system execution life-cycles, manipulating state restoration points (snapshots), copying operational assets directly into internal guest storage spaces, or issuing headless runtime instructions remotely over automated local test environments.
+
+Methods:-
+- list_vms: Scans the target hypervisor ecosystem to pull back an inventory list of existing virtual machine configurations.
+- start_vm: Signals the hypervisor to initialize and run a target guest virtual machine (by default in a headless context).
+- stop_vm: Instructs a target guest virtual machine to execute a safe ACPI shutdown cycle or forces an immediate power-off.
+- restart_vm: Sequentially runs a shutdown command followed by an initialization routine to perform a full system reboot loop.
+- suspend_vm: Pauses active processor states and saves guest system memory to a local persistent disk state file.
+- resume_vm: Wakes up a suspended guest machine by reloading its cached RAM memory mapping back into active execution cycles.
+- create_snapshot: Takes a baseline recovery capture point of a virtual machine's current state disk blocks and runtime metadata.
+- restore_snapshot: Reverts a guest virtual machine's current operational volume back to a previously defined recovery snapshot point.
+- delete_snapshot: Permanently purges an explicit snapshot capture chain entry to consolidate modified disk blocks.
+- list_snapshots: Inspects a designated virtual machine configuration to return all associated state snapshots.
+- get_vm_info: Extracts low-level properties including network addresses, CPU count, RAM sizes, and runtime attributes.
+- set_vm_resources: Modifies hardware resource limits such as CPU core allocations and system memory ceilings.
+- clone_vm: Creates an exact standalone copy of a source virtual machine configuration onto a new target registration block.
+- export_vm: Bundles a virtual machine's logical volume configurations and disks into universally portable schemas like OVA metadata files.
+- run_in_vm: Invokes guest execution layers to execute system bash commands directly inside an active virtual guest instance.
+- copy_to_vm: Transfers folders or separate local file units into a designated directory tree deep inside the target virtual machine.
+- create_vm: Assembles hardware properties to build a brand new bare virtual machine with assigned storage controllers and installation media.
+
+How to use Tool Methods:-
+
+1. list_vms:
+   - Purpose: Retrieves all virtual machines registered on a specific hypervisor engine.
+   - Arguments:
+     a) hypervisor: str (default: "virtualbox") - The target virtualization framework name string ("virtualbox", "libvirt", or "vmware").
+   - Returns: ToolResult containing an array of available virtual machine names or tracking state blocks.
+   - How to call: VirtualizationTool.list_vms(hypervisor="libvirt")
+
+2. start_vm:
+   - Purpose: Powers up a configured guest virtual machine instance.
+   - Arguments:
+     a) name: str - The specific target registration name identifier of the virtual machine.
+     b) hypervisor: str (default: "virtualbox") - Hypervisor ecosystem engine selector choice.
+   - Returns: ToolResult logging the boot initialization success state.
+   - How to call: VirtualizationTool.start_vm(name="ubuntu-server-22", hypervisor="virtualbox")
+
+3. stop_vm:
+   - Purpose: Safely halts guest operations or immediately drops machine power connections.
+   - Arguments:
+     a) name: str - Target identifier label mapping the guest machine instance.
+     b) hypervisor: str (default: "virtualbox") - Target virtualization module driver key.
+     c) force: bool (default: False) - Forces immediate power-off when True, bypassing standard operating system shutdown procedures.
+   - Returns: ToolResult verifying execution termination.
+   - How to call: VirtualizationTool.stop_vm(name="debian-test", hypervisor="vmware", force=True)
+
+4. restart_vm:
+   - Purpose: Cycles a machine through a power shutdown phase before bringing it back up.
+   - Arguments:
+     a) name: str - Identification name string value referencing the targeted virtual node.
+     b) hypervisor: str (default: "virtualbox") - Operational platform engine target key.
+   - Returns: ToolResult validating the boot re-initialization pipeline.
+   - How to call: VirtualizationTool.restart_vm(name="web-app-node", hypervisor="virtualbox")
+
+5. suspend_vm:
+   - Purpose: Freezes a guest virtual machine's active state and saves its memory to disk.
+   - Arguments:
+     a) name: str - Unique virtual target identity token name string.
+     b) hypervisor: str (default: "virtualbox") - Hypervisor framework interface engine selector.
+   - Returns: ToolResult tracking machine operational state transitions.
+   - How to call: VirtualizationTool.suspend_vm(name="win11-sandbox", hypervisor="libvirt")
+
+6. resume_vm:
+   - Purpose: Returns a frozen or suspended virtual machine back to an active running state.
+   - Arguments:
+     a) name: str - Identification registration tag mapping the target guest machine.
+     b) hypervisor: str (default: "virtualbox") - Infrastructure framework platform engine key string.
+   - Returns: ToolResult detailing execution state confirmations.
+   - How to call: VirtualizationTool.resume_vm(name="win11-sandbox", hypervisor="libvirt")
+
+7. create_snapshot:
+   - Purpose: Saves a specific recovery checkpoint state for a chosen virtual machine.
+   - Arguments:
+     a) name: str - The virtual machine name identifier to capture.
+     b) snapshot_name: str - A user-defined string label for tracking this snapshot entry.
+     c) hypervisor: str (default: "virtualbox") - Core architectural platform engine provider flag.
+   - Returns: ToolResult detailing snapshot processing success metrics.
+   - How to call: VirtualizationTool.create_snapshot(name="kali-linux", snapshot_name="pre-exploit-clean", hypervisor="virtualbox")
+
+8. restore_snapshot:
+   - Purpose: Reverts a virtual machine back to a specified snapshot state, discarding any changes made since it was taken.
+   - Arguments:
+     a) name: str - Core targeted guest hardware registration identity name string.
+     b) snapshot_name: str - Tracking title label pointing to the target restoration index.
+     c) hypervisor: str (default: "virtualbox") - Infrastructure platform controller layout tag.
+   - Returns: ToolResult tracking volume adjustment results.
+   - How to call: VirtualizationTool.restore_snapshot(name="kali-linux", snapshot_name="pre-exploit-clean", hypervisor="virtualbox")
+
+9. delete_snapshot:
+   - Purpose: Deletes a snapshot checkpoint from a virtual machine's history chain to clean up disk space.
+   - Arguments:
+     a) name: str - Targeted virtual system tracking configuration label string.
+     b) snapshot_name: str - Explicit tracking tag identifying the snapshot to delete.
+     c) hypervisor: str (default: "virtualbox") - Virtualization core execution profile indicator.
+   - Returns: ToolResult logging chain deletion confirmations.
+   - How to call: VirtualizationTool.delete_snapshot(name="ubuntu-server-22", snapshot_name="old-patch-state", hypervisor="vmware")
+
+10. list_snapshots:
+    - Purpose: Lists all historical snapshots recorded for a specific virtual machine.
+    - Arguments:
+      a) name: str - The specific target virtual engine node label identity string.
+      b) hypervisor: str (default: "virtualbox") - Operational layout management engine reference.
+    - Returns: ToolResult holding structural lists tracking active snapshot history records.
+    - How to call: VirtualizationTool.list_snapshots(name="database-replica", hypervisor="libvirt")
+
+11. get_vm_info:
+    - Purpose: Collects details about a virtual machine's hardware settings, state, and network properties.
+    - Arguments:
+      a) name: str - Reference identity name mapping target system parameters.
+      b) hypervisor: str (default: "virtualbox") - Underlying hypervisor configuration target key string.
+    - Returns: ToolResult containing an information dictionary detailing memory sizes, CPU cores, and IP configurations.
+    - How to call: VirtualizationTool.get_vm_info(name="gateway-router", hypervisor="virtualbox")
+
+12. set_vm_resources:
+    - Purpose: Dynamically reconfigures a virtual machine's allocated CPU cores and RAM size.
+    - Arguments:
+      a) name: str - Selected infrastructure target machine tracking identifier.
+      b) cpus: int (default: None) - Total processing core limits allocated to run within guest environments.
+      c) memory_mb: int (default: None) - Capacity allocation limits defined in Megabytes mapping active RAM boundaries.
+      d) hypervisor: str (default: "virtualbox") - Platform software interface control switch.
+    - Returns: ToolResult confirming structural property adjustments.
+    - How to call: VirtualizationTool.set_vm_resources(name="compile-box", cpus=8, memory_mb=16384, hypervisor="virtualbox")
+
+13. clone_vm:
+    - Purpose: Creates a duplicate copy of an existing virtual machine to quickly spin up new nodes.
+    - Arguments:
+      a) source: str - Original baseline machine registration master identification string.
+      b) destination: str - Desired allocation tracking identity string for the new clone.
+      c) hypervisor: str (default: "virtualbox") - Target virtualization framework runtime platform selector.
+    - Returns: ToolResult documenting creation validations.
+    - How to call: VirtualizationTool.clone_vm(source="ubuntu-base-template", destination="web-node-01", hypervisor="libvirt")
+
+14. export_vm:
+    - Purpose: Compiles a virtual machine and its virtual disk drives into a single portable distribution file.
+    - Arguments:
+      a) name: str - Virtual registration source identity tracking label.
+      b) output_path: str - File system location path destination string where the export will be saved.
+      c) format: str (default: "ova") - Extensible storage archive format layout structure selector.
+      d) hypervisor: str (default: "virtualbox") - Execution platform context provider.
+    - Returns: ToolResult validating export pipeline completions.
+    - How to call: VirtualizationTool.export_vm(name="stage-db", output_path="/backups/stage-db.ova", hypervisor="virtualbox")
+
+15. run_in_vm:
+    - Purpose: Executes bash scripts or system commands directly inside an active guest operating system.
+    - Arguments:
+      a) name: str - Target host machine identity label reference string.
+      b) command: str - Raw command string payload targeted for guest execution.
+      c) hypervisor: str (default: "virtualbox") - Framework execution wrapper driver platform selector.
+    - Returns: ToolResult containing standard output data or error strings returned by the guest system.
+    - How to call: VirtualizationTool.run_in_vm(name="centos-worker", command="systemctl restart nginx", hypervisor="virtualbox")
+
+16. copy_to_vm:
+    - Purpose: Copies files or folders from the host system directly into a running virtual machine's file system.
+    - Arguments:
+      a) name: str - Destination machine profile indexing tag name string.
+      b) local_path: str - Source asset file path location string residing on the host side.
+      c) vm_path: str - Bounded absolute directory target location destination string inside the guest system.
+      d) hypervisor: str (default: "virtualbox") - Framework application driver switch layer tracker.
+    - Returns: ToolResult checking task confirmation codes.
+    - How to call: VirtualizationTool.copy_to_vm(name="centos-worker", local_path="./app.conf", vm_path="/etc/app.conf", hypervisor="virtualbox")
+
+17. create_vm:
+    - Purpose: Automates building a brand new virtual machine from scratch, setting up its virtual disk, RAM, and boot ISO.
+    - Arguments:
+      a) name: str - Unique label identifier string indicating the target virtual engine registration node name.
+      b) os: str (default: "Ubuntu_64") - Guest OS template classification profile tag.
+      c) cpus: int (default: 2) - Core count capacity tracking limits.
+      d) memory: int (default: 2048) - Volatile RAM memory block limits mapped in Megabytes.
+      d) disk_size: int (default: 20000) - Disk drive capacity limit values assigned in Megabytes.
+      e) iso_path: str (default: "") - File path location referencing an operating system installation ISO image file.
+      f) hypervisor: str (default: "virtualbox") - Core hypervisor execution interface management driver string.
+    - Returns: ToolResult logging full assembly and verification metrics.
+    - How to call: VirtualizationTool.create_vm(name="arch-dev", os="ArchLinux_64", cpus=4, memory=4096, iso_path="/iso/arch.iso")
+""")
 
     @staticmethod
     def _vbox(cmd: list) -> tuple:
