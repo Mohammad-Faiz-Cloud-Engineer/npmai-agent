@@ -65,7 +65,141 @@ class SecurityScannerTool:
         "Ethical security scanning: VirusTotal, Shodan, HaveIBeenPwned, "
         "nmap, port scan, WHOIS, SSL, DNS leak, URL safety, threat intel"
     )
+    use = ("""
+Name of Tool: SecurityScannerTool
 
+Purpose of Tool:
+The SecurityScannerTool provides a suite for ethical security analysis, surface reconnaissance, and threat intelligence. It aggregates open-source and premium external security intelligence platforms (VirusTotal, Shodan, HaveIBeenPwned, AlienVault OTX, Google Safe Browsing, AbuseIPDB) alongside localized scanning mechanisms (nmap subprocesses, fast multi-threaded socket-based connection testing, SSL evaluation, and custom comparative DNS leak tests) to determine exposure levels, data breaches, protocol validity, and malware flags across structural assets.
+
+Methods:
+- check_virustotal: Evaluates existing static analysis scores for structural hashes, network locations, or domains.
+- scan_file_virustotal: Calculates localized content hashes and uploads new unanalyzed assets to execution sandboxes.
+- shodan_search: Issues deep contextual queries to locate exposed internet-facing network hardware nodes.
+- shodan_host: Extracts infrastructure details, software targets, operating systems, and vulnerabilities from a static IP address.
+- check_haveibeenpwned: Scans public corporate credential data breach collections to audit compromised user emails.
+- check_password_breach: Evaluates raw client passwords using a structurally anonymous k-anonymity SHA-1 lookup model.
+- nmap_scan: Performs a formal network mapping routine using automated system scanner modules.
+- port_scan_common: Rapidly evaluates network application layer boundaries using multi-threaded local TCP socket arrays.
+- whois_lookup: Resolves operational entity boundaries and administrative ownership registries for external domains.
+- check_ssl_grade: Performs local certificate checks on port 443 to gauge domain lifecycle status and configuration errors.
+- check_dns_leak: Detects system translation masking failures by measuring consistency across name resolution queries.
+- scan_url_safe_browsing: Audits resource locators against Google's dynamic dangerous-domain classification catalogs.
+- check_reputation: Looks up dynamic IP histories to measure trust scores and evaluate past spam or scanning infractions.
+- get_threat_intel: Harvests comprehensive indicator attributes across global distributed security pulses.
+
+How to use Tool Methods:
+
+1. check_virustotal:
+   - Purpose: Fetches historical community engine detection stats for a known internet asset indicator.
+   - Arguments:
+     a) hash_or_url_or_ip: str - Target hash signature string, domain name, asset URL, or IP indicator (required).
+     b) type: str (default: "hash") - Categorization string directing target parsing ("hash", "url", "ip", "domain").
+     c) cred_key: str (default: "virustotal") - Reference handle pointing to local credential stores.
+   - Returns: ToolResult holding detection ratios, reputation scores, and context tags.
+   - How to call: SecurityScannerTool.check_virustotal(hash_or_url_or_ip="8.8.8.8", type="ip")
+
+2. scan_file_virustotal:
+   - Purpose: Generates a file hash to check for an existing report, or pushes the physical object to remote analysis queues.
+   - Arguments:
+     a) file_path: str - Absolute file pathway targeted for extraction and structural evaluation (required).
+     b) cred_key: str (default: "virustotal") - Internal key map mapping the system storage credentials.
+   - Returns: ToolResult mapping evaluation responses or active polling exit states.
+   - How to call: SecurityScannerTool.scan_file_virustotal(file_path="/home/user/downloads/patch.exe")
+
+3. shodan_search:
+   - Purpose: Queries the Shodan system index for internet-facing installations matching a query pattern.
+   - Arguments:
+     a) query: str - Search string checking open metadata banners (required).
+     b) facets: str (default: None) - Optional comma-delimited strings summarizing structural metadata properties.
+     c) page: int (default: 1) - Page number indicating offset counters for pagination.
+     d) cred_key: str (default: "shodan") - Identifies the active credential configuration profile.
+   - Returns: ToolResult containing cumulative totals alongside truncated matching system summaries.
+   - How to call: SecurityScannerTool.shodan_search(query="port:21 product:vsftpd", page=1)
+
+4. shodan_host:
+   - Purpose: Queries a single external IP layout profile to map exposed transport surfaces and software versions.
+   - Arguments:
+     a) ip: str - Public IPv4 network target location examined by remote data records (required).
+     b) cred_key: str (default: "shodan") - Storage key handle containing required platform authentication parameters.
+   - Returns: ToolResult unpacking operating systems, running services, and known vulnerability tags.
+   - How to call: SecurityScannerTool.shodan_host(ip="192.0.2.1")
+
+5. check_haveibeenpwned:
+   - Purpose: Assesses public leak history catalogs to see if an email has been exposed in a data breach.
+   - Arguments:
+     a) email: str - User email communication string queried across database indices (required).
+     b) cred_key: str (default: "hibp") - Profile tracking system reference used to fetch structural headers.
+   - Returns: ToolResult identifying safe validation profiles or structured lists detailing breached corporate systems.
+   - How to call: SecurityScannerTool.check_haveibeenpwned(email="test@example.com")
+
+6. check_password_breach:
+   - Purpose: Securely checks if a password password has been leaked by sending only the first 5 characters of its SHA-1 hash.
+   - Arguments:
+     a) password: str - Plaintext password input parameter assessed by local structural hash routines (required).
+   - Returns: ToolResult logging matched frequency hits inside dictionary storage definitions.
+   - How to call: SecurityScannerTool.check_password_breach(password="P@ssword123")
+
+7. nmap_scan:
+   - Purpose: Deploys heavy network port mapping engines against remote infrastructures.
+   - Arguments:
+     a) target: str - Endpoint host identifier name, domain handle, or CIDR network block (required).
+     b) arguments: str (default: "-sV -O") - Custom operational scanner parameters passed down to the nmap binary.
+     c) output_format: str (default: "dict") - Text representation formatting ("dict" vs "json").
+   - Returns: ToolResult conveying structural connection tracking records and endpoint state details.
+   - How to call: SecurityScannerTool.nmap_scan(target="127.0.0.1", arguments="-p 22,80,443")
+
+8. port_scan_common:
+   - Purpose: Conducts rapid multi-threaded connection checks across 18 well-known ports without binary dependencies.
+   - Arguments:
+     a) host: str - System address string or target domain evaluated by connection loops (required).
+   - Returns: ToolResult mapping discovered open applications alongside raw closed counters.
+   - How to call: SecurityScannerTool.port_scan_common(host="localhost")
+
+9. whois_lookup:
+   - Purpose: Extracts structural domain registration records, lifecycle dates, and hosting organizations.
+   - Arguments:
+     a) domain_or_ip: str - Target resource pointer string passed directly to WHOIS registration routers (required).
+   - Returns: ToolResult storing structured identity maps containing registry parameters.
+   - How to call: SecurityScannerTool.whois_lookup(domain_or_ip="google.com")
+
+10. check_ssl_grade:
+    - Purpose: Initiates secure handshakes to evaluate certificate expiration dates and configuration grades.
+    - Arguments:
+      a) domain: str - Domain endpoint address checked over port 443 (required).
+    - Returns: ToolResult grading domain status and returning remaining valid lifecycle day counts.
+    - How to call: SecurityScannerTool.check_ssl_grade(domain="github.com")
+
+11. check_dns_leak:
+    - Purpose: Detects path-resolution exposure by checking domain mappings across distinct resolver points.
+    - Arguments:
+      a) servers: list (default: None) - Array of nameserver targets; defaults to standard public resolvers if omitted.
+    - Returns: ToolResult detailing query outputs and flagging potential path translation leaks.
+    - How to call: SecurityScannerTool.check_dns_leak(servers=["8.8.8.8", "1.1.1.1"])
+
+12. scan_url_safe_browsing:
+    - Purpose: Audits application links against malicious distribution, social engineering, and unwanted software catalogs.
+    - Arguments:
+      a) url: str - Full asset indicator link string processed for structural risk analysis (required).
+      b) api_key: str (default: None) - Explicit platform token; drops back to heuristic pattern matching if omitted.
+    - Returns: ToolResult highlighting safety statuses or matching threat classifications.
+    - How to call: SecurityScannerTool.scan_url_safe_browsing(url="http://malicious-example.com/login.html")
+
+13. check_reputation:
+    - Purpose: Checks AbuseIPDB reputation histories to determine trust metrics and blocklist placements.
+    - Arguments:
+      a) ip_or_domain: str - Targeted network identifier evaluated across public reputation servers (required).
+    - Returns: ToolResult yielding confidence metrics scaled on a standard 0-100 score threshold.
+    - How to call: SecurityScannerTool.check_reputation(ip_or_domain="203.0.113.5")
+
+14. get_threat_intel:
+    - Purpose: Gathers public open-source threat feeds to find references to an active indicator across global security campaigns.
+    - Arguments:
+      a) indicator: str - String pattern evaluated across open system feeds (required).
+      b) type: str (default: "ip") - Defines the indicator shape context type ("ip", "domain", "url", "hash").
+    - Returns: ToolResult aggregating discovered platform pulse records and security tag maps.
+    - How to call: SecurityScannerTool.get_threat_intel(indicator="44d88612fea8a8f36de82e1278abb02f", type="hash")
+""")
+          
     @staticmethod
     def check_virustotal(hash_or_url_or_ip: str, type: str = "hash",
                          cred_key: str = "virustotal") -> ToolResult:
@@ -463,6 +597,155 @@ class CryptographyTool:
         "RSA key pairs, AES encryption, password hashing, TOTP, "
         "SSL cert generation, digital signatures, PGP encrypt/decrypt"
     )
+    use = ("""
+Name of Tool: CryptographyTool
+
+Purpose of Tool:
+The CryptographyTool provides a localized, secure cryptographic pipeline for symmetric/asymmetric encryption, data integrity verification, password hashing lifecycle management, and dynamic multi-factor authentication (TOTP). It abstracts operations using the Python `cryptography`, `bcrypt`, `pyotp`, and `gnupg` ecosystems, allowing the programmatic generation of production-ready RSA key pairs, secure X.509 self-signed certificates, high-entropy password salts, and armored PGP messages.
+
+Methods:
+- generate_rsa_keypair: Compiles securely restricted 2048-bit or higher asymmetric RSA keys to disk.
+- encrypt_with_public_key: Locks sensitive target payloads via optimal asymmetric encryption padding (OAEP) configurations.
+- decrypt_with_private_key: Restores encrypted RSA ciphertexts back to plain text payloads using private structural keys.
+- sign_data: Affixes probabilistic signature scheme (PSS) verification parameters onto raw files or parameters.
+- verify_signature: Validates public cryptographic signatures against expected input hashes to test non-repudiation.
+- aes_encrypt: Performs authenticated symmetric encryption loops via authenticated standard AES-256-GCM configurations.
+- aes_decrypt: Checks PBKDF2 parameters and validates the GCM payload authentication tag to decrypt data streams safely.
+- generate_random_password: Generates complex cryptographically secure string combinations via operating system noise.
+- hash_password: Sets up strong one-way string transformations using high-round adaptive hashing algorithms (bcrypt/SHA).
+- verify_password: Dynamically compares password strings against historical algorithmic hash patterns.
+- generate_totp_secret: Computes standardized seed keys and generates provisioning URIs for authenticator applications.
+- verify_totp: Measures current authentication codes against localized windows to grant multi-factor access.
+- create_ssl_certificate / create_self_signed_cert: Generates local X.509 transport layer certificates for development environments.
+- pgp_encrypt: Imports target armored strings and outputs encrypted OpenPGP specification records.
+- pgp_decrypt: Opens encrypted messages via matching imported keys and access passphrases.
+
+How to use Tool Methods:
+
+1. generate_rsa_keypair:
+   - Purpose: Generates an RSA private and public key pair, saving them securely to the designated path.
+   - Arguments:
+     a) bits: int (default: 2048) - Bit strength indicating key size complexity.
+     b) output_folder: str (default: ".") - Relative or absolute storage folder targeted for PEM generation.
+   - Returns: ToolResult logging the destination paths of both private and public components.
+   - How to call: CryptographyTool.generate_rsa_keypair(bits=4096, output_folder="./keys")
+
+2. encrypt_with_public_key:
+   - Purpose: Asymmetrically encrypts a string payload with a recipient's public key.
+   - Arguments:
+     a) data: str - Plaintext data targeted for mathematical encryption (required).
+     b) public_key_path: str - Path location pointing to the public key file structure (required).
+   - Returns: ToolResult containing a base64-encoded ciphertext string wrapper.
+   - How to call: CryptographyTool.encrypt_with_public_key(data="Secret Message", public_key_path="./keys/public_key.pem")
+
+3. decrypt_with_private_key:
+   - Purpose: Decrypts an OAEP-padded base64 ciphertext back into plain text using a localized private key.
+   - Arguments:
+     a) data: str - Base64 encoded ciphertext string requiring mathematical decryption (required).
+     b) private_key_path: str - Local destination point tracking the corresponding private key (required).
+   - Returns: ToolResult exposing the decoded plaintext key value mapping.
+   - How to call: CryptographyTool.decrypt_with_private_key(data="abc123XYZ...", private_key_path="./keys/private_key.pem")
+
+4. sign_data:
+   - Purpose: Computes a digital signature over arbitrary data text using a private key to prove authorship.
+   - Arguments:
+     a) data: str - Raw context string requiring proof validation (required).
+     b) private_key_path: str - Private key target path utilized to generate signatures (required).
+   - Returns: ToolResult conveying a base64-encoded signature block.
+   - How to call: CryptographyTool.sign_data(data="Verify me", private_key_path="./keys/private_key.pem")
+
+5. verify_signature:
+   - Purpose: Decodes a signature file and checks it against an input data string to guarantee origin authenticity.
+   - Arguments:
+     a) data: str - Original plain data checked for structural changes or corruption (required).
+     b) signature: str - Base64 structural verification block tested for data integrity (required).
+     c) public_key_path: str - Location pointing to the sender's public validation parameters (required).
+   - Returns: ToolResult stating verification pass-fail status.
+   - How to call: CryptographyTool.verify_signature(data="Verify me", signature="sig==...", public_key_path="./keys/public_key.pem")
+
+6. aes_encrypt:
+   - Purpose: Implements symmetric password-based AES-GCM data encryption alongside high-iteration PBKDF2.
+   - Arguments:
+     a) data: str - Plain data targeted for quick symmetric translation locks (required).
+     b) password: str - Symmetric user passphrase used as the derivation source for key generation (required).
+     c) algorithm: str (default: "AES-256-GCM") - Cipher algorithm string pattern configuration.
+   - Returns: ToolResult wrapping derived salt, unique initialization nonce, and base64 text payloads.
+   - How to call: CryptographyTool.aes_encrypt(data="Sensitive Data", password="SuperPassword123")
+
+7. aes_decrypt:
+   - Purpose: Extracts verification blocks from a base64 packet to reverse password-based AES encryption maps.
+   - Arguments:
+     a) data: str - Composed base64 storage blocks containing salt, nonce, and ciphertext payload (required).
+     b) password: str - Symmetric decryption passphrase tested against payload generation keys (required).
+     c) algorithm: str (default: "AES-256-GCM") - Targeted cipher mode parameters matching initial setup.
+   - Returns: ToolResult yielding original clear-text strings.
+   - How to call: CryptographyTool.aes_decrypt(data="salt+nonce+cipher...", password="SuperPassword123")
+
+8. generate_random_password:
+   - Purpose: Generates high-entropy password strings using cryptographically secure random selection tools.
+   - Arguments:
+     a) length: int (default: 20) - Count determining the final index length of character strings.
+     b) complexity: str (default: "high") - Structural settings including punctuation layers ("high", "medium", "low").
+   - Returns: ToolResult displaying generated strings alongside contextual score percentages.
+   - How to call: CryptographyTool.generate_random_password(length=32, complexity="high")
+
+9. hash_password:
+   - Purpose: One-way cryptographically hashes passwords using adaptive work factors to protect against database leaks.
+   - Arguments:
+     a) password: str - Raw candidate text target locked for security tracking (required).
+     b) algorithm: str (default: "bcrypt") - Work factor logic configuration selectors ("bcrypt", "sha256", "sha512").
+     c) salt: str (default: None) - Hex string overriding system salt generations (applicable for SHA models).
+   - Returns: ToolResult capturing compiled secure hash outputs.
+   - How to call: CryptographyTool.hash_password(password="UserPass!", algorithm="bcrypt")
+
+10. verify_password:
+    - Purpose: Compares candidate text with stored secure bcrypt hashes to determine match status.
+    - Arguments:
+      a) password: str - Plaintext configuration parameter verified for access rights (required).
+      b) hash: str - Historic reference identifier mapping valid system keys (required).
+    - Returns: ToolResult capturing validation truth flags.
+    - How to call: CryptographyTool.verify_password(password="UserPass!", hash="$2b$12$...")
+
+11. generate_totp_secret:
+    - Purpose: Generates random base32 seeds and standard application endpoints for time-based one-time password flows.
+    - Arguments: None.
+    - Returns: ToolResult tracking active secrets, provisioning parameters, and initial token arrays.
+    - How to call: CryptographyTool.generate_totp_secret()
+
+12. verify_totp:
+    - Purpose: Assesses user validation submission inputs relative to valid TOTP token tracking structures.
+    - Arguments:
+      a) secret: str - Core base32 seed token defining user account properties (required).
+      b) token: str - Code string provided by the token device (required).
+    - Returns: ToolResult logging multi-factor verification success metrics.
+    - How to call: CryptographyTool.verify_totp(secret="KVKVE...", token="123456")
+
+13. create_ssl_certificate / create_self_signed_cert:
+    - Purpose: Assembles self-signed X.509 domain transport certificates to secure development instances.
+    - Arguments:
+      a) domain / cn: str - Core host URL string attached to the certificate layout profile (required).
+      b) output_folder: str - File system directory target collecting the generated PEM data (required).
+      c) days: int (default: 365) - Day offset values indicating operational certificate lifespan boundaries.
+    - Returns: ToolResult presenting key file storage target pathways.
+    - How to call: CryptographyTool.create_self_signed_cert(cn="localhost", output_folder="./certs", days=30)
+
+14. pgp_encrypt:
+    - Purpose: Automatically routes clear text messages through imported public PGP certificates to lock operational assets.
+    - Arguments:
+      a) message: str - Raw payload context string requiring secure encryption (required).
+      b) recipient_key: str - Pathway pointing to an armored asset block or key string structure (required).
+    - Returns: ToolResult displaying complete armored PGP text blocks alongside identifier fingerprints.
+    - How to call: CryptographyTool.pgp_encrypt(message="PGP text", recipient_key="./gpg/recipient.asc")
+
+15. pgp_decrypt:
+    - Purpose: Applies passphrases over imported private key materials to unlock encrypted PGP blocks.
+    - Arguments:
+      a) encrypted: str - Raw armored encrypted text layout requiring processing (required).
+      b) private_key: str - Target pathway location mapping the key holder private components (required).
+      c) passphrase: str (default: "") - Operational secret required to unlock access bounds on the private key file.
+    - Returns: ToolResult exposing clear text output results upon completion.
+    - How to call: CryptographyTool.pgp_decrypt(encrypted="-----BEGIN PGP...", private_key="./gpg/private.asc", passphrase="key_unlock_pass")
+""")
 
     @staticmethod
     def generate_rsa_keypair(bits: int = 2048, output_folder: str = ".") -> ToolResult:
@@ -760,6 +1043,117 @@ class PenetrationTestingTool:
         "vuln checks, HTTP headers, CORS, SQLi/XSS tests, SSL vulns, "
         "security reports, pentest checklists"
     )
+    use = ("""
+Name of Tool: PenetrationTestingTool
+
+Purpose of Tool:
+The PenetrationTestingTool serves as an automated verification suite designed to perform web application security assessments, passive configuration discovery, and endpoint validation. It encapsulates common auditing techniques such as multi-threaded subdomain mapping, path enumeration, security header analysis, CORS misconfiguration validation, and signature/error-based logic testing (SQLi/XSS). This class helps security professionals and developers systematically audit exposed attack surfaces and generate structured compliance checklists or remediation summaries.
+
+Methods:
+- subdomain_enumeration: Concurrently queries common hostname prefixes against a root domain to detect active web assets.
+- directory_bruteforce: Evaluates server response codes against a list of common file paths and extensions to identify exposed endpoints.
+- check_common_vulnerabilities: Validates target configurations for missing protection headers, technology banners, and sensitive exposed text files.
+- check_http_headers: Evaluates modern HTTP defense parameters to calculate a standardized security posture grade.
+- check_cors: Tests cross-origin resource sharing policies against malicious headers to detect permissive data-access exposures.
+- sql_injection_test: Fuzzes key parameters with common syntax characters to monitor for database error leaks.
+- xss_test: Validates inputs to check if special characters reflect cleanly back within the raw response body.
+- check_ssl_vulnerabilities: Tests negotiation capabilities against legacy TLS versions and measures certificate lifetimes.
+- check_outdated_software: Extracts application version identifiers from system banners, meta tags, and content paths.
+- generate_security_report: Compiles raw vulnerability findings into an organized, risk-prioritized Markdown assessment report.
+- create_pentest_checklist: Produces target-specific security assessment checklists across web, network, or API profiles.
+
+How to use Tool Methods:
+
+1. subdomain_enumeration:
+   - Purpose: Maps out the external attack surface of a root domain via parallel DNS resolution.
+   - Arguments:
+     a) domain: str - The parent domain name under review (required).
+     b) wordlist: str (default: None) - Optional path to a custom text file containing subdomain prefixes.
+     c) threads: int (default: 20) - Execution concurrency limit.
+   - Returns: ToolResult listing found subdomains paired with resolved IP mappings.
+   - How to call: PenetrationTestingTool.subdomain_enumeration(domain="example.com", threads=10)
+
+2. directory_bruteforce:
+   - Purpose: Discovers unlinked files, backup structures, and administrative endpoints.
+   - Arguments:
+     a) url: str - Base target address path (required).
+     b) wordlist: str (default: None) - Optional location matching custom resource paths.
+     c) extensions: list (default: None) - Suffix types appended during active path generation loops.
+     d) threads: int (default: 10) - Total concurrent connection threads.
+   - Returns: ToolResult documenting reachable paths alongside returned HTTP status codes.
+   - How to call: PenetrationTestingTool.directory_bruteforce(url="https://example.com", extensions=[".html", ".txt"])
+
+3. check_common_vulnerabilities:
+   - Purpose: Audits target web servers for standard passive validation failures and exposed structural settings.
+   - Arguments:
+     a) url: str - Fully qualified remote address targeted for scanning (required).
+   - Returns: ToolResult carrying categorised threat details and a consolidated severity count summary.
+   - How to call: PenetrationTestingTool.check_common_vulnerabilities(url="https://example.com")
+
+4. check_http_headers:
+   - Purpose: Gauges the defensive capabilities of target applications based on header configurations.
+   - Arguments:
+     a) url: str - The target application endpoint to audit (required).
+   - Returns: ToolResult showing missing headers alongside an overall score letter grade from A+ to F.
+   - How to call: PenetrationTestingTool.check_http_headers(url="https://example.com")
+
+5. check_cors:
+   - Purpose: Evaluates Cross-Origin Resource Sharing settings to protect against unauthorized multi-domain access.
+   - Arguments:
+     a) url: str - Target application endpoint or API route under review (required).
+   - Returns: ToolResult specifying origin acceptance behavior and marking critical access states.
+   - How to call: PenetrationTestingTool.check_cors(url="https://api.example.com")
+
+6. sql_injection_test:
+   - Purpose: Evaluates parameter sanitization against basic error-based database anomalies.
+   - Arguments:
+     a) url: str - Active endpoint path to receive requests (required).
+     b) params: dict - Key-value structure matching active application parameters (required).
+     c) method: str (default: "GET") - HTTP request protocol method (GET or POST).
+   - Returns: ToolResult logging the injection point details and returned indicator strings.
+   - How to call: PenetrationTestingTool.sql_injection_test(url="https://example.com/search", params={"q": "test"})
+
+7. xss_test:
+   - Purpose: Checks whether parameter values reflect directly into response bodies without appropriate context encoding.
+   - Arguments:
+     a) url: str - Target application processing path (required).
+     b) params: dict - Active fields evaluated during reflection sequences (required).
+     c) method: str (default: "GET") - Web transmission method selection.
+   - Returns: ToolResult pinpointing elements where script patterns mirror directly inside page contexts.
+   - How to call: PenetrationTestingTool.xss_test(url="https://example.com/view", params={"id": "1"})
+
+8. check_ssl_vulnerabilities:
+   - Purpose: Assesses transport layer security configurations for outmoded protocols or expiring certificates.
+   - Arguments:
+     a) domain: str - Host domain name evaluated during connection handshake routines (required).
+     b) port: int (default: 443) - Structural network port tracking secure communication routes.
+   - Returns: ToolResult capturing protocol validation statuses and certificate lifetime margins.
+   - How to call: PenetrationTestingTool.check_ssl_vulnerabilities(domain="example.com")
+
+9. check_outdated_software:
+   - Purpose: Identifies component details through response signatures to detect potential unpatched environments.
+   - Arguments:
+     a) url: str - Remote endpoint location under analysis (required).
+   - Returns: ToolResult aggregating discovered platform identifiers, meta attributes, or structural application tags.
+   - How to call: PenetrationTestingTool.check_outdated_software(url="https://example.com")
+
+10. generate_security_report:
+    - Purpose: Aggregates arbitrary finding logs into formatted corporate-ready technical summary documents.
+    - Arguments:
+      a) target: str - Label tracking the system or environment under review (required).
+      b) scan_results: list - Collection array containing tool execution results (required).
+      c) output: str - Target output path file location collecting report text (required).
+    - Returns: ToolResult stating path confirmation summaries alongside overall risk statistics.
+    - How to call: PenetrationTestingTool.generate_security_report(target="example.com", scan_results=[res1, res2], output="report.md")
+
+11. create_pentest_checklist:
+    - Purpose: Provisions industry standard structured verification frameworks to systematically run target assessments.
+    - Arguments:
+      a) target_type: str (default: "web") - Operational category choice ("web", "api", "network").
+      b) output: str (default: "pentest_checklist.md") - Destination path collecting the finished file.
+    - Returns: ToolResult logging local file storage outcomes.
+    - How to call: PenetrationTestingTool.create_pentest_checklist(target_type="api", output="api_audit.md")
+""")
 
     @staticmethod
     def subdomain_enumeration(domain: str, wordlist: str = None, threads: int = 20) -> ToolResult:
@@ -1161,6 +1555,113 @@ class AIImageGenerationTool:
         "AI image generation: Stability AI, DALL-E, local Stable Diffusion, "
         "inpainting, img2img, upscaling, background removal, variations"
     )
+    use = ("""
+Name of Tool: AIImageGenerationTool
+
+Purpose of Tool:
+The AIImageGenerationTool serves as a comprehensive wrapper class designed to interface with various artificial intelligence image generation and manipulation systems. It consolidates interactions with popular cloud-based commercial APIs (such as Stability AI and OpenAI's DALL-E) alongside local execution architectures using Hugging Face's diffusers framework. Beyond standard text-to-image generation, the tool encapsulates routine image post-processing workflows, including masking-based reconstruction (inpainting), structural variations based on source visuals (img2img), resolution enhancement, and foreground segmentation (background removal).
+
+Methods:
+- generate_image_stability: Connects to the Stability AI Core API endpoint to synthesize high-quality images from structural text prompts.
+- generate_image_dalle: Dispatches payload structures to OpenAI's DALL-E 3 engine to produce vivid, compositionally dense images.
+- generate_image_local_sd: Initializes an on-premise pipeline using PyTorch and Hugging Face diffusers to process text prompts natively on GPU or CPU hardware.
+- inpaint_image: Modifies targeted sub-regions of an existing graphic file by applying an alpha layer alignment mask alongside contextual text prompts.
+- img_to_img: Transmutes an original image asset into an alternative stylistic composition guided by a text prompt and an adherence threshold factor.
+- upscale_image_ai: Amplifies dimensions of an image file locally by mapping pixels using high-fidelity interpolation algorithms (Lanczos).
+- remove_background_ai: Segments out subjects and drops distracting pixels using local specialized models or a remote API fallback mechanism.
+- create_image_variations: Communicates with OpenAI variations endpoints to construct visual counterparts and alternative drafts of an uploaded source file.
+
+How to use Tool Methods:
+
+1. generate_image_stability:
+   - Purpose: Generates images via the Stability AI Core endpoint with highly detailed generation configurations.
+   - Arguments:
+     a) prompt: str - The text string describing what to draw (required).
+     b) negative_prompt: str (default: "") - Explicit details or artifact behaviors to exclude from the visual layout.
+     c) width: int (default: 1024) - X-axis bounds dimension value.
+     d) height: int (default: 1024) - Y-axis bounds dimension value.
+     e) steps: int (default: 30) - Number of denoising iterations.
+     f) cfg: float (default: 7.0) - Adherence weight balancing text alignment strictness against creative variance.
+     g) output: str (default: "output.png") - Path to write the output image file.
+     h) cred_key: str (default: "stability") - Key to look up the API token.
+   - Returns: ToolResult indicating file creation success alongside local disk data sizing statistics.
+   - How to call: AIImageGenerationTool.generate_image_stability(prompt="A futuristic cityscape in synthwave style", steps=40)
+
+2. generate_image_dalle:
+   - Purpose: Leverages OpenAI's DALL-E 3 architecture to synthesize complex illustrative scenes.
+   - Arguments:
+     a) prompt: str - Dense descriptive prompt detailing subjects, scenery, and art style rules (required).
+     b) n: int (default: 1) - Total counts request (capped at 1 for DALL-E 3).
+     c) size: str (default: "1024x1024") - Geometry profile choices ("1024x1024", "1024x1792", etc.).
+     d) quality: str (default: "standard") - Render fidelity options ("standard" or "hd").
+     e) style: str (default: "vivid") - Coloration framework options ("vivid" or "natural").
+     f) output: str (default: "dalle_output.png") - Target path location to stream the image binary.
+     g) cred_key: str (default: "openai") - Key mapping credentials storage records.
+   - Returns: ToolResult presenting the output path, source URL link, and the system revised prompt metadata.
+   - How to call: AIImageGenerationTool.generate_image_dalle(prompt="Oil painting of an astronaut playing guitar on Mars", quality="hd")
+
+3. generate_image_local_sd:
+   - Purpose: Leverages on-device hardware computing arrays to compute local generation jobs.
+   - Arguments:
+     a) prompt: str - Conceptual textual target matrix (required).
+     b) negative_prompt: str (default: "") - Attributes explicitly disallowed from compilation.
+     c) model: str (default: "runwayml/stable-diffusion-v1-5") - Hugging Face model identifier string.
+     d) width: int (default: 512) - Base block render width.
+     e) height: int (default: 512) - Base block render height.
+     f) steps: int (default: 20) - Direct inference step configurations.
+     g) output: str (default: "sd_output.png") - Storage path.
+   - Returns: ToolResult showing active execution platform designations ("cuda" vs "cpu") and source weights applied.
+   - How to call: AIImageGenerationTool.generate_image_local_sd(prompt="Cute fluffy kitten cartoon", steps=25)
+
+4. inpaint_image:
+   - Purpose: Replaces or updates specific sub-regions inside an image canvas based on an image mask.
+   - Arguments:
+     a) image_path: str - Path to the original base image (required).
+     b) mask_path: str - Path to the black-and-white mask file outlining the replacement zone (required).
+     c) prompt: str - Instructions describing what to introduce inside the masked section (required).
+     d) output: str (default: "inpainted.png") - Storage path for the edited output file.
+     e) cred_key: str (default: "stability") - Target cloud security credentials identifier lookup key.
+   - Returns: ToolResult logging status information and confirmation of the file output path.
+   - How to call: AIImageGenerationTool.inpaint_image(image_path="photo.png", mask_path="mask.png", prompt="a red vintage sports car")
+
+5. img_to_img:
+   - Purpose: Utilizes existing graphical layouts as foundation templates to create structural variants.
+   - Arguments:
+     a) image_path: str - Location referencing foundational source graphic templates (required).
+     b) prompt: str - Styling adaptation description string (required).
+     c) strength: float (default: 0.75) - Noise introduction index control layer (0.0 keeps the image identical, 1.0 overwrites it completely).
+     d) output: str (default: "img2img_output.png") - Storage file path destination.
+     e) cred_key: str (default: "stability") - Authorization storage key identifier.
+   - Returns: ToolResult validating transmission completion and storage metrics.
+   - How to call: AIImageGenerationTool.img_to_img(image_path="sketch.png", prompt="Photorealistic detailed 3D render", strength=0.6)
+
+6. upscale_image_ai:
+   - Purpose: Doubles or triples pixel structures using interpolation routines to provide scaling upgrades.
+   - Arguments:
+     a) image_path: str - Path to the low-resolution target file asset (required).
+     b) scale: int (default: 2) - Multiplier tracking transformation factor metrics.
+     c) output: str (default: None) - Optional path string overrides; defaults to suffix updates.
+   - Returns: ToolResult demonstrating finalized resolution output calculations.
+   - How to call: AIImageGenerationTool.upscale_image_ai(image_path="thumbnail.png", scale=4)
+
+7. remove_background_ai:
+   - Purpose: Isolates a primary subject by removing background layers and generating transparent backdrops.
+   - Arguments:
+     a) image_path: str - File system location addressing target resource item (required).
+     b) output: str (default: None) - Output destination file string layout location.
+   - Returns: ToolResult documenting successful extraction and alpha channel application.
+   - How to call: AIImageGenerationTool.remove_background_ai(image_path="product.jpg")
+
+8. create_image_variations:
+   - Purpose: Crafts structural alternatives and shifts elements while keeping the core thematic layout of an image.
+   - Arguments:
+     a) image_path: str - Path to the square source PNG file asset (required).
+     b) n: int (default: 3) - Quantities profile defining variations stack limits (max 10).
+     c) output: str (default: "variations") - Directory path string collecting matching alternative drafts.
+     d) cred_key: str (default: "openai") - Authorization registry index link key.
+   - Returns: ToolResult presenting file list collection groupings mapping all successfully extracted variations.
+   - How to call: AIImageGenerationTool.create_image_variations(image_path="logo.png", n=4)
+""")
 
     @staticmethod
     def generate_image_stability(prompt: str, negative_prompt: str = "", width: int = 1024,
@@ -1366,6 +1867,147 @@ class AITextGenerationAdvancedTool:
         "Advanced LLM: chain prompts, few-shot, structured JSON, debate, "
         "brainstorm, critique, code gen/explain/test/refactor, translate, summarize"
     )
+    use = ("""
+Name of Tool: AITextGenerationAdvancedTool
+
+Purpose of Tool:
+The AITextGenerationAdvancedTool is an advanced Large Language Model (LLM) orchestration wrapper designed to execute complex, multi-turn, and targeted text engineering tasks. It interfaces directly with locally served models (such as Llama 3.2 and Mistral) via an underlying Ollama agent framework. The tool abstracts advanced prompt engineering design patterns—including multi-stage chain execution, few-shot contextual optimization, structured JSON output validation, autonomous comparative debate generation, iterative self-critique workflows, multi-tier code syntax operations, stylistic localization, and map-reduce style large-document chunk summarization.
+
+Methods:
+- chain_prompts: Progressively threads responses down a sequential series of prompts to construct complex reasoning logic.
+- few_shot_generate: Conditions an LLM using few-shot exemplar patterns before computing the main target generation response.
+- generate_structured_json: Forces exact schema compliance, stripping layout artifacts and handling structural fallbacks via regex mapping.
+- debate_topic: Generates a multi-perspective discourse transcript by alternating underlying models between supporting and opposing stances.
+- brainstorm: Provisions creative ideation loops filtered through specialized target frames or viewpoints.
+- critique_and_improve: Executes multi-pass refinement loops by identifying structural issues and rewriting text based on its own critiques.
+- generate_code: Generates production-ready code blocks tailored to explicit functional languages, embedded inline documentation, and test criteria.
+- explain_code: Decodes intricate source patterns into digestible architectural overviews targeted to specialized developer proficiency levels.
+- generate_test_cases: Builds comprehensive functional boundary tests and target edge cases inside code testing frameworks (e.g., pytest).
+- refactor_code: Streamlines logic layers to enforce optimization goals such as code performance, readability, or DRY compliance.
+- translate_text: Transforms input text layers into target languages modulated through explicit stylistic variants.
+- summarize_long_document: Processes files or deep PDF page-trees using size-bounded chunking and hierarchical text aggregation.
+
+How to use Tool Methods:
+
+1. chain_prompts:
+   - Purpose: Chains multiple text prompts sequentially, passing context from one step to the next.
+   - Arguments:
+     a) prompts: list - An ordered collection of instructions to process sequentially (required).
+     b) models: list (default: None) - Array of model designations aligned to each prompt element.
+     c) pass_previous: bool (default: True) - Appends previous outputs to the ongoing step block context.
+     d) temperature: float (default: 0.7) - Model output variation constraint.
+   - Returns: ToolResult presenting full arrays tracing each processing step execution log.
+   - How to call: AITextGenerationAdvancedTool.chain_prompts(prompts=["Write an outline for a horror story.", "Draft the first chapter based on this outline."])
+
+2. few_shot_generate:
+   - Purpose: Trains the engine locally using an input-output learning structure before final compilation.
+   - Arguments:
+     a) examples: list - Example mappings structured as [{'input': '...', 'output': '...'}] (required).
+     b) task: str - The specific target execution task string (required).
+     c) model: str (default: "llama3.2:3b") - Local execution model identifier.
+     d) temperature: float (default: 0.5) - Generation deterministic factor weighting.
+     e) n_shots: int (default: 3) - Maximum boundary filter tracking how many examples are passed.
+   - Returns: ToolResult including the compiled shot count metadata tracking final generation outcomes.
+   - How to call: AITextGenerationAdvancedTool.few_shot_generate(examples=[{"input": "bad", "output": "good"}], task="terrible")
+
+3. generate_structured_json:
+   - Purpose: Directs prompt outputs to match a designated dictionary schema pattern.
+   - Arguments:
+     a) prompt: str - Task instructions detailing the data extraction target parameters (required).
+     b) schema: dict - Structural object specification defining expected object fields (required).
+     c) model: str (default: "llama3.2:3b") - LLM engine instance string.
+     d) temperature: float (default: 0.3) - Set low to keep formatting structured.
+     e) retries: int (default: 3) - Re-execution count limits to handle parsing errors.
+   - Returns: ToolResult exposing sanitized, verified Python dictionary contents.
+   - How to call: AITextGenerationAdvancedTool.generate_structured_json("Extract user details", schema={"name": "string", "age": "number"})
+
+4. debate_topic:
+   - Purpose: Orchestrates multi-model agent loops to evaluate topics through comparative arguments.
+   - Arguments:
+     a) topic: str - Main proposition topic or inquiry context (required).
+     b) models: list (default: None) - Model assignment values representing opposing positions.
+     c) rounds: int (default: 2) - Round metrics determining overall debate duration.
+     d) output_format: str (default: "text") - Renders formatted markdown layout descriptions or raw logs.
+   - Returns: ToolResult holding complete round-by-round point-counterpoint conversation flows.
+   - How to call: AITextGenerationAdvancedTool.debate_topic(topic="AI will replace humans", rounds=3)
+
+5. brainstorm:
+   - Purpose: Aggregates list blocks of concepts derived from explicit vantage perspectives.
+   - Arguments:
+     a) topic: str - Target conceptual territory or strategic question (required).
+     b) n_ideas: int (default: 10) - Target list density limits.
+     c) perspective: str (default: "general") - Niche persona parameters limiting conceptual scope.
+     d) model: str (default: "llama3.2:3b") - Selected engine registry string.
+   - Returns: ToolResult containing a sanitized array of individual idea lines.
+   - How to call: AITextGenerationAdvancedTool.brainstorm(topic="Marketing campaign ideas", perspective="futuristic")
+
+6. critique_and_improve:
+   - Purpose: Performs internal peer review on target content blocks across multi-pass refinement intervals.
+   - Arguments:
+     a) text: str - Original draft block (required).
+     b) focus: str (default: "clarity") - Evaluative lens metrics (e.g., tone, conciseness).
+     c) model: str (default: "llama3.2:3b") - Task processing model configuration.
+     d) iterations: int (default: 2) - Limit parameters detailing structural evaluation steps.
+   - Returns: ToolResult presenting step metrics alongside the finalized version.
+   - How to call: AITextGenerationAdvancedTool.critique_and_improve(text="Draft message block here", focus="professionalism")
+
+7. generate_code:
+   - Purpose: Produces localized, function-locked structural syntax scripts.
+   - Arguments:
+     a) description: str - Problem space statement tracking function logic paths (required).
+     b) language: str (default: "python") - Target language compiler style.
+     c) model: str (default: "codellama:7b-instruct") - Code-tuned model token.
+     d) tests: bool (default: True) - Appends unit testing functions to verification loops.
+     e) comments: bool (default: True) - Incorporates deep comments and semantic documentation blocks.
+   - Returns: ToolResult tracking functional raw scripts separated cleanly from markdown blocks.
+   - How to call: AITextGenerationAdvancedTool.generate_code(description="Binary search routine implementation")
+
+8. explain_code:
+   - Purpose: Translates strict code blocks into accessible conceptual descriptions.
+   - Arguments:
+     a) code: str - Source code string requiring conceptual layout dissection (required).
+     b) level: str (default: "intermediate") - Cognitive barrier profiles ("beginner", "intermediate", "expert").
+     c) model: str (default: "llama3.2:3b") - System model token string.
+   - Returns: ToolResult logging systematic line explanations matching requested competency baselines.
+   - How to call: AITextGenerationAdvancedTool.explain_code(code="def fn(x):\n  return x * 2", level="beginner")
+
+9. generate_test_cases:
+   - Purpose: Automatically sets up error paths and validation logic based on the provided code.
+   - Arguments:
+     a) code: str - Target code snippet needing test suite development (required).
+     b) framework: str (default: "pytest") - Framework standard configuration.
+     c) model: str (default: "codellama:7b-instruct") - Code validation engine selection.
+   - Returns: ToolResult tracking executable validation text segments.
+   - How to call: AITextGenerationAdvancedTool.generate_test_cases(code="def add(a, b): return a + b")
+
+10. refactor_code:
+    - Purpose: Restructures existing code architectures to optimize quality parameters.
+    - Arguments:
+      a) code: str - Source script requiring syntax adjustment (required).
+      b) goals: list (default: None) - Specific parameters targeting rewriting behaviors.
+      c) model: str (default: "codellama:7b-instruct") - Underlying code execution engine.
+    - Returns: ToolResult exposing refactored syntax alongside historical performance goals.
+    - How to call: AITextGenerationAdvancedTool.refactor_code(code="dense_unreadable_code_block", goals=["performance"])
+
+11. translate_text:
+    - Purpose: Translates text into alternative languages while maintaining appropriate stylistic expressions.
+    - Arguments:
+      a) text: str - Original text asset requiring conversion (required).
+      b) target_language: str - Destination language registry parameters (required).
+      c) style: str (default: "natural") - Tone constraints ("natural", "formal", "casual", "literal").
+      d) model: str (default: "llama3.2:3b") - Core engine identity values.
+    - Returns: ToolResult providing localization data fields without extra system notes.
+    - How to call: AITextGenerationAdvancedTool.translate_text(text="Hello friend", target_language="Spanish", style="casual")
+
+12. summarize_long_document:
+    - Purpose: Chunks long files or PDFs to extract a comprehensive summary.
+    - Arguments:
+      a) path: str - Location referencing target text assets or PDF items on the file system (required).
+      b) model: str (default: "llama3.2:3b") - Context mapping generation core.
+      c) chunk_size: int (default: 3000) - Character length window slicing the document data array.
+    - Returns: ToolResult detailing combined final page context insights.
+    - How to call: AITextGenerationAdvancedTool.summarize_long_document(path="annual_report.pdf", chunk_size=4000)
+""")
 
     @staticmethod
     def _llm(model: str = "llama3.2:3b", temperature: float = 0.7):
@@ -1626,6 +2268,132 @@ class MLModelTool:
         "feature importance, cross-validate, hyperparameter tune, "
         "save/load, serve API, explain predictions"
     )
+    use = ("""
+Name of Tool: MLModelTool
+
+Purpose of Tool:
+The MLModelTool serves as a centralized Machine Learning Operations (MLOps) wrapper class designed to handle standard statistical learning workflows using scikit-learn. It abstracts data ingestion, automated label encoding for structural clean-up, model training splits, and model scoring. The tool supports classification and regression paradigms across a spectrum of algorithms (including Random Forests, Gradient Boosting, Support Vector Machines, and Linear/Logistic Regressions). Beyond initial fitment routines, it accommodates programmatic validation techniques such as k-fold cross-validation, grid-search hyperparameter tuning, local persistence serialization (via joblib and pickle), threaded deployment hosting using a Flask micro-API framework, and localized prediction interpretability vectors utilizing SHAP or feature weight calculations.
+
+Methods:
+- train_classifier: ingests rectangular dataset tables to automatically encode string arrays, split records, fit a mathematical classification engine, and compute multi-class metrics tables.
+- train_regressor: processes continuous numeric target matrices, implementing continuous value mapping and computing performance metrics such as Root Mean Squared Error (RMSE) and R-squared coefficient limits.
+- predict: references a saved model binary dynamically to run inference on input structures, generating target predictions and class assignment probabilities.
+- evaluate_model: tests serialized model items against an out-of-sample data reference asset to ensure classification or regression metric alignment.
+- feature_importance: extracts and ranks relative mathematical weight variables from decision nodes or model optimization coefficients.
+- cross_validate: calculates out-of-sample stability metrics across partition subsets using an automated k-fold distribution strategy.
+- hyperparameter_tune: runs exhaustive grid-searches against discrete parameter arrays to isolate optimized algorithm configurations.
+- save_model: serializes state tracking data objects natively into joblib or binary stream structures.
+- load_and_predict: executes a prediction workflow by immediately sourcing and scoring a target serialized asset path.
+- deploy_model_api: maps micro-server routes inside a background daemon thread to transform an active model object into an operational network service.
+- explain_prediction: extracts regional feature importance values or computes mathematical SHAP values to explain individual predictions.
+
+How to use Tool Methods:
+
+1. train_classifier:
+   - Purpose: Fits classification algorithms on structured tables and scores prediction performance.
+   - Arguments:
+     a) data_path: str - Local file location of the CSV or Excel source sheet asset (required).
+     b) target_col: str - String column key representing distinct discrete target labels (required).
+     c) model_type: str (default: "random_forest") - Model selector choice ("random_forest", "gradient_boosting", "logistic_regression", "svm", "decision_tree").
+     d) test_size: float (default: 0.2) - Percentage allocation bounding the isolated validation test set fraction.
+     e) output_model: str (default: "classifier.joblib") - System path configuration to write the trained model payload.
+   - Returns: ToolResult storing overall prediction accuracy, full classification reports, and encoded feature layouts.
+   - How to call: MLModelTool.train_classifier(data_path="users.csv", target_col="churned", model_type="gradient_boosting")
+
+2. train_regressor:
+   - Purpose: Restructures continuous linear/ensemble logic patterns to fit real-valued targets.
+   - Arguments:
+     a) data_path: str - File system dataset source layout link (required).
+     b) target_col: str - Column identity mapping continuous numerical targets (required).
+     c) model_type: str (default: "random_forest") - Architectural key string choices ("random_forest", "linear_regression", "ridge", "svr").
+     d) test_size: float (default: 0.2) - Data slicing factor ratio.
+     e) output_model: str (default: "regressor.joblib") - Output path target location.
+   - Returns: ToolResult documenting computed R² values alongside baseline RMSE indicators.
+   - How to call: MLModelTool.train_regressor(data_path="prices.csv", target_col="cost", model_type="ridge")
+
+3. predict:
+   - Purpose: Loads binary packages into operational instances to predict labels on new samples.
+   - Arguments:
+     a) model_path: str - Saved model configuration record pointer file (required).
+     b) input_data: Any - Input dataset structured as a Dictionary string, list array structure, or Pandas DataFrame (required).
+   - Returns: ToolResult passing raw generation classifications arrays paired with class confidence score list indexes.
+   - How to call: MLModelTool.predict(model_path="classifier.joblib", input_data={"age": 34, "income": 55000})
+
+4. evaluate_model:
+   - Purpose: Audits serialized model entities against isolated test datasets.
+   - Arguments:
+     a) model_path: str - Path map referencing an existing saved joblib file resource (required).
+     b) test_data: str - File location pointer mapping out-of-sample data tables (required).
+     c) target_col: str - Column key mapping representing verification objective boundaries (required).
+   - Returns: ToolResult recording classification tables or target margin statistics summaries.
+   - How to call: MLModelTool.evaluate_model(model_path="regressor.joblib", test_data="holdout.csv", target_col="cost")
+
+5. feature_importance:
+   - Purpose: Tallies relative column weight allocations derived from feature attributes.
+   - Arguments:
+     a) model_path: str - Serialized artifact repository target path (required).
+     b) feature_names: list (default: None) - Optional column identifier strings overrides tracking base alignment names.
+     c) output: str (default: None) - Target local storage address path to write JSON rankings.
+   - Returns: ToolResult providing descending feature matrix score components.
+   - How to call: MLModelTool.feature_importance(model_path="classifier.joblib", output="weights.json")
+
+6. cross_validate:
+   - Purpose: Evaluates model robustness by analyzing data slices using k-fold cross-validation.
+   - Arguments:
+     a) data_path: str - Location of the target dataset table (required).
+     b) target: str - Target dependent variable string identifier (required).
+     c) model_type: str (default: "random_forest") - Machine Learning structural key template.
+     d) folds: int (default: 5) - Number of dataset partitions to create.
+   - Returns: ToolResult logging multi-fold performance tracking lists along with calculated score mean deviations.
+   - How to call: MLModelTool.cross_validate(data_path="metrics.csv", target="status", folds=10)
+
+7. hyperparameter_tune:
+   - Purpose: Searches parameter grids to optimize model performance metrics.
+   - Arguments:
+     a) data_path: str - Source dataset table path string context (required).
+     b) target: str - Column identification mapping variable dependencies (required).
+     c) model_type: str (default: "random_forest") - Machine Learning algorithm base key.
+     d) param_grid: dict (default: None) - Configuration options linking testing variable maps.
+     e) cv: int (default: 3) - Subpartition validation metrics parameters.
+   - Returns: ToolResult storing optimal parameters, best scores, and comprehensive iteration records.
+   - How to call: MLModelTool.hyperparameter_tune(data_path="train.csv", target="label", param_grid={"max_depth": [3, 5]})
+
+8. save_model:
+   - Purpose: Serializes state vectors into storage files.
+   - Arguments:
+     a) model: Any - Active model object instances requiring file encoding pipelines (required).
+     b) output_path: str - File storage path (required).
+     c) format: str (default: "joblib") - Binary protocol serialization styles ("joblib" or "pickle").
+   - Returns: ToolResult certifying process finalization indicators.
+   - How to call: MLModelTool.save_model(model=my_trained_obj, output_path="models/rf_v1.pkl", format="pickle")
+
+9. load_and_predict:
+   - Purpose: Directly loads a model from disk to perform inference on input records.
+   - Arguments:
+     a) model_path: str - Saved file location path to read (required).
+     b) data: Any - Structural data input targets requiring analysis (required).
+   - Returns: ToolResult presenting the resulting prediction values.
+   - How to call: MLModelTool.load_and_predict(model_path="classifier.joblib", data=[{"age": 21}])
+
+10. deploy_model_api:
+    - Purpose: Launches a background Flask server endpoint to expose live model prediction endpoints.
+    - Arguments:
+      a) model_path: str - Target serialized file layout map path location (required).
+      b) host: str (default: "0.0.0.0") - Bound host location IP routing values.
+      c) port: int (default: 5000) - Application port routing options.
+      d) endpoint: str (default: "/predict") - Request URL route path configurations.
+    - Returns: ToolResult displaying localized network deployment address URLs.
+    - How to call: MLModelTool.deploy_model_api(model_path="classifier.joblib", port=8080)
+
+11. explain_prediction:
+    - Purpose: Provides local explainability for individual row item evaluations.
+    - Arguments:
+      a) model_path: str - Serialized model configuration path mapping (required).
+      b) instance: dict - Individual test row data mappings structured as column-value dictionaries (required).
+      c) method: str (default: "feature_importance") - Mathematical profiling strategies ("feature_importance" or "shap").
+    - Returns: ToolResult listing top feature attribution matrices sorted by impact.
+    - How to call: MLModelTool.explain_prediction(model_path="classifier.joblib", instance={"age": 45}, method="shap")
+""")
 
     @staticmethod
     def _get_model(model_type: str, task: str = "classifier"):
@@ -1930,6 +2698,101 @@ class SpeechAITool:
         "speaker diarization, VAD, voice cloning (ElevenLabs), "
         "real-time translation, command recognition, keyword detection"
     )
+    use = ("""
+Name of Tool: SpeechAITool
+
+Purpose of Tool:
+The SpeechAITool is an advanced audio processing and speech-to-text / text-to-speech engine abstraction. It wraps several key audio processing capabilities using machine learning libraries such as OpenAI's Whisper (for high-fidelity transcription and Voice Activity Detection) and PyAnnote (for speaker diarization/segmentation tracking). Additionally, it hooks directly into external web APIs, like ElevenLabs, to provide instant sample-based voice cloning and multi-lingual text-to-speech synthesis. The tool exposes robust utility patterns designed to manage live microphone streaming, file-based batch transcription with subtitle timecode creation (SRT format), conversational translation chains, and keyword/intent matching routing matrices to build reactive voice-controlled applications.
+
+Methods:
+- transcribe_realtime: Captures audio on a live microphone stream in real-time, windows the buffer, and runs machine learning inference to convert the audio into a string snippet.
+- transcribe_file: Directs a target audio recording file through an automated language model grid to extract text blocks or timestamped segment lines.
+- speaker_diarization: Partitions an audio block by comparing unique structural voice characteristics, labeling exact time bounds for individual speakers.
+- voice_activity_detection (VAD): Isolates relevant human vocal segments from ambient background noise.
+- clone_and_speak: Uploads a distinct target vocal reference clip to an automated generation endpoint to render customized text lines using the cloned target voice print.
+- real_time_translation: Sequentially chains hardware microphone streams through a localized voice model before feeding the results into a translation engine to change the language on the fly.
+- command_recognition: Monitors localized speech buffers to map spoken phrases directly to executable program instructions.
+- keyword_detection: Sets up an active daemon listening thread that executes specific callbacks whenever designated vocabulary items pass through audio monitoring layers.
+
+How to use Tool Methods:
+
+1. transcribe_realtime:
+   - Purpose: Records and transcribes audio directly from a computer microphone on the fly.
+   - Arguments:
+     a) duration: int (default: 10) - Record timing window in seconds.
+     b) language: str (default: "en") - ISO target language categorization marker.
+     c) model_size: str (default: "base") - Machine learning neural model complexity scale ("tiny", "base", "small", "medium", "large").
+     d) output: str (default: None) - System path configuration to save raw text outputs.
+   - Returns: ToolResult matching extracted transcript texts alongside model performance metadata.
+   - How to call: SpeechAITool.transcribe_realtime(duration=15, language="en", model_size="small")
+
+2. transcribe_file:
+   - Purpose: Converts pre-recorded sound files into structured texts or sub-title tracks.
+   - Arguments:
+     a) audio_path: str - Target data file location map directory path (required).
+     b) language: str (default: "en") - Speech target translation target language identifier.
+     c) model_size: str (default: "base") - Model parameters size.
+     d) word_timestamps: bool (default: False) - Appends precise timestamp indicators directly to token tracking items.
+     e) output: str (default: None) - Output path destination. Writing to a path ending in '.srt' automatically formats the text as subtitles.
+   - Returns: ToolResult passing raw text summaries and segmented timestamp tracking objects.
+   - How to call: SpeechAITool.transcribe_file(audio_path="interview.mp3", word_timestamps=True, output="subtitles.srt")
+
+3. speaker_diarization:
+   - Purpose: Determines "who spoke when" across multi-speaker sound matrices.
+   - Arguments:
+     a) audio_path: str - Local audio repository source location (required).
+     b) n_speakers: int (default: 2) - Internal cluster threshold bounding individual speech patterns.
+     c) output: str (default: None) - Optional storage path configuration string to save JSON logs.
+   - Returns: ToolResult holding structural segment listings tracing start and end timeline frames relative to individual speaker keys.
+   - How to call: SpeechAITool.speaker_diarization(audio_path="podcast.wav", n_speakers=3)
+
+4. voice_activity_detection:
+   - Purpose: Discards dead space gaps to flag speech blocks.
+   - Arguments:
+     a) audio_path: str - File location pointer mapping target sound items (required).
+     b) threshold: float (default: 0.5) - Internal confidence metric boundary constraint.
+     c) output: str (default: None) - Output file target location path.
+   - Returns: ToolResult profiling structured data lists highlighting segments that contain human speech.
+   - How to call: SpeechAITool.voice_activity_detection(audio_path="recording_with_silences.wav")
+
+5. clone_and_speak:
+   - Purpose: Matches a reference sample style to synthesize written script text into an equivalent voice file.
+   - Arguments:
+     a) voice_sample: str - Path location linking target reference source speaker recording item (required).
+     b) text: str - Text lines to synthesize (required).
+     c) output: str (default: "cloned_voice.mp3") - Target path location to save the compiled file output.
+     d) cred_key: str (default: "elevenlabs") - Key to retrieve the necessary API credentials from the credential store.
+   - Returns: ToolResult detailing unique voice tracking IDs along with target file destination configurations.
+   - How to call: SpeechAITool.clone_and_speak(voice_sample="my_voice.mp3", text="Welcome to the system initialization routine.")
+
+6. real_time_translation:
+   - Purpose: Listens to incoming live microphone audio and translates the spoken words into a target language on the fly.
+   - Arguments:
+     a) source_language: str (default: "en") - Language identity code tracing active vocal sounds.
+     b) target_language: str (default: "es") - Output translation target standard selector.
+     c) duration: int (default: 10) - Active capture time limit tracking live hardware stream recordings.
+     d) output: str (default: None) - Text path destination location tracking log results.
+   - Returns: ToolResult containing side-by-side mapping logs displaying original text paired with translated content.
+   - How to call: SpeechAITool.real_time_translation(source_language="en", target_language="fr", duration=8)
+
+7. command_recognition:
+   - Purpose: Matches spoken command indicators to runtime program methods.
+   - Arguments:
+     a) commands: list - Explicit text lines checking phrase definitions (required).
+     b) action_map: dict - Route parameters binding string phrases to specific Python function callbacks (required).
+     c) duration: int (default: 5) - Microphone active sampling timeline constraint windows.
+   - Returns: ToolResult storing indicators reporting exactly what was heard and if a function action was executed.
+   - How to call: SpeechAITool.command_recognition(commands=["shutdown", "restart"], action_map={"shutdown": stop_system})
+
+8. keyword_detection:
+   - Purpose: Fires off continuous call handlers whenever specific hotwords are detected in an ambient background thread.
+   - Arguments:
+     a) keywords: list - Trigger keywords that activate validation checks (required).
+     b) duration: int (default: 30) - Thread process lifetime calculation parameters tracking absolute execution time.
+     c) callback: Callable (default: None) - Target function pointer executed upon keyword detection.
+   - Returns: ToolResult providing matching timelines and context snapshots logging keyword events.
+   - How to call: SpeechAITool.keyword_detection(keywords=["help", "alert"], callback=trigger_emergency_system)
+""")
 
     @staticmethod
     def transcribe_realtime(duration: int = 10, language: str = "en",
@@ -2144,6 +3007,153 @@ class ComputerVisionTool:
         "OCR, table extraction, QR/barcode scan, styled QR, image classify, "
         "face compare, object count, segmentation, measurements, PDF OCR"
     )
+    use = ("""
+Name of Tool: ComputerVisionTool
+
+Purpose of Tool:
+The ComputerVisionTool provides a centralized interface for multi-modal Computer Vision (CV) operations. It unifies state-of-the-art vision architectures such as Ultralytics YOLO (for object detection, video tracking, image classification, and instance segmentation), face-recognition and DeepFace (for structural biometric comparisons, localization, and emotional expression mapping), and Tesseract OCR (for parsing character structures from images and raw PDF scans). Additionally, the tool includes helper methods for tabular data extraction, QR code / barcode generation and processing, and geometric sizing measurements relative to bounding contours.
+
+Methods:
+- detect_objects: Uses YOLO neural networks to locate distinct object boundaries, returning descriptive class assignments and coordinate boxes.
+- track_objects: Processes video sequences frame-by-frame to map consistent track IDs to unique objects moving across frames.
+- recognize_faces: Identifies localized human facial boundaries against a provided baseline repository folder of known personnel images.
+- detect_emotions: Leverages neural embeddings to score facial features against seven baseline emotional categories.
+- read_text_ocr: Ingests structured and unstructured images to isolate and read text characters using optical character recognition.
+- read_table_from_image: Analyzes layout grids inside images to sort text words into logical row blocks.
+- scan_qr_barcode: Automatically reads matrix strings and geometric coordinates from barcodes and QR codes.
+- generate_qr_with_style: Packages a text string into a stylized, custom QR code layout with support for rounded modules and centralized brand logos.
+- classify_image: Outputs top-k categorical index labels scoring an entire image against recognized dataset classes.
+- compare_faces: Computes spatial facial distance tolerances to evaluate whether two image samples depict the same individual.
+- count_objects: Wraps core object recognition methods to filter and count instances of a target object class.
+- segment_image: Performs pixel-level instance segmentation to track precise object outlines instead of simple rectangular boxes.
+- measure_object: Calibrates pixel density using a known object size to mathematically estimate dimensions for all visible shapes.
+- extract_text_from_pdf_image: Uses document processing tools to convert multi-page static documents into manageable text arrays.
+
+How to use Tool Methods:
+
+1. detect_objects:
+   - Purpose: Identifies individual objects inside static graphics files.
+   - Arguments:
+     a) image_path: str - Local file location of the target image file (required).
+     b) model: str (default: "yolov8n.pt") - YOLO network weights architecture model variant pointer string.
+     c) confidence: float (default: 0.5) - Minimum verification threshold required to log predictions.
+     d) output: str (default: None) - Output path destination to save the image with plotted bounding boxes.
+   - Returns: ToolResult storing structured arrays listing the class name, confidence rating, and pixel coordinate box ($[x_{min}, y_{min}, x_{max}, y_{max}]$) for each detected object.
+   - How to call: ComputerVisionTool.detect_objects(image_path="room.jpg", confidence=0.6, output="detected.jpg")
+
+2. track_objects:
+   - Purpose: Tracks objects across sequential video stream intervals.
+   - Arguments:
+     a) video_path: str - Local directory file path mapping the target video asset (required).
+     b) model: str (default: "yolov8n.pt") - Network weights selector string.
+     c) output: str (default: None) - System workspace directory root path targeted to write finalized tracks.
+   - Returns: ToolResult reporting total unique track assignments registered across the tracking task.
+   - How to call: ComputerVisionTool.track_objects(video_path="traffic.mp4", output="tracked_output/")
+
+3. recognize_faces:
+   - Purpose: Maps localized face objects against a labeled gallery of known faces.
+   - Arguments:
+     a) image_path: str - Target scene graphic source location (required).
+     b) known_faces_folder: str (default: None) - Path mapping identity target files named by person.
+     c) output: str (default: None) - System path configuration targeted to save visual bounding rectangles.
+   - Returns: ToolResult pairing recognized identity strings alongside precise top, right, bottom, left pixel vectors.
+   - How to call: ComputerVisionTool.recognize_faces(image_path="group.jpg", known_faces_folder="employees/")
+
+4. detect_emotions:
+   - Purpose: Evaluates visible human expressions to identify a dominant emotional state.
+   - Arguments:
+     a) image_path: str - Image file path (required).
+     b) output: str (default: None) - Internal routing log path assignment.
+   - Returns: ToolResult containing percentages for all basic emotion scales along with a single dominant label.
+   - How to call: ComputerVisionTool.detect_emotions(image_path="portrait.png")
+
+5. read_text_ocr:
+   - Purpose: Extracts flat string lines from text-heavy images.
+   - Arguments:
+     a) image_path: str - Targeted document graphic source path direction (required).
+     b) language: str (default: "eng") - OCR engine language definition indicator.
+     c) output: str (default: None) - Optional file path layout targeted to dump extracted text.
+   - Returns: ToolResult returning the compiled text output characters string block.
+   - How to call: ComputerVisionTool.read_text_ocr(image_path="signboard.jpg", language="eng")
+
+6. read_table_from_image:
+   - Purpose: Converts image-based table grids into structural tabular row outputs.
+   - Arguments:
+     a) image_path: str - Target image source location (required).
+     b) output_csv: str (default: None) - Destination path to write parsed values as an organized spreadsheet.
+   - Returns: ToolResult delivering text lines grouped into lists delimited by structural pipe variables.
+   - How to call: ComputerVisionTool.read_table_from_image(image_path="invoice.jpg", output_csv="data.csv")
+
+7. scan_qr_barcode:
+   - Purpose: decodes programmatic tracking data lines embedded in matrix codes.
+   - Arguments:
+     a) image_path: str - Graphic image source tracking locator (required).
+   - Returns: ToolResult breaking down code format standard classes alongside the corresponding data string values.
+   - How to call: ComputerVisionTool.scan_qr_barcode(image_path="receipt_code.png")
+
+8. generate_qr_with_style:
+   - Purpose: Encodes target data payloads inside styled, customized matrix graphics files.
+   - Arguments:
+     a) data: str - Raw tracking link metadata text target block input (required).
+     b) output: str (default: "styled_qr.png") - Storage name parameters tracking final targets.
+     c) style: str (default: "rounded") - Structural geometry choices ("rounded" or "square").
+     d) color: str (default: "#000000") - Hex styling indicator setting tracking foreground matrix colors.
+     e) logo: str (default: None) - Center brand image asset location string.
+   - Returns: ToolResult verifying image file write finalizations.
+   - How to call: ComputerVisionTool.generate_qr_with_style(data="https://google.com", style="rounded", color="#002244")
+
+9. classify_image:
+   - Purpose: Computes contextual scene designations categorizing an entire image asset frame.
+   - Arguments:
+     a) image_path: str - Image workspace tracking point (required).
+     b) model: str (default: "yolov8n-cls.pt") - Dedicated image classification network selection.
+     c) top_k: int (default: 5) - Number of top label probability candidates to return.
+   - Returns: ToolResult listing top class name strings sorted alongside confidence probabilities.
+   - How to call: ComputerVisionTool.classify_image(image_path="pet.jpg", top_k=3)
+
+10. compare_faces:
+    - Purpose: Compares two separate images to determine if they show the same face.
+    - Arguments:
+      a) image1: str - Path location linking baseline picture asset (required).
+      b) image2: str - Path location pointing toward verification target file item (required).
+    - Returns: ToolResult passing Boolean match flags paired with calculated similarity index metrics.
+    - How to call: ComputerVisionTool.compare_faces(image1="id_card.jpg", image2="selfie.jpg")
+
+11. count_objects:
+    - Purpose: Tallies occurrences of a specific target object class within an image.
+    - Arguments:
+      a) image_path: str - Directory location of source picture asset (required).
+      b) object_class: str - String designation tracking chosen model target labels (required).
+      c) model: str (default: "yolov8n.pt") - Core validation framework weights configuration file.
+    - Returns: ToolResult listing the integer tally alongside global detection items.
+    - How to call: ComputerVisionTool.count_objects(image_path="warehouse.jpg", object_class="box")
+
+12. segment_image:
+    - Purpose: Performs fine-grained contour outline separation across pixel targets.
+    - Arguments:
+      a) image_path: str - Local input picture frame directory route mapping (required).
+      b) model: str (default: "yolov8n-seg.pt") - YOLO segmentation model weight settings.
+      c) output: str (default: None) - Path layout targeted to store mask image frames.
+    - Returns: ToolResult profiling segment class lists along with detection confidence arrays.
+    - How to call: ComputerVisionTool.segment_image(image_path="street.png", output="mask.png")
+
+13. measure_object:
+    - Purpose: Estimates real-world spatial sizes based on a known reference object.
+    - Arguments:
+      a) image_path: str - Local file mapping structural image views (required).
+      b) reference_object_size: float - Real-world dimension metric value of the largest visible object (required).
+    - Returns: ToolResult storing a structural collection containing calculated dimension heights, widths, and square surface areas.
+    - How to call: ComputerVisionTool.measure_object(image_path="coin_and_keys.jpg", reference_object_size=2.5)
+
+14. extract_text_from_pdf_image:
+    - Purpose: Runs optical character recognition across multi-page, non-searchable document structures.
+    - Arguments:
+      a) pdf_path: str - Document storage pointer link (required).
+      b) output: str (default: None) - Path map tracking local text output writes.
+    - Returns: ToolResult delivering text contents systematically organized by document page blocks.
+    - How to call: ComputerVisionTool.extract_text_from_pdf_image(pdf_path="scanned_contract.pdf", output="extracted.txt")
+""")
+    
 
     @staticmethod
     def detect_objects(image_path: str, model: str = "yolov8n.pt",
@@ -2476,6 +3486,148 @@ class AutomationWorkflowTool:
         "No-code workflows: create/run/schedule, file/email/webhook triggers, "
         "chain workflows, conditional branches, retry, parallel, loops"
     )
+    use = ("""
+Name of Tool: AutomationWorkflowTool
+
+Purpose of Tool:
+The AutomationWorkflowTool provides an engine for building, running, and managing automated, low-code/no-code operational workflows. It acts as an execution orchestration layer capable of sequencing custom operations (such as system terminal tasks, physical file writing, logging metrics, or external REST API calls) while providing contextual state tracking. The tool handles complex architectural pipeline flows by supporting event-driven data tracking, timed crontab-like schedulers, reactive triggers (monitoring filesystem loops, email standard filters, or HTTP webhooks), task chains, multi-path conditional gates, exponential delay retries, parallel execution gates, and array data loops.
+
+Methods:
+- create_workflow: Stores structured JSON blueprints defining execution routines, parameter variables, and validation matrices.
+- run_workflow: Evaluates a target flow sequentially while tracking parameter injections across isolated task blocks.
+- schedule_workflow: Hooks into system tracking daemons to repeat target workflow profiles using natural language timing definitions.
+- list_scheduled_workflows: Scans memory registers to summarize currently queued automation task loops.
+- cancel_scheduled_workflow: Deregisters scheduled loop records from system execution tables to prevent further background runs.
+- get_workflow_history: Reads historical file logs to provide execution audits for specific automation tasks.
+- create_trigger_on_file_change: Starts an asynchronous watcher thread that matches specific file patterns to trigger automated runs.
+- create_trigger_on_email: Launches background polling routines that check message mailboxes for defined keyword filters.
+- create_trigger_on_webhook: Spins up a local Flask server to listen for web requests that trigger target automated tasks.
+- chain_workflows: Links multiple workflow objects together so they execute back-to-back, passing context forward through the chain.
+- create_conditional_branch: Builds a split execution path that decides which workflow to run based on runtime context evaluations.
+- retry_on_failure: Wraps a workflow with exponential backoff logic to retry failed tasks automatically over time.
+- run_parallel: Deploys multiple tasks simultaneously across semaphore-capped processing pools to speed up execution.
+- create_loop_workflow: Iterates over target lists or collection structures to execute a specific workflow block for each item.
+
+How to use Tool Methods:
+
+1. create_workflow:
+   - Purpose: Registers a structured automation routine profile.
+   - Arguments:
+     a) name: str - Unique target identity label for the workflow (required).
+     b) trigger: dict - Activation metadata configuration dictionary mapping event rules (required).
+     c) steps: list - Ordered arrays listing individual command parameter maps (required).
+     d) conditions: list (default: None) - Context validation gate arrays used to skip or abort steps.
+   - Returns: ToolResult passing the compiled workflow structural blueprint dictionary.
+   - How to call: AutomationWorkflowTool.create_workflow(name="backup", trigger={"type": "manual"}, steps=[{"action": "run_command", "params": {"cmd": "tar -czf backup.tar.gz /data"}}])
+
+2. run_workflow:
+   - Purpose: Executes a target workflow configuration sequentially.
+   - Arguments:
+     a) workflow_name_or_dict: Any - Registered tracking name string or direct workflow map configuration (required).
+     b) context: dict (default: None) - Initial parameter state variables passed into variable fields (e.g., `{ctx.variable_name}`).
+   - Returns: ToolResult summarizing overall process success alongside granular step execution output tracking arrays.
+   - How to call: AutomationWorkflowTool.run_workflow(workflow_name_or_dict="backup", context={"user_dir": "/home/user"})
+
+3. schedule_workflow:
+   - Purpose: Registers workflows to run automatically at scheduled time intervals.
+   - Arguments:
+     a) workflow: Any - Targeted lookup identity identifier string or workflow dictionary map (required).
+     b) schedule_str: str - Natural language recurrence description expression (e.g., "every 5 minutes", "every day at 09:00") (required).
+     c) timezone: str (default: "UTC") - Baseline reference geographic timing zone marker.
+   - Returns: ToolResult passing tracking IDs generated to manage the running daemon process.
+   - How to call: AutomationWorkflowTool.schedule_workflow(workflow="backup", schedule_str="every day at 23:30")
+
+4. list_scheduled_workflows:
+   - Purpose: Returns all currently active background automated cron task processes.
+   - Arguments: None.
+   - Returns: ToolResult listing metadata summaries for active jobs currently loaded into memory tracking tables.
+   - How to call: AutomationWorkflowTool.list_scheduled_workflows()
+
+5. cancel_scheduled_workflow:
+   - Purpose: Stops a background scheduled job using its unique tracking handle.
+   - Arguments:
+     a) workflow_id: str - Target process tracking identifier UUID string (required).
+   - Returns: ToolResult verifying removal from the system scheduler tables.
+   - How to call: AutomationWorkflowTool.cancel_scheduled_workflow(workflow_id="abcd-1234-efgh-5678")
+
+6. get_workflow_history:
+   - Purpose: Retrieves execution logs and audit trails for a specific workflow.
+   - Arguments:
+     a) workflow_name: str - The lookup label of the workflow (required).
+     b) limit: int (default: 20) - Maximum number of historical records to return.
+   - Returns: ToolResult delivering chronological arrays detailing step statuses, timestamps, and contextual data.
+   - How to call: AutomationWorkflowTool.get_workflow_history(workflow_name="backup", limit=10)
+
+7. create_trigger_on_file_change:
+   - Purpose: Monitored data directory paths to trigger runs when specified files are modified.
+   - Arguments:
+     a) path: str - Workspace tracking route folder directory link (required).
+     b) pattern: str - Standard string match validation token filter (e.g., "*.csv") (required).
+     c) workflow: Any - Workflow schema blueprint or system string key target link (required).
+   - Returns: ToolResult verifying active setup of the filesystem monitoring listener.
+   - How to call: AutomationWorkflowTool.create_trigger_on_file_change(path="/dropzone", pattern="*.xlsx", workflow="process_spreadsheet")
+
+8. create_trigger_on_email:
+   - Purpose: Monitors email folders to trigger actions based on message attributes.
+   - Arguments:
+     a) criteria: dict - Filtering keys (e.g., `subject_contains`, `from_contains`, `check_interval_seconds`) (required).
+     b) workflow: Any - Targeting identity string link or map reference metadata structure (required).
+   - Returns: ToolResult verifying active thread setup tracking the inbox process.
+   - How to call: AutomationWorkflowTool.create_trigger_on_email(criteria={"subject_contains": "URGENT", "check_interval_seconds": 30}, workflow="alert_system")
+
+9. create_trigger_on_webhook:
+   - Purpose: Deploys a local network listener that triggers workflows when it receives an HTTP POST request.
+   - Arguments:
+     a) port: int - Port number to bind the web server to (required).
+     b) path: str - Route endpoint string pattern matching rules (required).
+     c) workflow: Any - Associated task blueprint targeted for run execution (required).
+   - Returns: ToolResult verifying active socket listener initialization.
+   - How to call: AutomationWorkflowTool.create_trigger_on_webhook(port=8080, path="/v1/deploy", workflow="build_pipeline")
+
+10. chain_workflows:
+    - Purpose: Runs an ordered list of workflows sequentially, passing variables forward through the execution chain.
+    - Arguments:
+      a) workflows: list - Ordered arrays containing identity keys or schema dictionaries (required).
+      b) pass_context: bool (default: True) - Enables forward propagation of runtime state context.
+    - Returns: ToolResult containing cumulative tracking arrays verifying structural steps.
+    - How to call: AutomationWorkflowTool.chain_workflows(workflows=["clean_temp", "fetch_data", "generate_report"])
+
+11. create_conditional_branch:
+    - Purpose: Branches execution paths dynamically based on runtime evaluations.
+    - Arguments:
+      a) condition_func: Callable - Validation logic function that evaluates runtime context maps to true or false (required).
+      b) true_workflow: Any - Target routine configuration deployed if validation evaluations pass (required).
+      c) false_workflow: Any - Fallback operational routine deployed if validation evaluations fail (required).
+    - Returns: A specialized conditional step structural schema configuration dictionary wrapper.
+    - How to call: AutomationWorkflowTool.create_conditional_branch(condition_func=lambda ctx: ctx.get("status") == 200, true_workflow="success_flow", false_workflow="error_flow")
+
+12. retry_on_failure:
+    - Purpose: Safeguards unstable jobs by wrapping them with automatic retry logic.
+    - Arguments:
+      a) workflow: Any - Operational task component structure targeted for execution checks (required).
+      b) max_retries: int (default: 3) - Absolute re-try repetition limits constraint variables.
+      c) delay: float (default: 5.0) - Baseline rest padding interval time tracking initial retry operations.
+      d) backoff: float (default: 2.0) - Exponential multiplier scaling retry delays (e.g., $delay \times backoff^{attempt}$).
+    - Returns: ToolResult reporting execution verification profiles after running retry attempts.
+    - How to call: AutomationWorkflowTool.retry_on_failure(workflow="api_sync", max_retries=4, delay=2.0)
+
+13. run_parallel:
+    - Purpose: Fires off multiple separate workflows simultaneously to speed up large automated tasks.
+    - Arguments:
+      a) workflows: list - Target collection listing tasks intended for execution processing (required).
+      b) max_concurrent: int (default: 5) - Thread throttle limit constraining maximum concurrent tasks.
+    - Returns: ToolResult summarizing successful completions alongside output responses from each thread.
+    - How to call: AutomationWorkflowTool.run_parallel(workflows=["sync_node_1", "sync_node_2", "sync_node_3"], max_concurrent=3)
+
+14. create_loop_workflow:
+    - Purpose: Iterates over a dataset to execute a specific workflow block for every record found.
+    - Arguments:
+      a) items_source: Any - Raw element array lists or callable generator target data interfaces (required).
+      b) item_workflow: Any - Task configuration block deployed across every item instance iteration loop (required).
+      c) collect_results: bool (default: True) - Saves and returns execution response results generated across each loop iteration.
+    - Returns: ToolResult containing complete arrays tracing individual item loop step data frames.
+    - How to call: AutomationWorkflowTool.create_loop_workflow(items_source=["user1.txt", "user2.txt"], item_workflow="parse_user_logs")
+""")
 
     _STORE_PATH = Path.home() / ".npmai_agent" / "workflows.json"
     _HISTORY_PATH = Path.home() / ".npmai_agent" / "workflow_history.json"
@@ -2829,6 +3981,156 @@ class KnowledgeBaseTool:
         "semantic query, search, update/delete, stats, export/import, "
         "QA pair generation, answer with sources"
     )
+    use = ("""
+Name of Tool: KnowledgeBaseTool
+
+Purpose of Tool:
+The KnowledgeBaseTool provides an end-to-end local knowledge base (KB) management system optimized for Retrieval-Augmented Generation (RAG). It provides developers with methods to initialize storage namespaces, segment and ingest documents (PDFs, raw text), crawl external URLs, compute vector embeddings using Hugging Face models, index data partitions locally via FAISS (Facebook AI Similarity Search), execute semantic queries, edit/delete documents, generate automated synthetic Q&A pairs for model evaluation, and execute conversational tasks with explicit contextual citations.
+
+Methods:
+- create_kb: Initializes an isolated workspace namespace directory alongside a baseline multi-dimensional FAISS semantic vector index layer.
+- add_documents: Parses physical system text assets or extracted multi-page PDF strings into overlapping granular chunks embedded inside local matrix profiles.
+- add_url_to_kb: Directs an embedded recursive web crawler to scrape remote network domains, stripping boilerplate structural elements for text storage.
+- add_text: Directs raw string payloads into configured segmentation blocks to build ad-hoc vector entries.
+- query_kb: Runs target question strings against matching vector entries to ground conversational responses against retrieved text frames.
+- search_kb: Performs vector distance matrix checks to locate top matching document fragments.
+- update_document: Replaces target data sources inside tracking registries by running coordinated deletion and addition routines.
+- delete_document: Removes a document from local indexing storage, purging its text chunks and completely rebuilding the structural FAISS collection indices.
+- list_documents: Extracts internal configuration schemas to enumerate registered source assets.
+- get_kb_stats: Audits local data metrics to return structural vector counts, character counts, and model tracking metrics.
+- export_kb: Serializes index states and chunks to structured data files (JSON, CSV, or PKL) for external backups.
+- import_kb: Restores structural metadata states and re-indexes raw chunk vectors from a backup file to recreate a target knowledge environment.
+- create_qa_pairs: Evaluates chunk clusters using local LLMs to dynamically generate synthetic evaluation datasets matching physical source references.
+- answer_with_sources: Runs comprehensive semantic searches to piece together clean contextual references, returning responses with integrated source citations.
+
+How to use Tool Methods:
+
+1. create_kb:
+   - Purpose: Initializes a new isolated vector database workspace.
+   - Arguments:
+     a) name: str - Unique identifier for the knowledge base instance (required).
+     b) path: str (default: None) - Alternative target workspace route.
+     c) embedding_model: str (default: "all-MiniLM-L6-v2") - Sentence Transformers token architecture map string.
+   - Returns: ToolResult verifying initial index creation.
+   - How to call: KnowledgeBaseTool.create_kb(name="tech_specs", embedding_model="all-MiniLM-L6-v2")
+
+2. add_documents:
+   - Purpose: Segments and converts files into vector configurations.
+   - Arguments:
+     a) kb_name: str - Target knowledge base destination label (required).
+     b) paths: list - Target collection array containing file paths (required).
+     c) chunk_size: int (default: 500) - Maximum window length boundary of split strings.
+     d) overlap: int (default: 50) - Sliding character window padding shared between consecutive text blocks.
+   - Returns: ToolResult summarizing document ingestion and vector additions.
+   - How to call: KnowledgeBaseTool.add_documents(kb_name="tech_specs", paths=["/docs/manual.pdf", "/docs/release_notes.txt"], chunk_size=400)
+
+3. add_url_to_kb:
+   - Purpose: Ingests web contents by scraping external target pages.
+   - Arguments:
+     a) kb_name: str - Target knowledge base instance identifier (required).
+     b) url: str - Base internet address resource string (required).
+     c) recursive: bool (default: False) - Enables parsing of discovery hyperlinks sharing the root domain.
+     d) max_pages: int (default: 10) - Maximum page count safety limit for web scraping jobs.
+   - Returns: ToolResult verifying pages processed and updated vector metrics.
+   - How to call: KnowledgeBaseTool.add_url_to_kb(kb_name="tech_specs", url="https://docs.example.com/api", recursive=True, max_pages=5)
+
+4. add_text:
+   - Purpose: Explicitly records inline text content blocks directly into the vector database.
+   - Arguments:
+     a) kb_name: str - Target knowledge base destination label (required).
+     b) text: str - Raw input content body to be chunked and indexed (required).
+     c) metadata: dict (default: None) - Custom parameters to attach to the ingested chunk.
+   - Returns: ToolResult mapping data block creation confirmations.
+   - How to call: KnowledgeBaseTool.add_text(kb_name="tech_specs", text="System architecture operates on port 9000.", metadata={"author": "admin"})
+
+5. query_kb:
+   - Purpose: Queries the KB and generates a structured answer from an LLM bounded strictly by matching contexts.
+   - Arguments:
+     a) kb_name: str - Target workspace selection label (required).
+     b) question: str - Natural language lookup string (required).
+     c) top_k: int (default: 5) - Volume threshold mapping total returned context items.
+     d) model: str (default: "llama3.2:3b") - Associated generative interface target.
+     e) temperature: float (default: 0.3) - Creative variance constraint tracking generation routines.
+   - Returns: ToolResult containing the generated answer, along with tracking metrics mapping context layers.
+   - How to call: KnowledgeBaseTool.query_kb(kb_name="tech_specs", question="What is the default port configuration?", top_k=3)
+
+6. search_kb:
+   - Purpose: Locates data slices via proximity metrics.
+   - Arguments:
+     a) kb_name: str - Target database namespace target (required).
+     b) query: str - Key term lookup or sentence vector pattern target (required).
+     c) top_k: int (default: 5) - Cap constraints matching retrieved fragments.
+   - Returns: ToolResult tracking array segments with structural relevance markers.
+   - How to call: KnowledgeBaseTool.search_kb(kb_name="tech_specs", query="port parameters", top_k=5)
+
+7. update_document:
+   - Purpose: Re-indexes a tracking entry from a modified document path.
+   - Arguments:
+     a) kb_name: str - Target knowledge base database profile (required).
+     b) doc_id: str - target key matching file source names (required).
+     c) new_path: str - Workspace file pointer mapping new resources (required).
+   - Returns: ToolResult summarizing operational completion profiles.
+   - How to call: KnowledgeBaseTool.update_document(kb_name="tech_specs", doc_id="manual.pdf", new_path="/updates/manual_v2.pdf")
+
+8. delete_document:
+   - Purpose: Purges all text vectors linked to a specific document and rebuilds the remaining indices.
+   - Arguments:
+     a) kb_name: str - Target knowledge base identity profile link (required).
+     b) doc_id: str - Filename string key target matching internal items (required).
+   - Returns: ToolResult tracing index state updates.
+   - How to call: KnowledgeBaseTool.delete_document(kb_name="tech_specs", doc_id="release_notes.txt")
+
+9. list_documents:
+   - Purpose: Details metadata schemas mapping active sources within a knowledge base.
+   - Arguments:
+     a) kb_name: str - Target search environment key (required).
+     b) Returns: ToolResult tracing summary records of documents.
+   - How to call: KnowledgeBaseTool.list_documents(kb_name="tech_specs")
+
+10. get_kb_stats:
+    - Purpose: Summarizes quantitative operational counts characterizing vector database frameworks.
+    - Arguments:
+      a) kb_name: str - Targeting identity lookup label (required).
+    - Returns: ToolResult detailing characters, chunks, sizes, and model targets.
+    - How to call: KnowledgeBaseTool.get_kb_stats(kb_name="tech_specs")
+
+11. export_kb:
+    - Purpose: Extracts structural assets into structured files for storage or migration.
+    - Arguments:
+      a) kb_name: str - Source operational instance selection key (required).
+      b) output: str - Target local backup export path route (required).
+      c) format: str (default: "json") - File structure specification standard ('json' | 'csv' | 'pkl').
+    - Returns: ToolResult reporting target validation paths.
+    - How to call: KnowledgeBaseTool.export_kb(kb_name="tech_specs", output="/backups/specs.json", format="json")
+
+12. import_kb:
+    - Purpose: Loads a knowledge base backup file and rebuilds the semantic index.
+    - Arguments:
+      a) kb_name: str - Destination tracking name applied to the database namespace (required).
+      b) path: str - Target resource snapshot data input route (required).
+    - Returns: ToolResult reporting imported chunk volumes.
+    - How to call: KnowledgeBaseTool.import_kb(kb_name="imported_specs", path="/backups/specs.json")
+
+13. create_qa_pairs:
+    - Purpose: Automatically creates test Q&A pairs from text blocks to evaluate system prompt models.
+    - Arguments:
+      a) kb_name: str - Target knowledge domain dataset anchor (required).
+      b) n_questions: int (default: 10) - Target quantity constraint bounding output dataset records.
+      c) model: str (default: "llama3.2:3b") - Associated generation engine pipeline selection parameter.
+      d) output: str (default: None) - Optional path to save the generated QA pair records as a JSON file.
+    - Returns: ToolResult passing lists containing question, answer, and source citation tuples.
+    - How to call: KnowledgeBaseTool.create_qa_pairs(kb_name="tech_specs", n_questions=5, output="test_set.json")
+
+14. answer_with_sources:
+    - Purpose: Synthesizes multi-document details into a unified response with in-text source references.
+    - Arguments:
+      a) kb_name: str - Targeting identity lookup namespace tracker (required).
+      b) question: str - Evaluative natural query sentence (required).
+      c) model: str (default: "llama3.2:3b") - Generative pipeline engine selection identifier.
+      d) max_context: int (default: 4000) - Maximum context window character capacity limit.
+    - Returns: ToolResult outlining generation answers beside specific tracked resource citations.
+    - How to call: KnowledgeBaseTool.answer_with_sources(kb_name="tech_specs", question="How do I modify architecture bounds?", max_context=2000)
+""")
 
     _KB_ROOT = Path.home() / ".npmai_agent" / "knowledge_bases"
 
