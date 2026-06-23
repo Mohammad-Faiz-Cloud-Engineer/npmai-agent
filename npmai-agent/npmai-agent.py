@@ -4,6 +4,7 @@ import hashlib, base64, platform, glob, zipfile, tarfile
 from pathlib import Path
 from datetime import datetime
 from typing import Callable, Optional
+from abc import ABC, abstractmethod
 
 
 def _ensure(pkg, import_name=None):
@@ -65,6 +66,176 @@ class ensure:
 
 from npmai import Ollama, Memory, Rag
 from langchain_core.output_parsers import StrOutputParser
+
+#L LLM Backend
+""" 
+This is just a abstract which is used for a type of validation and attachment.
+"""
+class LLMBackend(ABC):
+    @abstractmethod
+    def invoke(self, prompt: str) -> str:
+        ...
+
+
+# 1. Ollama — (local models) 
+"""
+THIS WILL USE LOCAL COMPUTE IF YOU WANT TO USE NPMAI WHICH WILL RUN ON CLOUD NOT YOUR MACHINE THEN DO NOT PASS ANY THING IN 
+LLM PIPELINE NPMAI IS USED HERE BY DEFAULT.
+"""
+class Ollama_Local(LLMBackend):
+    def __init__(self, model="llama3.2:3b", temperature=0.2):
+        import ollama
+        self.client = ollama
+        self.model = model
+        self.temperature = temperature
+
+    def invoke(self, prompt: str) -> str:
+        r = self.client.generate(model=self.model, prompt=prompt,
+                                  options={"temperature": self.temperature})
+        return r["response"]
+
+
+# 2. OpenAI (GPT-4o, GPT-4, etc.)
+class OpenAIBackend(LLMBackend):
+    def __init__(self, api_key, model="gpt-4o"):
+        from openai import OpenAI
+        self.client = OpenAI(api_key=api_key)
+        self.model = model
+
+    def invoke(self, prompt: str) -> str:
+        r = self.client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return r.choices[0].message.content
+
+
+# 3. Anthropic (Claude)
+class AnthropicBackend(LLMBackend):
+    def __init__(self, api_key, model="claude-sonnet-4-6"):
+        import anthropic
+        self.client = anthropic.Anthropic(api_key=api_key)
+        self.model = model
+
+    def invoke(self, prompt: str) -> str:
+        r = self.client.messages.create(
+            model=self.model,
+            max_tokens=1024,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return "".join(b.text for b in r.content if b.type == "text")
+
+
+# 4. Google Gemini
+class GeminiBackend(LLMBackend):
+    def __init__(self, api_key, model="gemini-2.0-flash"):
+        import google.generativeai as genai
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel(model)
+
+    def invoke(self, prompt: str) -> str:
+        r = self.model.generate_content(prompt)
+        return r.text
+
+
+# 5. Groq (fast inference — Llama, Mixtral hosted)
+class GroqBackend(LLMBackend):
+    def __init__(self, api_key, model="llama-3.3-70b-versatile"):
+        from groq import Groq
+        self.client = Groq(api_key=api_key)
+        self.model = model
+
+    def invoke(self, prompt: str) -> str:
+        r = self.client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return r.choices[0].message.content
+
+
+# 6. Mistral (their own API)
+class MistralBackend(LLMBackend):
+    def __init__(self, api_key, model="mistral-large-latest"):
+        from mistralai import Mistral
+        self.client = Mistral(api_key=api_key)
+        self.model = model
+
+    def invoke(self, prompt: str) -> str:
+        r = self.client.chat.complete(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return r.choices[0].message.content
+
+
+# 7. Cohere
+class CohereBackend(LLMBackend):
+    def __init__(self, api_key, model="command-r-plus"):
+        import cohere
+        self.client = cohere.Client(api_key)
+        self.model = model
+
+    def invoke(self, prompt: str) -> str:
+        r = self.client.chat(model=self.model, message=prompt)
+        return r.text
+
+
+# 8. Azure OpenAI (enterprise OpenAI via Azure)
+class AzureOpenAIBackend(LLMBackend):
+    def __init__(self, api_key, endpoint, deployment, api_version="2024-08-01-preview"):
+        from openai import AzureOpenAI
+        self.client = AzureOpenAI(api_key=api_key, azure_endpoint=endpoint,
+                                   api_version=api_version)
+        self.deployment = deployment
+
+    def invoke(self, prompt: str) -> str:
+        r = self.client.chat.completions.create(
+            model=self.deployment,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return r.choices[0].message.content
+
+
+# 9. AWS Bedrock (Claude/Llama/Titan hosted on AWS)
+class BedrockBackend(LLMBackend):
+    def __init__(self, model_id="anthropic.claude-3-sonnet-20240229-v1:0", region="us-east-1"):
+        import boto3, json as _json
+        self.client = boto3.client("bedrock-runtime", region_name=region)
+        self.model_id = model_id
+        self._json = _json
+
+    def invoke(self, prompt: str) -> str:
+        body = self._json.dumps({
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": 1024,
+            "messages": [{"role": "user", "content": prompt}]
+        })
+        r = self.client.invoke_model(modelId=self.model_id, body=body)
+        result = self._json.loads(r["body"].read())
+        return result["content"][0]["text"]
+
+
+# 10. HuggingFace Inference API (any open model hosted there)
+class HuggingFaceBackend(LLMBackend):
+    def __init__(self, api_key, model="meta-llama/Llama-3.1-8B-Instruct"):
+        from huggingface_hub import InferenceClient
+        self.client = InferenceClient(model=model, token=api_key)
+
+    def invoke(self, prompt: str) -> str:
+        return self.client.text_generation(prompt, max_new_tokens=512)
+
+
+# 11. Local llama.cpp server (fully offline, no API key)
+class LlamaCppBackend(LLMBackend):
+    def __init__(self, base_url="http://localhost:8080"):
+        import requests
+        self.requests = requests
+        self.base_url = base_url
+
+    def invoke(self, prompt: str) -> str:
+        r = self.requests.post(f"{self.base_url}/completion", json={"prompt": prompt})
+        return r.json()["content"]
+
 
 class CredStore(ensure):
     """Encrypts credentials with a machine-specific key and stores locally."""
@@ -265,23 +436,33 @@ class AgentBrain(ensure):
         )
 
     def __init__(self, log_cb:Callable=None, progress_cb:Callable=None,
-                 status_cb:Callable=None):
+                 status_cb:Callable=None, planner: LLMBackend = None, tool_manager: LLMBackend = None, coder: LLMBackend = None,
+                 auditor: LLMBackend = None, verifier: LLMBackend = None, chatter: LLMBackend = None):
         super().__init__()
         self._log      = log_cb      or print
         self._progress = progress_cb or (lambda v: None)
         self._status   = status_cb   or (lambda s: None)
         self.workspace = Workspace()
         self.executor  = Executor(log_cb=log_cb)
-        self.planner   = Ollama(model="llama3.2:3b", temperature=0.2,
-                                change=True, Models=["mistral:7b"])
-        self.coder     = Ollama(model="codellama:7b-instruct", temperature=0.3,
-                                change=True, Models=["deepseek-coder:6.7b"])
-        self.auditor   = Ollama(model="qwen2.5-coder:7b", temperature=0.1,
-                                change=True, Models=["falcon:7b-instruct"])
-        self.verifier  = Ollama(model="llama3.2:3b", temperature=0.1,
-                                change=True, Models=["mistral:7b"])
-        self.chatter   = Ollama(model="granite3.3:2b", temperature=0.7,
-                                change=True, Models=["llama3.2:1b"])
+        for i  in [planner,tool_manager,coder,auditor,verifier,chatter]:
+            if i is None:
+                break
+            elif i:
+                if not isinstance(i, LLMBackend):
+                    raise TypeError("planner must implement LLMBackend (i.e. have .invoke(prompt)->str)")
+            
+        self.planner   = planner or Ollama(model="llama3.2:3b", temperature=0.2,
+                                                   change=True, Models=["mistral:7b"])
+        self.tool_manager = tool_manager or Ollama(model="llama3.2", temperature=0.3,
+                                                   change=True, Models=["gemma3:12b"])
+        self.coder     = coder or Ollama(model="codellama:7b-instruct", temperature=0.3,
+                                                   change=True, Models=["deepseek-coder:6.7b"])
+        self.auditor   = auditor or Ollama(model="qwen2.5-coder:7b", temperature=0.1,
+                                                   change=True, Models=["falcon:7b-instruct"])
+        self.verifier  = verifier or Ollama(model="llama3.2:3b", temperature=0.1,
+                                                   change=True, Models=["mistral:7b"])
+        self.chatter   = chatter or Ollama(model="granite3.3:2b", temperature=0.7,
+                                                   change=True, Models=["llama3.2:1b"])
         self.mem_plan  = Memory("agent_plan")
         self.mem_code  = Memory("agent_code")
         self.mem_chat  = Memory("agent_chat")
