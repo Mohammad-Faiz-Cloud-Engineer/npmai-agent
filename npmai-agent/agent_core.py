@@ -411,6 +411,9 @@ class AgentBrain(ensure):
     """
     Dynamically imports all 10 tool files and builds a flat {ClassName: Class} dict.
     Add this to AgentBrain.__init__ as self.tool_registry = build_tool_registry()
+    If you are forking or cloning locally then  remember of these files otherwise 
+    it will not work and you will face problem that you cannot solve until you will have these files
+    and you will be stuck in errors you wil get so remember of this.
     """
     import importlib, inspect
     registry = {}
