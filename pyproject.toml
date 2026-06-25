@@ -38,6 +38,8 @@ dependencies = [
     "npmai>=0.1.9",
     "requests>=2.31.0",
     "cryptography>=41.0.0",
+    "typer",
+    "rich"
 ]
 
 [project.optional-dependencies]
