@@ -93,6 +93,9 @@ Repository    = "https://github.com/sonuramashishnpm/npmai-agent"
 "Bug Tracker" = "https://github.com/sonuramashishnpm/npmai-agent/issues"
 PyPI          = "https://pypi.org/project/npmai_agents"
 
+[project.scripts]
+npmai = "npmai_agents.cli:app"
+
 [tool.black]
 line-length = 100
 target-version = ["py39", "py310", "py311", "py312"]
