@@ -4,52 +4,85 @@ import typer
 
 app = typer.Typer()
 
-agent = Agent()
-cred = CredStore()
-worksapce = Worksapce()
+_agent = AgentBrain()
+_cred = CredStore()
+_worksapce = Workspace()
 
 @app.command()
-def config_agent(log_cb:Callable=None, progress_cb:Callable=None, status_cb:Callable=None, planner: LLMBackend = None, tool_manager: LLMBackend = None, coder: LLMBackend = None, auditor: LLMBackend = None, verifier: LLMBackend = None, chatter: LLMBackend = None):
-  global agent
-  agent = Agent(log_cb=log_cb, progress_cb=progress_cb,
-                status_cb=status_cb, planner=planner, tool_manager=tool_manager, coder=coder,
-                 auditor=auditor, verifier=verifier, chatter=chatter)
+def config_agent(
+    planner_model: str = "llama3.2:3b",
+    planner_provider: str = "npmai",
+    coder_model: str = "codellama:7b-instruct", 
+    coder_provider: str = "npmai",
+    auditor_model: str = "qwen2.5-coder:7b",
+    auditor_provider: str = "npmai",
+    verifier_model: str = "llama3.2:3b",
+    verifier_provider: str = "npmai",
+    chatter_model: str = "granite3.3:2b",
+    chatter_provider: str = "npmai",
+):
+    global _agent
+    
+    def build_backend(provider: str, model: str):
+        p = provider.lower()
+        if p == "npmai":       return Ollama(model=model)
+        elif p == "local":     return Ollama_Local(model=model)
+        elif p == "openai":    return OpenAIBackend(model=model, api_key=CredStore.load("openai")["api_key"])
+        elif p == "groq":      return GroqBackend(model=model, api_key=CredStore.load("groq")["api_key"])
+        elif p == "anthropic": return AnthropicBackend(model=model, api_key=CredStore.load("anthropic")["api_key"])
+        elif p == "gemini":    return GeminiBackend(model=model, api_key=CredStore.load("gemini")["api_key"])
+        elif p == "mistral":   return MistralBackend(model=model, api_key=CredStore.load("mistral")["api_key"])
+        elif p == "cohere":    return CohereBackend(model=model, api_key=CredStore.load("cohere")["api_key"])
+        elif p == "azure":     return AzureOpenAIBackend(model=model, **CredStore.load("azure"))
+        elif p == "bedrock":   return BedrockBackend(model=model, **CredStore.load("bedrock"))
+        elif p == "hf":        return HuggingFaceBackend(model=model, api_key=CredStore.load("hf")["api_key"])
+        elif p == "llamacpp":  return LlamaCppBackend(model=model)
+        else: raise typer.BadParameter(f"Unknown provider '{provider}'. Use: npmai, local, openai, groq, anthropic, gemini, mistral, cohere, azure, bedrock, hf, llamacpp")
+    
+    _agent = AgentBrain(
+        planner  = build_backend(planner_provider,  planner_model),
+        coder    = build_backend(coder_provider,    coder_model),
+        auditor  = build_backend(auditor_provider,  auditor_model),
+        verifier = build_backend(verifier_provider, verifier_model),
+        chatter  = build_backend(chatter_provider,  chatter_model),
+    )
+    print("Agent configured.")
 
 
 @app.command()
-def save_credentials(name:str,data:dict):
-  saved = cred.save(name=name,data=data)
+def save_credentials(name:str,data:str):
+  saved = _cred.save(name=name,data=data)
 
 @app.command()
 def load_credentials(name:str):
-  load = cred.load(name=name)
+  load = _cred.load(name=name)
   print(load)
 
 @app.command()
 def all_credentials():
-  all_keys = cred.all_keys()
+  all_keys = _cred.all_keys()
   print(all_keys)
 
 @app.command()
 def workspace_scan():
-  scan = workspace.scan()
+  scan = _workspace.scan()
   print(scan)
 
 @app.command()
 def workspace_update(key, value):
-  update = workspace.update_profile(key=key,value=value)
+  update = _workspace.update_profile(key=key,value=value)
 
 @app.command()
 def workspace_context():
-  ctx_summary = workspace.context_summary()
+  ctx_summary = _workspace.context_summary()
   print(ctx_summary)
 
 @app.command()
 def run(task:str):
-  task_result = agent.run_task(task:task)
+  task_result = _agent.run_task(task=task)
   return task_result
 
 @app.command()
-def chat(user_msg):
-  chat_resp = agent.chat(user_msg=user_msg)
+def chat(user_msg:str):
+  chat_resp = _agent.chat(user_msg=user_msg)
   return chat_resp
