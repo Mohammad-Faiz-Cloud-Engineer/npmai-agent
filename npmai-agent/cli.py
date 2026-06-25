@@ -106,3 +106,7 @@ def run(task:str):
 def chat(user_msg:str):
   chat_resp = _agent.chat(user_msg=user_msg)
   return chat_resp
+
+
+if __name__ == "__main__":
+    app()
