@@ -121,7 +121,7 @@ class AgentBrain(ensure):
         self.mem_code  = Memory("agent_code")
         self.mem_chat  = Memory("agent_chat")
         self.mem_tasks = Memory("agent_tasks")
-        self.tool_registry = build_tool_registry()
+        self.tool_registry = self.build_tool_registry()
         self.TOOL_INDEX = """
 === DEVELOPER & CLI TOOLS ===
 1.  GitTool: Local git operations — init, clone, commit, push, pull, branch, merge, rebase, stash, diff, log
