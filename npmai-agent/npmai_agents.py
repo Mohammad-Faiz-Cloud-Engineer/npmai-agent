@@ -1,22 +1,14 @@
 from npmai import Ollama, Memory
-from Tools_Developer_CLI import GitTool, GitHubTool, GitLabTool, DockerTool, PackageManagerTool, VSCodeTool, TerminalTool, MakefileTool, CMakeTool, DebuggerTool
-from Tools_business import StripeTool, RazorpayTool, ShopifyTool, InvoiceTool, AccountingTool, CRMTool, EmailMarketingTool, AnalyticsTool, InventoryTool, ContractTool
-from Tools_cloud_devops import AWSS3Tool, AWSLambdaTool, AWSECSTool, CloudflareTool, VercelTool, NetlifyTool, RailwayTool, KubernetesTool, TerraformTool, MonitoringTool
-from Tools_communication_extended import MicrosoftTeamsTool, ZoomTool, TwilioTool, SendGridTool, PushNotificationTool, RSSFeedTool, WebhookTool, CalendarTool, ChatOpsAutomationTool, SMTPAdvancedTool
-from Tools_creative import FigmaTool, BlenderTool, SVGTool, CanvaTool, FontTool, ColorTool, IconTool, DiagramTool, PrintTool, ThreeDTool
-from Tools_data_research import DataAnalysisTool, VisualizationTool, WebScrapingAdvancedTool, SearchResearchTool, FinancialDataTool, SocialMediaDataTool, WeatherGeoTool, TextAnalyticsTool, DatabaseTool, ReportGeneratorTool
-from Tools_media import FFmpegTool, YouTubeDownloaderTool, AudioTool, ImageAdvancedTool, ScreenRecorderTool, TextToSpeechTool, VideoEditingTool, PodcastTool, StreamingTool, MediaMetadataTool
-from Tools_productivity import GoogleWorkspaceTool, NotionAdvancedTool, LinearTool, AsanaTool, TrelloTool, ClickUpTool, TodoistTool, ObsidianTool, BookmarkManagerTool, TimeTrackingTool
-from Tools_security_ai import SecurityScannerTool, CryptographyTool, PenetrationTestingTool, AIImageGenerationTool, AITextGenerationAdvancedTool, MLModelTool, SpeechAITool, ComputerVisionTool, AutomationWorkflowTool, KnowledgeBaseTool
-from Tools_system_hardware import SystemAdvancedTool, NetworkAdvancedTool, FileSystemAdvancedTool, ProcessAutomationTool, PrinterTool, ClipboardAdvancedTool, HardwareMonitorTool, RaspberryPiTool, MQTTIoTTool, VirtualizationTool
 from agent_core import LLMBackend, Ollama_Local, OpenAIBackend, AnthropicBackend, GeminiBackend, GroqBackend, MistralBackend, CohereBackend, AzureOpenAIBackend, BedrockBackend, HuggingFaceBackend, LlamaCppBackend, CredStore, Workspace, ToolResult, Executor
 import os, sys, json, re, shutil, subprocess, tempfile, traceback
 import threading, time, smtplib, imaplib, email as email_lib
+from langchain_core.output_parsers import StrOutputParser
 import hashlib, base64, platform, glob, zipfile, tarfile
 from pathlib import Path
 from datetime import datetime
 from typing import Callable, Optional
 from abc import ABC, abstractmethod
+from agent_core import CredStore, Workspace, ToolResult, Executor
 
 #Package_Imports_Ensurements
 def _ensure(pkg, import_name=None):
@@ -435,25 +427,28 @@ Answer NO if:
 Reply with ONE word only: YES or NO"""
 
     def build_use_docs_for_classes(self, class_names: list, tool_registry: dict) -> str:
-    """
-    tool_registry: flat dict of {ClassName: ClassObject} built from all 10 tool files.
-    Returns combined use strings for requested class names.
-    """
-    docs = []
-    for name in class_names:
-        cls = tool_registry.get(name)
-        if cls and hasattr(cls, 'use'):
-            docs.append(f"=== {name} ===\n{cls.use}")
-        elif cls:
-            # fallback if use variable missing — use description + method list
-            import inspect
-            methods = [m for m in dir(cls)
-                      if not m.startswith('_') and callable(getattr(cls, m))]
-            desc = getattr(cls, 'description', 'No description')
-            docs.append(f"=== {name} ===\nPurpose: {desc}\nMethods: {', '.join(methods)}")
-        else:
-            docs.append(f"=== {name} ===\nClass not found in registry.")
-    return "\n\n".join(docs)
+        """
+tool_registry: flat dict of {ClassName: ClassObject} built from all 10 tool files.
+Returns combined use strings for requested class names.
+"""
+
+        docs = []
+        for name in class_names:
+            cls = tool_registry.get(name)
+            if cls and hasattr(cls, 'use'):
+                docs.append(f"=== {name} ===\n{cls.use}")
+            elif cls:
+                # fallback if use variable missing — use description + method list
+                import inspect
+                methods = [m for m in dir(cls)
+                           if not m.startswith('_') and callable(getattr(cls, m))]
+                desc = getattr(cls, 'description', 'No description')
+                docs.append(f"=== {name} ===\nPurpose: {desc}\nMethods: {', '.join(methods)}")
+
+            else:
+                docs.append(f"=== {name} ===\nClass not found in registry.")
+
+        return "\n\n".join(docs)
     
     def _emit(self, msg, color="#8E8AAE"):
         self._log(f'<font color="{color}">{msg}</font>')
