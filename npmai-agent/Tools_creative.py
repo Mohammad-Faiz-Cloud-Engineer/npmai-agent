@@ -1,3 +1,15 @@
+#################################################################################################
+'''
+NOTE:- Here we use a Library called CairoSVG because we are developing a python package framework
+and we do not know on what machine this package will be installed therefore we are not able to add
+the extra dependencies of CairoSVG and we do not want to make process too complex therefore we are
+trying to find a dynamic solution to install that extra dependency for CairoSVG so please cooperate
+here.
+
+Updated by AdenOrg at 9:00 IST by VJ.
+'''                                                                                            
+#################################################################################################
+
 """
 tools_creative.py — Creative Tools for NPM Agent (NPMAI ECOSYSTEM)
 Author: Generated for Sonu Kumar / NPMAI ECOSYSTEM
@@ -17,7 +29,7 @@ import re
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 
-from agent_core import ToolResult, CredStore, _ensure
+from core import ToolResult, CredStore, _ensure
 
 # ── auto-install dependencies ────────────────────────────────────────────────
 for _pkg, _imp in [
@@ -3109,7 +3121,7 @@ How to use Tool Methods:-
             labels = {n: G.nodes[n].get("label", n) for n in G.nodes}
             nx.draw(G, pos, ax=ax, labels=labels, node_color=colors,
                     node_size=1500, font_size=9, font_color="white",
-                    font_weight="bold", edge_color="#9CA3AF", arrows=True, ax=ax)
+                    font_weight="bold", edge_color="#9CA3AF", arrows=True)
             edge_labels = nx.get_edge_attributes(G, "label")
             nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=7, ax=ax)
             plt.savefig(output, dpi=150, bbox_inches="tight")
