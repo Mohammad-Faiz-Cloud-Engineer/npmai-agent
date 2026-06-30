@@ -75,7 +75,7 @@ for _pkg, _imp in [
 
 # ── agent_core import ─────────────────────────────────────────────────────────
 try:
-    from agent_core import ToolResult, CredStore
+    from core import ToolResult, CredStore
 except ImportError:
     class ToolResult:
         def __init__(self, success: bool, output: str, data=None):
