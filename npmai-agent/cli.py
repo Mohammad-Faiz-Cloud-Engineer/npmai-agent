@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Callable, Optional
 from abc import ABC, abstractmethod
 from npmai_agents import AgentBrain
-from agent_core import CredStore, Workspace, ToolResult, LLMBackend, Ollama_Local, OpenAIBackend, AnthropicBackend, GeminiBackend, GroqBackend, MistralBackend, CohereBackend, AzureOpenAIBackend, BedrockBackend, HuggingFaceBackend, LlamaCppBackend
+from core import CredStore, Workspace, ToolResult, LLMBackend, Ollama_Local, OpenAIBackend, AnthropicBackend, GeminiBackend, GroqBackend, MistralBackend, CohereBackend, AzureOpenAIBackend, BedrockBackend, HuggingFaceBackend, LlamaCppBackend
 import typer
 import json
 
