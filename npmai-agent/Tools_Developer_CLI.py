@@ -28,7 +28,7 @@ for _p, _i in [
     _ensure(_p, _i)
 
 # ── imports from agent_core ────────────────────────────────────────────────────
-from agent_core import ToolResult, CredStore
+from core import ToolResult, CredStore
 
 
 # ══════════════════════════════════════════════════════════════════════════════
