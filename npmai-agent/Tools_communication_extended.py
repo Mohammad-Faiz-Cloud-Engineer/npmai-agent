@@ -38,7 +38,7 @@ for _p, _i in [
     if _p:
         _ensure(_p, _i)
 
-from agent_core import ToolResult, CredStore
+from core import ToolResult, CredStore
 
 
 # ─────────────────────────────────────────────────────────────────────────────
