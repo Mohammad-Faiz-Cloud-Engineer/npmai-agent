@@ -40,7 +40,7 @@ _OS = platform.system()
 if _OS == "Windows":
     _ensure("pywin32", "win32api")
 
-from agent_core import ToolResult, CredStore
+from core import ToolResult, CredStore
 
 
 # ─────────────────────────────────────────────────────────────────────────────
