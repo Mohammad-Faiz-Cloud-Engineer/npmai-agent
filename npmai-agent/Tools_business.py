@@ -43,7 +43,7 @@ for _pkg, _imp in [
 ]:
     _ensure(_pkg, _imp)
 
-from agent_core import ToolResult, CredStore
+from core import ToolResult, CredStore
 
 
 # ─────────────────────────────────────────────
