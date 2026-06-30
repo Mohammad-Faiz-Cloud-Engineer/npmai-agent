@@ -22,7 +22,7 @@ from typing import Optional, List, Dict, Any, Tuple
 
 # ─── Import from agent_core ───────────────────────────────────────────────────
 try:
-    from agent_core import ToolResult, CredStore
+    from core import ToolResult, CredStore
 except ImportError:
     # Fallback if running standalone for testing
     class ToolResult:
