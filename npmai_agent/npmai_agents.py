@@ -309,7 +309,7 @@ Task to accomplish:
 {task_summary}
  
 Tool Index (100 classes, one line each):
-{TOOL_INDEX}
+{self.TOOL_INDEX}
  
 Instructions:
 - Read the task carefully
@@ -498,8 +498,8 @@ Assistant:"""
         if not shortlist:
             return ""
  
-        use_docs = build_use_docs_for_classes(shortlist, self.tool_registry)
-        p2 = build_tool_manager_phase2_prompt(task_summary, use_docs)
+        use_docs = self.build_use_docs_for_classes(shortlist, self.tool_registry)
+        p2 = self.build_tool_manager_phase2_prompt(task_summary, use_docs)
         final_docs = self.tool_manager_llm.invoke(p2)
         self.mem_tool_manager.save_context("phase2_selected", final_docs)
  
@@ -509,9 +509,9 @@ Assistant:"""
             if need_line:
                 extra_names = [n.strip() for n in need_line.group(1).split(',')]
                 self._emit(f"  → Tool Manager requesting more docs: {extra_names}", "#A78BFA")
-                extra_docs = build_use_docs_for_classes(extra_names, self.tool_registry)
+                extra_docs = self.build_use_docs_for_classes(extra_names, self.tool_registry)
                 combined = use_docs + "\n\n" + extra_docs
-                p2b = build_tool_manager_phase2_prompt(task_summary, combined)
+                p2b = self.build_tool_manager_phase2_prompt(task_summary, combined)
                 final_docs = self.tool_manager_llm.invoke(p2b)
                 self.mem_tool_manager.save_context("phase2b_final", final_docs)
  
