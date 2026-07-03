@@ -5286,15 +5286,3 @@ TOOLS = {
     "streaming":        StreamingTool,
     "media_metadata":   MediaMetadataTool,
 }
-
-# Allow datetime to be used in scan_folder without import at runtime
-from datetime import datetime
-
-if __name__ == "__main__":
-    print("tools_media.py — NPM Agent Media Tools")
-    print("=" * 50)
-    for name, cls in TOOLS.items():
-        methods = [m for m in dir(cls) if not m.startswith("_") and callable(getattr(cls, m))]
-        print(f"✓ {cls.name:25s} — {len(methods)} methods — {cls.description[:60]}…")
-    print("\nAll tools loaded. ffmpeg must be installed for video/audio operations.")
-    print("Run: sudo apt install ffmpeg  OR  brew install ffmpeg  OR download from ffmpeg.org")
