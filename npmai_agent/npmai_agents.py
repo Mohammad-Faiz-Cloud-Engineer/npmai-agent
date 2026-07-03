@@ -120,7 +120,7 @@ class AgentBrain(ensure):
         self.chatter   = chatter or Ollama(model="granite3.3:2b", temperature=0.7,
                                                    change=True, Models=["llama3.2:1b"])
         self.mem_plan  = Memory("agent_plan")
-        self.tool_manager = Memory("agent_tools")
+        self.mem_tool_manager = Memory("agent_tools")
         self.mem_code  = Memory("agent_code")
         self.mem_chat  = Memory("agent_chat")
         self.mem_tasks = Memory("agent_tasks")
