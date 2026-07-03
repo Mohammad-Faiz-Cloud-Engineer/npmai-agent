@@ -520,7 +520,7 @@ Assistant:"""
     def plan(self, task: str) -> tuple:
         import re, json as _json
         ws = self.workspace.context_summary()
-        prompt = build_planner_prompt(task, ws)
+        prompt = self.build_planner_prompt(task, ws)
         raw = self.planner.invoke(prompt)
         self.mem_plan.save_context("plan_raw", raw)
         try:
