@@ -487,7 +487,7 @@ Assistant:"""
         self.mem_tool_manager.save_context("phase1_raw", raw)
  
         try:
-            match = re.search(r'\\[.*?\\]', raw, re.DOTALL)
+            match = re.search(r'\[.*?\]', raw, re.DOTALL)
             shortlist = _json.loads(match.group()) if match else []
             shortlist = [s for s in shortlist if isinstance(s, str)]
         except:
@@ -512,7 +512,7 @@ Assistant:"""
                 extra_docs = self.build_use_docs_for_classes(extra_names, self.tool_registry)
                 combined = use_docs + "\n\n" + extra_docs
                 p2b = self.build_tool_manager_phase2_prompt(task_summary, combined)
-                final_docs = self.tool_manager_llm.invoke(p2b)
+                final_docs = self.tool_manager.invoke(p2b)
                 self.mem_tool_manager.save_context("phase2b_final", final_docs)
  
         return final_docs
