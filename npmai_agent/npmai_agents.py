@@ -524,7 +524,7 @@ Assistant:"""
         raw = self.planner.invoke(prompt)
         self.mem_plan.save_context("plan_raw", raw)
         try:
-            match = re.search(r'\\{.*\\}', raw, re.DOTALL)
+            match = re.search(r'\{.*\}', raw, re.DOTALL)
             if match:
                 parsed = _json.loads(match.group())
                 summary = parsed.get("summary", task)
@@ -538,13 +538,13 @@ Assistant:"""
     def generate_code(self, step: str, task: str, selected_tool_docs: str,
                       prev_globals: str = "", error: str = "") -> str:
         ws = self.workspace.context_summary()
-        prompt = build_coder_prompt(step, task, selected_tool_docs, ws, prev_globals, error)
+        prompt = self.build_coder_prompt(step, task, selected_tool_docs, ws, prev_globals, error)
         raw = self.coder.invoke(prompt)
         return self._clean_code(raw)
 
     
     def audit(self, code: str) -> tuple:
-        prompt = build_auditor_prompt(code)
+        prompt = self.build_auditor_prompt(code)
         r = self.auditor.invoke(prompt).strip()
         safe = r.upper().startswith("ALLOW")
         return safe, r
@@ -553,7 +553,7 @@ Assistant:"""
     def verify(self, step: str, output: str, success: bool) -> tuple:
         if not success:
             return False, output
-        prompt = build_verifier_prompt(step, output)
+        prompt = self.build_verifier_prompt(step, output)
         r = self.verifier.invoke(prompt).strip().upper()
         return r.startswith("YES"), output
         
