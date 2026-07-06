@@ -23,5 +23,5 @@ jobs:
           context: .
           push: true
           tags: |
-            your-dockerhub-username/npmai-agent:latest
-            your-dockerhub-username/npmai-agent:v1
+            sonuramashishnpm/npmai-agent:latest
+            sonuramashishnpm/npmai-agent:v1
