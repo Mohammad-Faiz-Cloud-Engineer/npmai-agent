@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=68.0", "wheel"]
+requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "npmai_agents"
-version = "1.0.0"
+version = "1.0.1"
 description = "Production-grade autonomous AI agent framework with 1,371 tools across 100 classes and a 5-role LLM pipeline — built on the NPMAI ECOSYSTEM."
 readme = "README.md"
 license = { text = "MIT" }
@@ -15,7 +15,8 @@ authors = [
 keywords = [
     "ai", "agent", "automation", "llm", "npmai", "npmai-ecosystem",
     "desktop-automation", "multi-agent", "rag", "open-source",
-    "tool-registry", "agentic-ai", "free-llm", "autonomous-agent", "local-llm"
+    "tool-registry", "agentic-ai", "free-llm", "autonomous-agent", "local-llm",
+    "sonukumar", "sonukumarnpmai", "sonukumarviralboy"
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -82,6 +83,15 @@ full = [
     "todoist-api-python>=2.1.3",
     "jira>=3.5.2",
     "langchain-core>=0.1.0",
+    "onnxruntime",
+    "ollama",
+    "anthropic",
+    "genai",
+    "openai",
+    "huggingface_hub",
+    "cohere",
+    "mistralai",
+    "groq"
 ]
 dev = [
     "black>=23.0.0",
