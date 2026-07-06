@@ -125,6 +125,8 @@ Runs a plain-English task through the full 5-role autonomous pipeline. LLM provi
 | `task` | `str` | — | ✅ | Plain-English description of what to do |
 | `--planner-model` | `str` | `llama3.2:3b` | ❌ | Model for the Planner role |
 | `--planner-provider` | `str` | `npmai` | ❌ | Provider for the Planner role |
+| `--tool-manager-provider` | `str` | `npmai` | ❌ | Provider for Tool_Manager role who select tools |
+| `--tool-manager-model` | `str` | `npmai` | ❌ | Model for Tool_Manager role who select tools |
 | `--coder-model` | `str` | `codellama:7b-instruct` | ❌ | Model for the Coder role |
 | `--coder-provider` | `str` | `npmai` | ❌ | Provider for the Coder role |
 | `--auditor-model` | `str` | `qwen2.5-coder:7b` | ❌ | Model for the Auditor role |
