@@ -10,7 +10,7 @@
 <br/>
 
 <img src="https://img.shields.io/badge/PyPI-npmai__agents-00f5ff?style=for-the-badge&logo=pypi&logoColor=white&labelColor=0a0a1a"/>
-<img src="https://img.shields.io/badge/Version-1.0.0-a78bfa?style=for-the-badge&labelColor=0a0a1a"/>
+<img src="https://img.shields.io/badge/Version-1.0.1-a78bfa?style=for-the-badge&labelColor=0a0a1a"/>
 <img src="https://img.shields.io/badge/Python-3.9%2B-00f5ff?style=for-the-badge&logo=python&logoColor=white&labelColor=0a0a1a"/>
 <img src="https://img.shields.io/badge/License-MIT-2affa0?style=for-the-badge&labelColor=0a0a1a"/>
 <img src="https://img.shields.io/badge/Status-Production%20Stable-2affa0?style=for-the-badge&labelColor=0a0a1a"/>
@@ -2100,6 +2100,7 @@ npmai run "Analyse the CSV files in my Downloads folder,
 
 | Version | Status | Notes |
 |---|---|---|
+| `1.0.1` | ✅ Bug Fixed | Production Stable | 1,371 tools · 100 classes · CLI · 5-rool pipeline ·Tool Manager · 12 LLM providers |
 | `1.0.0` | ✅ Production Stable | 1,371 tools · 100 classes · 5-role pipeline · Tool Manager · 12 LLM providers · CLI |
 | `0.0.1` | 🗄️ Archived | Initial alpha — 21 tool classes · 4-role pipeline |
 
