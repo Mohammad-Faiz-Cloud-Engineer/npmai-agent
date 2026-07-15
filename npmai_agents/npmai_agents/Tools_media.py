@@ -1108,7 +1108,9 @@ How to use Tool Methods:-
     ) -> ToolResult:
         """Create optimised animated GIF from video segment."""
         try:
-            palette = tempfile.mktemp(suffix=".png")
+            tmp_palette = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+            palette = tmp_palette.name
+            tmp_palette.close()
             # Generate palette for quality
             ok1, _ = FFmpegTool._run([
                 "-ss", str(start), "-to", str(end),
@@ -1202,7 +1204,9 @@ How to use Tool Methods:-
     def stabilize_video(input: str, output: str) -> ToolResult:
         """Two-pass video stabilization using vidstabdetect/vidstabtransform."""
         try:
-            transforms = tempfile.mktemp(suffix=".trf")
+            tmp_transforms = tempfile.NamedTemporaryFile(suffix=".trf", delete=False)
+            transforms = tmp_transforms.name
+            tmp_transforms.close()
             # Pass 1: detect
             ok1, out1 = FFmpegTool._run([
                 "-i", input,
@@ -4087,7 +4091,9 @@ How to use Tool Methods:-
                         if is_last:
                             out_path = str(Path(output_folder) / fp.name)
                         else:
-                            out_path = tempfile.mktemp(suffix=fp.suffix)
+                            tmp_out = tempfile.NamedTemporaryFile(suffix=fp.suffix, delete=False)
+                            out_path = tmp_out.name
+                            tmp_out.close()
                         op_map = {
                             "compress_video": lambda i, o, p: FFmpegTool.compress_video(
                                 i, o, **p),
