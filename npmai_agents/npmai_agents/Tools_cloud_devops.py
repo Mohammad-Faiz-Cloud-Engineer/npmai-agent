@@ -22,9 +22,9 @@ from typing import Optional, Any
 
 # ── Auto-installer ────────────────────────────────────────────────────────────
 def _ensure(pkg: str, import_name: str = None):
-    name = import_name or pkg
+    n = import_name or pkg
     try:
-        __import__(name)
+        __import__(n)
     except:
         try:
           subprocess.run([sys.executable, "-m", "pip", "install", pkg, "-q"], check=False)
