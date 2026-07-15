@@ -59,10 +59,22 @@ def build_backend(provider: str, model: str):
         elif p == "gemini":    return GeminiBackend(model=model, api_key=CredStore.load("gemini")["api_key"])
         elif p == "mistral":   return MistralBackend(model=model, api_key=CredStore.load("mistral")["api_key"])
         elif p == "cohere":    return CohereBackend(model=model, api_key=CredStore.load("cohere")["api_key"])
-        elif p == "azure":     return AzureOpenAIBackend(model=model, **CredStore.load("azure"))
-        elif p == "bedrock":   return BedrockBackend(model=model, **CredStore.load("bedrock"))
+        elif p == "azure":
+            azure_creds = CredStore.load("azure")
+            return AzureOpenAIBackend(
+                api_key=azure_creds.get("api_key", ""),
+                endpoint=azure_creds.get("endpoint", ""),
+                deployment=model,
+                api_version=azure_creds.get("api_version", "2024-08-01-preview"),
+            )
+        elif p == "bedrock":
+            bedrock_creds = CredStore.load("bedrock")
+            return BedrockBackend(
+                model_id=model,
+                region=bedrock_creds.get("region", "us-east-1"),
+            )
         elif p == "hf":        return HuggingFaceBackend(model=model, api_key=CredStore.load("hf")["api_key"])
-        elif p == "llamacpp":  return LlamaCppBackend(model=model)
+        elif p == "llamacpp":  return LlamaCppBackend()
         else: raise typer.BadParameter(f"Unknown provider '{provider}'. Use: npmai, local, openai, groq, anthropic, gemini, mistral, cohere, azure, bedrock, hf, llamacpp")
    
 
